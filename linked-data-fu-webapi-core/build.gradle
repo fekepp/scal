@@ -1,0 +1,89 @@
+/*
+ * Plugins
+ */
+plugins {
+	id 'application'
+}
+
+
+
+
+/*
+ * Configuration
+ */
+description = 'Linked Data-Fu Web API Core'
+
+mainClassName = 'net.fekepp.ldfu.webapi.core.App'
+
+jar {
+	manifest {
+		attributes	'Implementation-Title':		'Linked Data-Fu Web API Core',
+				'Implementation-Version':	version
+	}
+}
+
+
+
+
+/*
+ * Dependencies
+ */
+dependencies {
+	
+	
+	/*
+	 * Compile Dependencies
+	 */
+	
+	//
+	// Internal
+	//
+	
+	
+	//
+	// External
+	//
+	
+	
+	//
+	// Local
+	//
+	
+	
+	/*
+	 * Test Dependencies
+	 */
+	
+	//
+	// Internal
+	//
+	
+	
+	//
+	// External
+	//
+	
+	
+	//
+	// Local
+	//
+	
+	
+}
+
+
+
+
+/*
+ * Distribution
+ */
+
+
+
+
+/*
+ * Start Scripts
+ */
+
+
+

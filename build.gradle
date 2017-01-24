@@ -1,0 +1,171 @@
+/*
+ * Plugins
+ */
+plugins {
+	id 'distribution'
+}
+
+
+
+
+/*
+ * Configurations
+ */
+description = 'Linked Data-Fu Web API'
+
+
+
+
+/*
+ * Distribution
+ */
+
+
+
+
+/*
+ * Projects
+ */
+allprojects {
+	
+	
+	
+	
+	/*
+	 * Plugins
+	 */
+	apply plugin: 'eclipse'
+	
+	
+	
+	
+	/*
+	 * Configurations
+	 */
+	
+	// Group and version
+	group = 'net.fekepp.ldfu.webapi'
+	version = '0.0.0'
+	
+	
+	
+	
+}
+
+
+
+
+/*
+ * Subprojects
+ */
+subprojects {
+	
+	
+	
+	
+	/*
+	 * Plugins
+	 */
+	apply plugin: 'java'
+	
+	
+	
+	
+	/*
+	 * Repositories
+	 */
+	repositories {
+		maven {
+			url '../red'
+		}
+		mavenLocal()
+		mavenCentral()
+		maven {
+			url 'https://jitpack.io'
+		}
+	}
+	
+	
+	
+	
+	/*
+	 * Dependencies
+	 */
+	dependencies {
+		
+		
+		
+		
+		/*
+		 * Compile Dependencies
+		 */
+		
+		
+		//
+		// Internal
+		//
+		
+		
+		//
+		// External
+		//
+		
+		// Logging
+		compile 'org.slf4j:slf4j-api:1.7.+'
+		compile 'org.slf4j:log4j-over-slf4j:1.7.+'
+		compile 'org.slf4j:jcl-over-slf4j:1.7.+'
+		compile 'ch.qos.logback:logback-classic:1.1.+'
+		
+		
+		//
+		// Local
+		//
+		
+		
+		
+		
+		/*
+		 * Test Dependencies
+		 */
+		
+		
+		//
+		// Internal
+		//
+		
+		
+		//
+		// External
+		//
+		
+		// Unit testing
+		testCompile 'junit:junit:4.+'
+		
+		
+		//
+		// Local
+		//
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	/*
+	 * Configurations
+	 */
+	
+	// Eclipse
+	eclipse {
+		classpath {
+			downloadSources=true
+		}
+	}
+	
+	
+	
+	
+}
