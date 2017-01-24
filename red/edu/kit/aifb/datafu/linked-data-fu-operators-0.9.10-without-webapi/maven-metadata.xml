@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>edu.kit.aifb.datafu</groupId>
+  <artifactId>linked-data-fu-operators-0.9.10-without-webapi</artifactId>
+  <versioning>
+    <versions>
+      <version>0.9.10-without-webapi-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20170124154039</lastUpdated>
+  </versioning>
+</metadata>

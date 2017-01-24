@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>edu.kit.aifb.datafu</groupId>
+  <artifactId>linked-data-fu-common-0.9.10-without-webapi</artifactId>
+  <version>0.9.10-without-webapi-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20170124.154039</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <lastUpdated>20170124154039</lastUpdated>
+  </versioning>
+</metadata>
