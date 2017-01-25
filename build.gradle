@@ -9,21 +9,6 @@ plugins {
 
 
 /*
- * Configurations
- */
-description = 'Linked Data-Fu Web API'
-
-
-
-
-/*
- * Distribution
- */
-
-
-
-
-/*
  * Projects
  */
 allprojects {
@@ -46,6 +31,21 @@ allprojects {
 	// Group and version
 	group = 'net.fekepp.ldfu.webapi'
 	version = '0.0.0'
+	
+	// Jetty version
+	// Versions of Jetty higher than 9.2.21.v20170120 are Java8-only
+	project.ext.jetty_version = '9.2.21.v20170120'
+	
+	// Jersey version
+	// Versions of Jersey higher than 2.25.1 are Java8-only (due to dependencies)
+	project.ext.jersey_version = '2.25.1'
+	
+	// NxParser version
+	// Different group ID for release and commit versions
+	//project.ext.nxparser_groupid = 'org.semanticweb.yars'
+	//project.ext.nxparser_version = '3.0.0'
+	project.ext.nxparser_groupid = 'com.github.nxparser.nxparser'
+	project.ext.nxparser_version = '038e93e58f336aead51d8e065bcf591519c7183c'
 	
 	
 	
@@ -169,3 +169,52 @@ subprojects {
 	
 	
 }
+
+
+
+
+/*
+ * Configurations
+ */
+description = 'Linked Data-Fu Web API'
+
+
+
+
+/*
+ * Distributions
+ */
+ distributions {
+	
+	main {
+		
+		contents {
+		
+			into('bin') {
+			
+				from { project(':linked-data-fu-webapi-core').startScripts.outputs.files }
+				fileMode = 0755
+				
+			}
+			
+			into('lib') {
+
+				from project(':linked-data-fu-webapi-core').jar
+				from project(':linked-data-fu-webapi-core').configurations.runtime
+				
+			}
+			
+			into('doc') {
+			
+				from('doc')
+				
+			}
+			
+		}
+		
+	}
+	
+}
+
+
+

@@ -18,7 +18,7 @@ mainClassName = 'net.fekepp.ldfu.webapi.core.App'
 jar {
 	manifest {
 		attributes	'Implementation-Title':		'Linked Data-Fu Web API Core',
-				'Implementation-Version':	version
+					'Implementation-Version':	version
 	}
 }
 
@@ -43,7 +43,36 @@ dependencies {
 	//
 	// External
 	//
+	
+	// Linked Data-Fu 0.9.10 without WebAPI
 	compile 'edu.kit.aifb.datafu:linked-data-fu-standalone-0.9.10-without-webapi:0.9.10-without-webapi-SNAPSHOT'
+	
+	// Jersey
+	compile 'org.glassfish.jersey.containers:jersey-container-jetty-servlet:' + rootProject.jersey_version
+	
+	// Jetty (reflect dependencies of Jersey with newer versions)
+	compile 'org.eclipse.jetty:jetty-webapp:' + rootProject.jetty_version
+	compile 'org.eclipse.jetty:jetty-continuation:' + rootProject.jetty_version
+	
+	// Jetty (additional dependencies)
+	//compile 'org.eclipse.jetty:jetty-annotations:' + rootProject.jetty_version
+	//compile 'org.eclipse.jetty:apache-jsp:' + rootProject.jetty_version
+	
+	// Jetty (HTTP tester and Servlet tester)
+	//compile(group: 'org.eclipse.jetty', name: 'jetty-servlet', version:rootProject.jetty_version, classifier: 'tests')
+	//compile(group: 'org.eclipse.jetty', name: 'jetty-http', version:rootProject.jetty_version, classifier: 'tests')
+	
+	// NxParser
+	compile rootProject.nxparser_groupid + ':nxparser-parsers:' + rootProject.nxparser_version
+	compile rootProject.nxparser_groupid + ':nxparser-utilities-uri:' + rootProject.nxparser_version
+	compile rootProject.nxparser_groupid + ':nxparser-model-datatypes:' + rootProject.nxparser_version
+	compile rootProject.nxparser_groupid + ':nxparser-api:' + rootProject.nxparser_version
+	compile rootProject.nxparser_groupid + ':nxparser-parsers-external-rdfa-semargl:' + rootProject.nxparser_version
+	compile(group: rootProject.nxparser_groupid, name: 'nxparser-jax-rs', version: rootProject.nxparser_version) {
+		exclude(module: 'slf4j-log4j12')
+		exclude(module: 'log4j')
+		exclude(module: 'slf4j-api')
+	}
 	
 	
 	//
@@ -76,7 +105,7 @@ dependencies {
 
 
 /*
- * Distribution
+ * Distributions
  */
 
 
