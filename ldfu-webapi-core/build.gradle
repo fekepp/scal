@@ -13,7 +13,7 @@ plugins {
  */
 description = 'Linked Data-Fu Web API Core'
 
-mainClassName = 'net.fekepp.ldfu.webapi.core.App'
+mainClassName = 'net.fekepp.ldfu.webapi.core.CommandLine'
 
 jar {
 	manifest {

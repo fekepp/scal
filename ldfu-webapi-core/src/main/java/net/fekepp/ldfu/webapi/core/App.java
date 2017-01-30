@@ -11,6 +11,10 @@ public class App {
 
 		loggerStatic.info("public static void main(String[] args)");
 
+		ServerController controller = new ServerController();
+		controller.setPort(8888);
+		controller.start();
+
 	}
 
 }
