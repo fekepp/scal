@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.webapi.core;
+package net.fekepp.ldfu.server.webapi;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

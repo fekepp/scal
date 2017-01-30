@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.webapi.core;
+package net.fekepp.ldfu.server.webapi;
 
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;

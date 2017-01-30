@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.webapi.core;
+package net.fekepp.ldfu.server.webapi;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

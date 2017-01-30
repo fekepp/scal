@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.webapi.core;
+package net.fekepp.ldfu.server.webapi;
 
 import java.io.IOException;
 import java.io.InputStream;
