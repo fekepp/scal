@@ -192,15 +192,15 @@ description = 'Linked Data-Fu Web API'
 		
 			into('bin') {
 			
-				from { project(':linked-data-fu-webapi-core').startScripts.outputs.files }
+				from { project(':ldfu-webapi-core').startScripts.outputs.files }
 				fileMode = 0755
 				
 			}
 			
 			into('lib') {
 
-				from project(':linked-data-fu-webapi-core').jar
-				from project(':linked-data-fu-webapi-core').configurations.runtime
+				from project(':ldfu-webapi-core').jar
+				from project(':ldfu-webapi-core').configurations.runtime
 				
 			}
 			
