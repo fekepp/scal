@@ -11,8 +11,7 @@ plugins {
 /*
  * Projects
  */
-allprojects {
-	
+allprojects { 
 	
 	
 	
@@ -29,7 +28,7 @@ allprojects {
 	 */
 	
 	// Group and version
-	group = 'net.fekepp.ldfu.webapi'
+	group = 'net.fekepp.ldfu.server'
 	version = '0.0.0'
 	
 	// Jetty version
@@ -192,15 +191,15 @@ description = 'Linked Data-Fu Web API'
 		
 			into('bin') {
 			
-				from { project(':ldfu-webapi-core').startScripts.outputs.files }
+				from { project(':ldfu-server-core').startScripts.outputs.files }
 				fileMode = 0755
 				
 			}
 			
 			into('lib') {
 
-				from project(':ldfu-webapi-core').jar
-				from project(':ldfu-webapi-core').configurations.runtime
+				from project(':ldfu-server-core').jar
+				from project(':ldfu-server-core').configurations.runtime
 				
 			}
 			

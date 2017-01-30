@@ -1,1 +1,1 @@
-include 'ldfu-webapi-core'
+include 'ldfu-server-core'
