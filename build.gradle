@@ -49,6 +49,14 @@ allprojects {
 	
 	
 	
+	/*
+	 * Tasks
+	 */
+	task dependenciesAll(type: DependencyReportTask) {}
+	
+	
+	
+	
 }
 
 
