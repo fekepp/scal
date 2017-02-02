@@ -5,13 +5,14 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.RedirectionException;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.kit.aifb.datafu.Program;
 import edu.kit.aifb.datafu.Query;
@@ -27,7 +28,7 @@ import edu.kit.aifb.datafu.parser.sparql.SparqlParser;
  */
 public class Helper {
 
-	private static final Logger logger = Logger.getLogger(Helper.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(Helper.class.getName());
 
 	public static URI getContainerUriOrRedirect(UriInfo uriInfo) {
 
@@ -75,20 +76,20 @@ public class Helper {
 		// Response with HTTP 400 Bad Request if an IO exception occurs during
 		// parsing of program
 		catch (IOException e) {
-			logger.log(Level.WARNING, "Input stream handling failed", e);
+			logger.warn("Input stream handling failed", e);
 			throw new BadRequestException("Input stream handling failed", e);
 		}
 
 		// Response with HTTP 400 Bad Request if a parse exception occurs during
 		// parsing of program
 		catch (edu.kit.aifb.datafu.parser.notation3.ParseException e) {
-			logger.log(Level.WARNING, "Program parsing failed", e);
+			logger.warn("Program parsing failed", e);
 			throw new BadRequestException("Program parsing failed", e);
 		}
 
 		// Response with HTTP 400 Bad Request if program was not found
 		if (program == null) {
-			logger.log(Level.WARNING, "Program not found");
+			logger.warn("Program not found");
 			throw new BadRequestException("Program not found");
 		}
 
@@ -116,7 +117,7 @@ public class Helper {
 			// Response with HTTP 400 Bad Request if a parse exception occurs
 			// during parsing of program
 			catch (edu.kit.aifb.datafu.parser.sparql.ParseException e) {
-				logger.log(Level.WARNING, "Query parsing failed", e);
+				logger.warn("Query parsing failed", e);
 				throw new BadRequestException("Query parsing failed", e);
 			}
 
@@ -130,27 +131,27 @@ public class Helper {
 		// Response with HTTP 400 Bad Request if an IO exception occurs during
 		// parsing of program
 		catch (IOException e) {
-			logger.log(Level.WARNING, "Input stream handling failed", e);
+			logger.warn("Input stream handling failed", e);
 			throw new BadRequestException("Input stream handling failed", e);
 		}
 
 		// Response with HTTP 400 Bad Request if no queries have been found
 		if (queryConsumer.getConstructQueries().size() == 0 && queryConsumer.getSelectQueries().size() == 0) {
-			logger.log(Level.WARNING, "No queries found");
+			logger.warn("No queries found");
 			throw new BadRequestException("No queries found");
 		}
 
 		// Response with HTTP 400 Bad Request if select and construct queries
 		// have been found
 		if (queryConsumer.getSelectQueries().size() > 0 && queryConsumer.getConstructQueries().size() > 0) {
-			logger.log(Level.WARNING, "Either one select query or construct queries allowed");
+			logger.warn("Either one select query or construct queries allowed");
 			throw new BadRequestException("Either one select query or construct queries allowed");
 		}
 
 		// Response with HTTP 400 Bad Request if more than one select query has
 		// been found
 		if (queryConsumer.getSelectQueries().size() > 1) {
-			logger.log(Level.WARNING, "Only one select query allowed");
+			logger.warn("Only one select query allowed");
 			throw new BadRequestException("Only one select query allowed");
 		}
 
