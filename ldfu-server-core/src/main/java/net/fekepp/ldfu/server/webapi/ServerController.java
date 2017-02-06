@@ -4,16 +4,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.fekepp.controllers.BaseJettyJerseyController;
+import net.fekepp.ldfu.server.storage.Storage;
+import net.fekepp.ldfu.server.storage.filesystem.FilesystemStorage;
 
 /**
  * @author "Felix Leif Keppmann"
  */
 public class ServerController extends BaseJettyJerseyController {
 
-	/**
-	 * Logger
-	 */
 	private final Logger logger = Logger.getLogger(getClass().getName());
+	
+	private static Storage storage = new FilesystemStorage();
 
 	@Override
 	public void startup() {
@@ -22,6 +23,7 @@ public class ServerController extends BaseJettyJerseyController {
 
 		// Register servlets
 		Servlet.setController(this);
+		Servlet.setStorage(storage);
 		getResourceConfig().register(Servlet.class);
 
 		// Continue startup
