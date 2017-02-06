@@ -191,4 +191,18 @@ public class Helper {
 
 	}
 
+	public static void logUri(URI uri) {
+		logger.info("uri.toString() > {} ", uri.toString());
+		logger.info("scheme={} | user={} | host={} | port={} | path={} | query={} | fragment={}", uri.getScheme(),
+				uri.getUserInfo(), uri.getHost(), uri.getPort(), uri.getPath(), uri.getQuery(), uri.getFragment());
+		// logger.info("uri.getAuthority() > {} ", uri.getAuthority());
+		// logger.info("uri.getFragment() > {} ", uri.getFragment());
+		// logger.info("uri.getHost() > {} ", uri.getHost());
+		// logger.info("uri.getQuery() > {} ", uri.getQuery());
+		// logger.info("uri.getPath() > {} ", uri.getPath());
+		// logger.info("uri.getPort() > {} ", uri.getPort());
+		// logger.info("uri.getScheme() > {} ", uri.getScheme());
+		// logger.info("uri.getUserInfo() > {} ", uri.getUserInfo());
+	}
+
 }
