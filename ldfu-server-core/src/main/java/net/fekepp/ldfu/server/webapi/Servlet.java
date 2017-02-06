@@ -87,7 +87,7 @@ public class Servlet {
 		logger.info("uri.getPath() > {}", uriInfo.getRequestUri().getPath());
 
 		// Get the resource for the path
-		StorageResource resource = storage.getResource(path);
+		final StorageResource resource = storage.getResource(path);
 
 		// If the resource exists
 		if (resource != null) {
