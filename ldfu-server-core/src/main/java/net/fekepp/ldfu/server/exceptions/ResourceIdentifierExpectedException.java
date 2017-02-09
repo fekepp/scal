@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.server.storage;
+package net.fekepp.ldfu.server.exceptions;
 
 public class ResourceIdentifierExpectedException extends Exception {
 
