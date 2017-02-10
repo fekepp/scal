@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,7 +85,7 @@ public class Servlet {
 		try {
 
 			// Get the resource for the path
-			InputStream resource = resourceManager.getResource(path, (mediaType != null ? mediaType.toString() : null),
+			final InputStream resource = resourceManager.getResource(path, (mediaType != null ? mediaType.toString() : null),
 					uri);
 
 			// If the resource exists
