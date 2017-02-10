@@ -41,11 +41,11 @@ public class FilesystemStorage implements Storage {
 
 		Path path = rootPath.resolve("./" + identifier).normalize();
 
-		logger.info("path > {}", path);
+		logger.info("Path > {}", path);
 
 		if (Files.isDirectory(path)) {
 
-			logger.info("path is directory");
+			logger.info("Path is a directory");
 
 			if (!identifier.equals("") && !identifier.endsWith("/")) {
 				throw new ContainerIdentifierExpectedException();
@@ -56,6 +56,8 @@ public class FilesystemStorage implements Storage {
 		}
 
 		else {
+
+			logger.info("Path is not a directory");
 
 			if (identifier.endsWith("/")) {
 				throw new ResourceIdentifierExpectedException();
@@ -77,8 +79,6 @@ public class FilesystemStorage implements Storage {
 				for (Entry<String, Format> fileExtensionToFormatEntry : fileExtensionToFormatMap.entrySet()) {
 					Path pathTest = rootPath.resolve("./" + identifier + fileExtensionToFormatEntry.getKey())
 							.normalize();
-					// Path pathTest =
-					// path.resolve(fileExtensionToFormatEntry.getKey());
 					logger.info("Testing path > {}", pathTest);
 					if (Files.exists(pathTest)) {
 						pathWithExtension = pathTest;
@@ -166,21 +166,39 @@ public class FilesystemStorage implements Storage {
 
 		Path path = rootPath.resolve("./" + identifier).normalize();
 
-		logger.info("path > {}", path);
+		logger.info("Path > {}", path);
 
 		if (Files.isDirectory(path)) {
 
-			logger.info("path is directory");
+			logger.info("Path is a directory");
 
 			if (!identifier.equals("") && !identifier.endsWith("/")) {
 				throw new ContainerIdentifierExpectedException();
 			}
 
-			// return new FilesystemStorageContainerResource(identifier, path);
+			Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+
+				@Override
+				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+					logger.info("Deleting file > {}", file);
+					Files.delete(file);
+					return FileVisitResult.CONTINUE;
+				}
+
+				@Override
+				public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+					logger.info("Deleting directory > {}", dir);
+					Files.delete(dir);
+					return FileVisitResult.CONTINUE;
+				}
+
+			});
 
 		}
 
 		else {
+
+			logger.info("Path is not a directory");
 
 			if (identifier.endsWith("/")) {
 				throw new ResourceIdentifierExpectedException();
@@ -190,38 +208,27 @@ public class FilesystemStorage implements Storage {
 
 				logger.info("Path is file without extension");
 
-				// return new FilesystemStorageNonRdfResource(identifier, path);
+				logger.info("Deleting file > {}", path);
+				Files.delete(path);
 
 			}
 
 			else {
 
 				Path pathWithExtension = null;
-				Format pathWithExtensionFormat = null;
 
 				for (Entry<String, Format> fileExtensionToFormatEntry : fileExtensionToFormatMap.entrySet()) {
-					Path pathTest = path.resolve(fileExtensionToFormatEntry.getKey());
+					Path pathTest = rootPath.resolve("./" + identifier + fileExtensionToFormatEntry.getKey())
+							.normalize();
+					logger.info("Testing path > {}", pathTest);
 					if (Files.exists(pathTest)) {
+						logger.info("Deleting file > {}", pathTest);
+						Files.delete(pathTest);
 						pathWithExtension = pathTest;
-						pathWithExtensionFormat = fileExtensionToFormatEntry.getValue();
 					}
 				}
 
-				if (pathWithExtension != null
-						&& RdfFormatGroup.getInstance().equals(pathWithExtensionFormat.getFormatGroup())) {
-					logger.info("Path is file with RDF extension");
-					// return new FilesystemStorageRdfResource(identifier,
-					// path);
-
-				}
-
-				else if (pathWithExtension != null) {
-					logger.info("Path is file with extension");
-					// return new FilesystemStorageNonRdfResource(identifier,
-					// path);
-				}
-
-				else {
+				if (pathWithExtension == null) {
 					logger.info("Path is not existing");
 					throw new ResourceNotFoundException();
 				}
@@ -229,76 +236,6 @@ public class FilesystemStorage implements Storage {
 			}
 
 		}
-
-		// Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
-		//
-		// @Override
-		// public FileVisitResult visitFile(Path file, BasicFileAttributes
-		// attrs) throws IOException {
-		// Files.delete(file);
-		// return FileVisitResult.CONTINUE;
-		// }
-		//
-		// @Override
-		// public FileVisitResult postVisitDirectory(Path dir, IOException exc)
-		// throws IOException {
-		// Files.delete(dir);
-		// return FileVisitResult.CONTINUE;
-		// }
-		//
-		// });
-
-		// logger.info("delResource(String identifier) > identifier={}",
-		// identifier);
-		//
-		// // TODO Ensure that the resulting path in in the root directory
-		// Path path = rootPath.resolve("./" + identifier).normalize();
-		//
-		// logger.info("path > {}", path);
-		//
-		// if (Files.isDirectory(path)) {
-		//
-		// logger.info("path is directory");
-		//
-		// if (!identifier.endsWith("/")) {
-		// throw new ContainerIdentifierExpectedException();
-		// }
-		//
-		// }
-		//
-		// else {
-		//
-		// if (identifier.endsWith("/")) {
-		// throw new ResourceIdentifierExpectedException();
-		// }
-		//
-		// if (Files.exists(path)) {
-		//
-		// } else {
-		//
-		// Path pathWithExtension = null;
-		// Format pathWithExtensionFormat = null;
-		//
-		// for (Entry<String, Format> fileExtensionToFormatEntry :
-		// fileExtensionToFormatMap.entrySet()) {
-		// Path pathTest = path.resolve(fileExtensionToFormatEntry.getKey());
-		// if (Files.exists(pathTest)) {
-		// pathWithExtension = pathTest;
-		// pathWithExtensionFormat = fileExtensionToFormatEntry.getValue();
-		// }
-		// }
-		//
-		// if (pathWithExtension != null) {
-		//
-		// }
-		//
-		// else {
-		// throw new ResourceNotFoundException();
-		// }
-		//
-		// }
-		//
-		// }
 
 	}
 
