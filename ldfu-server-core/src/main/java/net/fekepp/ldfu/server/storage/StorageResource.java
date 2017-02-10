@@ -1,17 +1,20 @@
 package net.fekepp.ldfu.server.storage;
 
 import java.io.InputStream;
-import java.util.Set;
 
-import org.semanticweb.yars.nx.Node;
+import net.fekepp.ldfu.server.mediatype.Format;
 
 public interface StorageResource {
 
-	public String getPath();
-	
-	public Set<Node[]> getRdfRepresentation();
+	public String getIdentifier();
 
-	public InputStream getBinaryRepresentation();
+	public Format getFormat();
+
+//	public Set<Node[]> getRdfRepresentation();
+
+//	public InputStream getBinaryRepresentation();
+	
+	public InputStream getData();
 
 	public boolean isRdfResource();
 

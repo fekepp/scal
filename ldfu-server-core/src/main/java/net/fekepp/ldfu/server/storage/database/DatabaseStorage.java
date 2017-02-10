@@ -3,46 +3,38 @@ package net.fekepp.ldfu.server.storage.database;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.ws.rs.core.MediaType;
-
 import org.semanticweb.yars.nx.parser.ParseException;
 
-import net.fekepp.ldfu.server.storage.ContainerIdentifierExpectedException;
-import net.fekepp.ldfu.server.storage.ParentNotFoundException;
-import net.fekepp.ldfu.server.storage.ProcessingNotSupportedException;
-import net.fekepp.ldfu.server.storage.ResourceIdentifierExpectedException;
-import net.fekepp.ldfu.server.storage.ResourceNotFoundException;
+import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
+import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
+import net.fekepp.ldfu.server.exceptions.ProcessingNotSupportedException;
+import net.fekepp.ldfu.server.exceptions.ResourceIdentifierExpectedException;
+import net.fekepp.ldfu.server.exceptions.ResourceNotFoundException;
+import net.fekepp.ldfu.server.mediatype.Format;
 import net.fekepp.ldfu.server.storage.Storage;
 import net.fekepp.ldfu.server.storage.StorageResource;
 
 public class DatabaseStorage implements Storage {
 
 	@Override
-	public StorageResource getResource(String identifier) {
+	public StorageResource getResource(String identifier) throws ResourceNotFoundException,
+			ContainerIdentifierExpectedException, ResourceIdentifierExpectedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public StorageResource setResource(String identifier, MediaType mediaType, InputStream inputStream)
-			throws ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, ParentNotFoundException,
-			ParseException, IOException {
+	public void setResource(String identifier, StorageResource resource) throws ContainerIdentifierExpectedException,
+			ResourceIdentifierExpectedException, ParentNotFoundException, IOException {
 		// TODO Auto-generated method stub
-		return null;
+
 	}
 
 	@Override
-	public StorageResource deleteResource(String identifier) {
+	public void delResource(String identifier) throws ResourceNotFoundException, ResourceIdentifierExpectedException,
+			ContainerIdentifierExpectedException, IOException {
 		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public StorageResource processResource(String identifier, MediaType mediaType, InputStream inputStream)
-			throws ResourceNotFoundException, ResourceIdentifierExpectedException, ContainerIdentifierExpectedException,
-			ProcessingNotSupportedException, ParseException, IOException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

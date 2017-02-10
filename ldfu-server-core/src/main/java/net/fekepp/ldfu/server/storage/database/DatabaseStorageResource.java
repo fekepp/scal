@@ -1,28 +1,26 @@
 package net.fekepp.ldfu.server.storage.database;
 
 import java.io.InputStream;
-import java.util.Set;
 
-import org.semanticweb.yars.nx.Node;
-
+import net.fekepp.ldfu.server.mediatype.Format;
 import net.fekepp.ldfu.server.storage.StorageResource;
 
 public class DatabaseStorageResource implements StorageResource {
 
 	@Override
-	public String getPath() {
+	public String getIdentifier() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Set<Node[]> getRdfRepresentation() {
+	public Format getFormat() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public InputStream getBinaryRepresentation() {
+	public InputStream getData() {
 		// TODO Auto-generated method stub
 		return null;
 	}

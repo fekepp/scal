@@ -1,30 +1,21 @@
 package net.fekepp.ldfu.server.storage;
 
 import java.io.IOException;
-import java.io.InputStream;
 
-import javax.ws.rs.core.MediaType;
-
-import org.semanticweb.yars.nx.parser.ParseException;
+import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
+import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
+import net.fekepp.ldfu.server.exceptions.ResourceIdentifierExpectedException;
+import net.fekepp.ldfu.server.exceptions.ResourceNotFoundException;
 
 public interface Storage {
 
-	public StorageResource getResource(String identifier);
-	// throws ContainerIdentifierRequiredException,
-	// ResourceIdentifierRequiredException;
+	public StorageResource getResource(String identifier)
+			throws ResourceNotFoundException, ContainerIdentifierExpectedException, ResourceIdentifierExpectedException;
 
-	public StorageResource setResource(String identifier, MediaType mediaType, InputStream inputStream)
-			throws ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, ParentNotFoundException,
-			ParseException, IOException;
+	public void setResource(String identifier, StorageResource resource) throws ContainerIdentifierExpectedException,
+			ResourceIdentifierExpectedException, ParentNotFoundException, IOException;
 
-	public StorageResource deleteResource(String identifier);
+	public void delResource(String identifier) throws ResourceNotFoundException, ResourceIdentifierExpectedException,
+			ContainerIdentifierExpectedException, IOException;
 
-	public StorageResource processResource(String identifier, MediaType mediaType, InputStream inputStream)
-			throws ResourceNotFoundException, ResourceIdentifierExpectedException, ContainerIdentifierExpectedException,
-			ProcessingNotSupportedException, ParseException, IOException;
-
-	// handleRead
-	// handleCreateOrUpdate
-	// handleDelete
-	// handleProcessing
 }

@@ -1,6 +1,9 @@
 package net.fekepp.ldfu.server.storage.filesystem;
 
+import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,39 +12,68 @@ import org.semanticweb.yars.nx.Resource;
 import org.semanticweb.yars.nx.namespace.LDP;
 import org.semanticweb.yars.nx.namespace.RDF;
 
+import net.fekepp.ldfu.server.mediatype.Format;
 import net.fekepp.ldfu.server.storage.StorageResource;
 
 public class FilesystemStorageResource implements StorageResource {
 
-	private String directory;
+	private String identifier;
 
-	private String path;
+	private boolean rdfResource = false;
 
-	private boolean rdfResource = true;
+	private boolean containerResource = false;
 
-	private boolean containerResource = true;
+	private Path path;
 
-	@Override
 	public Set<Node[]> getRdfRepresentation() {
 
-		// Create the representation to be returned
-		Set<Node[]> representation = new HashSet<Node[]>();
+		if (Files.isDirectory(path)) {
 
-		// Create a base URI for the requested resource
-		Resource identifierResource = new Resource(path);
+			// Create the representation to be returned
+			Set<Node[]> representation = new HashSet<Node[]>();
 
-		// Let the resource be a LDP Container
-		representation.add(new Node[] { identifierResource, RDF.TYPE, LDP.CONTAINER });
+			// Create a base URI for the requested resource
+			Resource identifierResource = new Resource(identifier);
 
-		// Let the resource be a LDP Basic Container
-		representation.add(new Node[] { identifierResource, RDF.TYPE, LDP.BASIC_CONTAINER });
+			// Let the resource be a LDP Container
+			representation.add(new Node[] { identifierResource, RDF.TYPE, LDP.CONTAINER });
 
-		return representation;
+			// Let the resource be a LDP Basic Container
+			representation.add(new Node[] { identifierResource, RDF.TYPE, LDP.BASIC_CONTAINER });
+
+			// Java7
+			for (final File file : path.toFile().listFiles()) {
+				representation.add(new Node[] { identifierResource, LDP.CONTAINS,
+						new Resource(identifier + file.getName() + (file.isDirectory() ? "/" : "")) });
+			}
+
+			// Java8
+			// try (Stream<Path> paths = Files.list(path)) {
+			// paths.forEach(path -> {
+			// representation.add(new Node[] { identifierResource, LDP.CONTAINS,
+			// new Resource(identifier + path.getFileName() +
+			// (Files.isDirectory(path) ? "/" : "")) });
+			// });
+			// }
+			//
+			// catch (IOException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+
+			return representation;
+
+		} else if (path.endsWith(".ttl")) {
+
+		}
+
+		return null;
 
 	}
 
-	@Override
 	public InputStream getBinaryRepresentation() {
+
+		// new FileInputStream(path.toFile());
 		// String path = "C:\\user\\data\\thefile.txt";
 		// File file = new File(path);
 		// FileInputStream fileInputStream = new
@@ -50,12 +82,18 @@ public class FilesystemStorageResource implements StorageResource {
 	}
 
 	@Override
-	public String getPath() {
-		return path;
+	public String getIdentifier() {
+		return identifier;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
+	public void setIdentifier(String path) {
+		this.identifier = path;
+	}
+
+	@Override
+	public Format getFormat() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -74,6 +112,20 @@ public class FilesystemStorageResource implements StorageResource {
 
 	public void setContainerResource(boolean containerResource) {
 		this.containerResource = containerResource;
+	}
+
+	public Path getPath() {
+		return path;
+	}
+
+	public void setPath(Path path) {
+		this.path = path;
+	}
+
+	@Override
+	public InputStream getData() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
