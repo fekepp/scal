@@ -30,45 +30,36 @@ public class DefaultResourceManager implements ResourceManager {
 	public InputStream getResource(String identifier, String mediaType, URI base) throws ResourceNotFoundException,
 			ContainerIdentifierExpectedException, ResourceIdentifierExpectedException {
 
-		// Get the source resource from storage
+		// Get the source
 		StorageResource source = storage.getResource(identifier);
 
-		// Get the source format via storage resource
+		// Get the source format
 		Format sourceFormat = source.getFormat();
 
 		// If source format is available
 		if (sourceFormat != null) {
 
-			// Get the sink format via media type
+			// Get the sink format
 			Format sinkFormat = mediaTypeToFormatMap.get(mediaType);
 
 			// If sink format is available
-			if (sinkFormat != null) {
+			// And if source format group equals sink format group
+			if (sinkFormat != null && sourceFormat.getFormatGroup().equals(sinkFormat.getFormatGroup())) {
 
-				// If source format group equals sink format group
-				if (sourceFormat.getFormatGroup().equals(sinkFormat.getFormatGroup())) {
-
-					// Return data serialized with the media type of the
-					// request format
-					return source.getData();
-
-				}
-
-				else {
-
-					// Return data serialized with default media type of the
-					// source format group
-					return source.getData();
-
-				}
+				// Return data serialized with the media type of the
+				// request format
+				// TODO Finalize implementation
+				return source.getData();
 
 			}
 
 			// If sink format is not available
+			// Or if source format group not equals sink format group
 			else {
 
 				// Return data serialized with default media type of the
 				// source format group
+				// TODO Finalize implementation
 				return source.getData();
 
 			}
@@ -79,6 +70,7 @@ public class DefaultResourceManager implements ResourceManager {
 		else {
 
 			// Return binary data
+			// TODO Finalize implementation
 			return source.getData();
 
 		}
@@ -108,6 +100,7 @@ public class DefaultResourceManager implements ResourceManager {
 				if (sinkFormat != null && sourceFormat.getFormatGroup().equals(sinkFormat.getFormatGroup())) {
 
 					// Set sink to data serialized in format of sink
+					// TODO Finalize implementation
 					storage.setResource(identifier, null);
 					return;
 
@@ -124,11 +117,12 @@ public class DefaultResourceManager implements ResourceManager {
 			}
 
 			// If sink is not existing
-			// If sink format is not available
-			// If source format group not equals sink format group
+			// Or if sink format is not available
+			// Or if source format group not equals sink format group
 
 			// Set sink to data serialized in default format of source
 			// format group
+			// TODO Finalize implementation
 			storage.setResource(identifier, null);
 			return;
 
@@ -138,6 +132,7 @@ public class DefaultResourceManager implements ResourceManager {
 		else {
 
 			// Set sink to binary data
+			// TODO Finalize implementation
 			storage.setResource(identifier, null);
 			return;
 
