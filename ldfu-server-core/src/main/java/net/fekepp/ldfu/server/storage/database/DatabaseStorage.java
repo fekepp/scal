@@ -10,7 +10,7 @@ import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
 import net.fekepp.ldfu.server.exceptions.ProcessingNotSupportedException;
 import net.fekepp.ldfu.server.exceptions.ResourceIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ResourceNotFoundException;
-import net.fekepp.ldfu.server.mediatype.Format;
+import net.fekepp.ldfu.server.formats.Format;
 import net.fekepp.ldfu.server.storage.Storage;
 import net.fekepp.ldfu.server.storage.StorageResource;
 

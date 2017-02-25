@@ -12,7 +12,7 @@ import org.semanticweb.yars.nx.Resource;
 import org.semanticweb.yars.nx.namespace.LDP;
 import org.semanticweb.yars.nx.namespace.RDF;
 
-import net.fekepp.ldfu.server.mediatype.Format;
+import net.fekepp.ldfu.server.formats.Format;
 import net.fekepp.ldfu.server.storage.StorageResource;
 
 public class FilesystemStorageResource implements StorageResource {

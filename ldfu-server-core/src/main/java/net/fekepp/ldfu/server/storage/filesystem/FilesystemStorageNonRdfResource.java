@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.file.Path;
 
-import net.fekepp.ldfu.server.mediatype.Format;
+import net.fekepp.ldfu.server.formats.Format;
 import net.fekepp.ldfu.server.storage.StorageResource;
 
 public class FilesystemStorageNonRdfResource implements StorageResource {

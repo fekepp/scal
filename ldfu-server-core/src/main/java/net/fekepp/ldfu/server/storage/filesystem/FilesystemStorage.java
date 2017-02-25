@@ -16,8 +16,8 @@ import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
 import net.fekepp.ldfu.server.exceptions.ResourceIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ResourceNotFoundException;
-import net.fekepp.ldfu.server.mediatype.Format;
-import net.fekepp.ldfu.server.mediatype.RdfFormatGroup;
+import net.fekepp.ldfu.server.formats.Format;
+import net.fekepp.ldfu.server.formats.RdfFormatGroup;
 import net.fekepp.ldfu.server.storage.Storage;
 import net.fekepp.ldfu.server.storage.StorageResource;
 

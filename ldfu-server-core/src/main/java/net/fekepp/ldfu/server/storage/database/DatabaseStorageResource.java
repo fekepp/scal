@@ -2,7 +2,7 @@ package net.fekepp.ldfu.server.storage.database;
 
 import java.io.InputStream;
 
-import net.fekepp.ldfu.server.mediatype.Format;
+import net.fekepp.ldfu.server.formats.Format;
 import net.fekepp.ldfu.server.storage.StorageResource;
 
 public class DatabaseStorageResource implements StorageResource {
