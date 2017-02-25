@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.server.mediatype;
+package net.fekepp.ldfu.server.formats;
 
 import java.util.Set;
 

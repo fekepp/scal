@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.server.mediatype;
+package net.fekepp.ldfu.server.formats;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,22 +7,23 @@ import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
 
-public class Notation3FormatGroup implements FormatGroup {
+public class RdfFormatGroup implements FormatGroup {
 
-	private static String NAME = "Notation3";
+	private static String NAME = "RDF";
 
-	private static Format DEFAULT_FORMAT = Notation3Format.getInstance();
+	private static Format DEFAULT_FORMAT = TurtleFormat.getInstance();
 
-	private static Set<Format> FORMATS = Sets.newHashSet(DEFAULT_FORMAT);
+	private static Set<Format> FORMATS = Sets.newHashSet(DEFAULT_FORMAT, NtriplesFormat.getInstance(),
+			RdfXmlFormat.getInstance());
 
 	private static class InstanceHolder {
-		static final Notation3FormatGroup INSTANCE = new Notation3FormatGroup();
+		static final RdfFormatGroup INSTANCE = new RdfFormatGroup();
 	}
 
-	private Notation3FormatGroup() {
+	private RdfFormatGroup() {
 	}
 
-	public static Notation3FormatGroup getInstance() {
+	public static RdfFormatGroup getInstance() {
 		return InstanceHolder.INSTANCE;
 	}
 
@@ -49,7 +50,7 @@ public class Notation3FormatGroup implements FormatGroup {
 				contentTypesMap.put(mediaType, format);
 			}
 		}
-		return contentTypesMap;
+		return Collections.unmodifiableMap(contentTypesMap);
 	}
 
 	@Override
@@ -60,7 +61,7 @@ public class Notation3FormatGroup implements FormatGroup {
 				fileExtensionsMap.put(fileExtensions, format);
 			}
 		}
-		return fileExtensionsMap;
+		return Collections.unmodifiableMap(fileExtensionsMap);
 	}
 
 }

@@ -1,32 +1,32 @@
-package net.fekepp.ldfu.server.mediatype;
+package net.fekepp.ldfu.server.formats;
 
 import java.util.Collections;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
 
-public class NtriplesFormat implements Format {
+public class SparqlQueryFormat implements Format {
 
-	private static String NAME = "N-Triples";
+	private static String NAME = "SPARQL Query";
 
-	private static FormatGroup FORMAT_GROUP = RdfFormatGroup.getInstance();
+	private static FormatGroup FORMAT_GROUP = SparqlQueryFormatGroup.getInstance();
 
-	private static String DEFAULT_MEDIA_TYPE = "application/n-triples";
+	private static String DEFAULT_MEDIA_TYPE = "application/sparql-query";
 
 	private static Set<String> MEDIA_TYPES = Sets.newHashSet(DEFAULT_MEDIA_TYPE);
 
-	private static String DEFAULT_FILE_EXTENSION = ".nt";
+	private static String DEFAULT_FILE_EXTENSION = ".rq";
 
 	private static Set<String> FILE_EXTENSIONS = Sets.newHashSet(DEFAULT_FILE_EXTENSION);
 
 	private static class InstanceHolder {
-		static final NtriplesFormat INSTANCE = new NtriplesFormat();
+		static final SparqlQueryFormat INSTANCE = new SparqlQueryFormat();
 	}
 
-	private NtriplesFormat() {
+	private SparqlQueryFormat() {
 	}
 
-	public static NtriplesFormat getInstance() {
+	public static SparqlQueryFormat getInstance() {
 		return InstanceHolder.INSTANCE;
 	}
 

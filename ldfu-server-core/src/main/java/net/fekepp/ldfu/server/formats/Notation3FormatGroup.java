@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.server.mediatype;
+package net.fekepp.ldfu.server.formats;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,22 +7,22 @@ import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
 
-public class SparqlQueryFormatGroup implements FormatGroup {
+public class Notation3FormatGroup implements FormatGroup {
 
-	private static String NAME = "SPARQL";
+	private static String NAME = "Notation3";
 
-	private static Format DEFAULT_FORMAT = SparqlQueryFormat.getInstance();
+	private static Format DEFAULT_FORMAT = Notation3Format.getInstance();
 
 	private static Set<Format> FORMATS = Sets.newHashSet(DEFAULT_FORMAT);
 
 	private static class InstanceHolder {
-		static final SparqlQueryFormatGroup INSTANCE = new SparqlQueryFormatGroup();
+		static final Notation3FormatGroup INSTANCE = new Notation3FormatGroup();
 	}
 
-	private SparqlQueryFormatGroup() {
+	private Notation3FormatGroup() {
 	}
 
-	public static SparqlQueryFormatGroup getInstance() {
+	public static Notation3FormatGroup getInstance() {
 		return InstanceHolder.INSTANCE;
 	}
 

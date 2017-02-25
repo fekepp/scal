@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.server.mediatype;
+package net.fekepp.ldfu.server.formats;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,23 +7,22 @@ import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
 
-public class RdfFormatGroup implements FormatGroup {
+public class SparqlQueryFormatGroup implements FormatGroup {
 
-	private static String NAME = "RDF";
+	private static String NAME = "SPARQL";
 
-	private static Format DEFAULT_FORMAT = TurtleFormat.getInstance();
+	private static Format DEFAULT_FORMAT = SparqlQueryFormat.getInstance();
 
-	private static Set<Format> FORMATS = Sets.newHashSet(DEFAULT_FORMAT, NtriplesFormat.getInstance(),
-			RdfXmlFormat.getInstance());
+	private static Set<Format> FORMATS = Sets.newHashSet(DEFAULT_FORMAT);
 
 	private static class InstanceHolder {
-		static final RdfFormatGroup INSTANCE = new RdfFormatGroup();
+		static final SparqlQueryFormatGroup INSTANCE = new SparqlQueryFormatGroup();
 	}
 
-	private RdfFormatGroup() {
+	private SparqlQueryFormatGroup() {
 	}
 
-	public static RdfFormatGroup getInstance() {
+	public static SparqlQueryFormatGroup getInstance() {
 		return InstanceHolder.INSTANCE;
 	}
 
@@ -50,7 +49,7 @@ public class RdfFormatGroup implements FormatGroup {
 				contentTypesMap.put(mediaType, format);
 			}
 		}
-		return Collections.unmodifiableMap(contentTypesMap);
+		return contentTypesMap;
 	}
 
 	@Override
@@ -61,7 +60,7 @@ public class RdfFormatGroup implements FormatGroup {
 				fileExtensionsMap.put(fileExtensions, format);
 			}
 		}
-		return Collections.unmodifiableMap(fileExtensionsMap);
+		return fileExtensionsMap;
 	}
 
 }
