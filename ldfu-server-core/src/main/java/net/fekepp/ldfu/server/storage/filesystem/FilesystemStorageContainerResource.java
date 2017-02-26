@@ -40,7 +40,7 @@ public class FilesystemStorageContainerResource implements StorageResource {
 	}
 
 	@Override
-	public InputStream getData() {
+	public InputStream getInputStream() {
 
 		// Create the representation to be returned
 		Set<Node[]> representation = new HashSet<Node[]>();

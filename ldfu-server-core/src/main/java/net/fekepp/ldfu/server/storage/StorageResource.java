@@ -10,11 +10,7 @@ public interface StorageResource {
 
 	public Format getFormat();
 
-//	public Set<Node[]> getRdfRepresentation();
-
-//	public InputStream getBinaryRepresentation();
-	
-	public InputStream getData();
+	public InputStream getInputStream();
 
 	public boolean isRdfResource();
 

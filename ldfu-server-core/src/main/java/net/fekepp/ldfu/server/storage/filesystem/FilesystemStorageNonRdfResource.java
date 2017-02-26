@@ -33,7 +33,7 @@ public class FilesystemStorageNonRdfResource implements StorageResource {
 	}
 
 	@Override
-	public InputStream getData() {
+	public InputStream getInputStream() {
 		FileInputStream fileInputStream = null;
 		try {
 			fileInputStream = new FileInputStream(path.toString());

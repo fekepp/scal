@@ -20,7 +20,7 @@ public class DatabaseStorageResource implements StorageResource {
 	}
 
 	@Override
-	public InputStream getData() {
+	public InputStream getInputStream() {
 		// TODO Auto-generated method stub
 		return null;
 	}
