@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 
+import org.apache.commons.compress.utils.IOUtils;
+
 import net.fekepp.ldfu.server.converter.FormatConverter;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
@@ -47,11 +49,14 @@ public class ResourceSource extends ResourceDescription implements Source {
 	@Override
 	public void streamTo(OutputStream outputStream)
 			throws ParseException, ParserException, IOException, InterruptedException {
-		// TODO Check for null?
-		formatConverter.setBaseUri(getBaseUri());
-		formatConverter.setInputStream(inputStream);
-		formatConverter.setOutputStream(outputStream);
-		formatConverter.convert();
+		if (formatConverter != null) {
+			formatConverter.setBaseUri(getBaseUri());
+			formatConverter.setInputStream(inputStream);
+			formatConverter.setOutputStream(outputStream);
+			formatConverter.convert();
+		} else {
+			IOUtils.copy(inputStream, outputStream);
+		}
 	}
 
 }
