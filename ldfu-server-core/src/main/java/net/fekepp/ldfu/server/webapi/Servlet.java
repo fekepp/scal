@@ -100,7 +100,7 @@ public class Servlet {
 			// resourceManager.getResource(path,
 			// (mediaType != null ? mediaType.toString() : null), uri);
 			// TODO Support more than one acceptable media type
-			Source resource = resourceManager.getResource(new ResourceDescription(uriInfo.getBaseUri(), path,
+			final Source resource = resourceManager.getResource(new ResourceDescription(uriInfo.getBaseUri(), path,
 					mediaTypeToFormatMap.get(httpHeaders.getAcceptableMediaTypes().get(0).toString())));
 
 			// If the resource exists
