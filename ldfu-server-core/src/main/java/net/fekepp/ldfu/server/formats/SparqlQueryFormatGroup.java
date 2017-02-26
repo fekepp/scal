@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
+import net.fekepp.ldfu.server.converter.FormatGroupConverter;
 
 public class SparqlQueryFormatGroup implements FormatGroup {
 
@@ -61,6 +62,12 @@ public class SparqlQueryFormatGroup implements FormatGroup {
 			}
 		}
 		return fileExtensionsMap;
+	}
+
+	@Override
+	public FormatGroupConverter buildConverter(FormatGroup sinkFormatGroup) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

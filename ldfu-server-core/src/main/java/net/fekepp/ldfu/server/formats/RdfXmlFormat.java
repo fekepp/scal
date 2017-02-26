@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
+import net.fekepp.ldfu.server.converter.FormatConverter;
+import net.fekepp.ldfu.server.converter.RdfConverter;
 
 public class RdfXmlFormat implements Format {
 
@@ -58,6 +60,15 @@ public class RdfXmlFormat implements Format {
 	@Override
 	public Set<String> getFileExtensions() {
 		return Collections.unmodifiableSet(FILE_EXTENSIONS);
+	}
+
+	@Override
+	public FormatConverter buildFormatConverter(Format sinkFormat) {
+		if (getFormatGroup().getFormats().contains(sinkFormat)) {
+			return new RdfConverter(getInstance(), sinkFormat);
+		}
+		// TODO Add support for conversion between format groups
+		return null;
 	}
 
 }

@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
+import net.fekepp.ldfu.server.converter.BinaryCopyConverter;
+import net.fekepp.ldfu.server.converter.FormatConverter;
 
 public class SparqlQueryFormat implements Format {
 
@@ -58,6 +60,14 @@ public class SparqlQueryFormat implements Format {
 	@Override
 	public Set<String> getFileExtensions() {
 		return Collections.unmodifiableSet(FILE_EXTENSIONS);
+	}
+
+	@Override
+	public FormatConverter buildFormatConverter(Format sinkFormat) {
+		if (sinkFormat.equals(getInstance())) {
+			return new BinaryCopyConverter(getInstance(), sinkFormat);
+		}
+		return null;
 	}
 
 }

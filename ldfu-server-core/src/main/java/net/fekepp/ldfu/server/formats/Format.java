@@ -2,13 +2,19 @@ package net.fekepp.ldfu.server.formats;
 
 import java.util.Set;
 
+import net.fekepp.ldfu.server.converter.FormatConverter;
+
 public interface Format {
 
+	//
 	// Name
+	//
 
 	public String getName();
 
+	//
 	// Format Group
+	//
 
 	public FormatGroup getFormatGroup();
 
@@ -16,7 +22,9 @@ public interface Format {
 
 	// public void delFormatGroup();
 
+	//
 	// Media Types
+	//
 
 	public String getDefaultMediaType();
 
@@ -28,7 +36,9 @@ public interface Format {
 
 	// public void remMediaType(String mediaType);
 
+	//
 	// File Extensions
+	//
 
 	public String getDefaultFileExtension();
 
@@ -39,5 +49,14 @@ public interface Format {
 	// public void addFileExtension(String fileExtension);
 
 	// public void remFileExtension(String fileExtension);
+
+	//
+	// Parser/Serializer/Converter
+	//
+	// public Parser getParser();
+
+	// public Serializer getSerializer();
+
+	public FormatConverter buildFormatConverter(Format format);
 
 }

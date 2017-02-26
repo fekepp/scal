@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
+import net.fekepp.ldfu.server.converter.FormatGroupConverter;
 
 public class RdfFormatGroup implements FormatGroup {
 
@@ -62,6 +63,12 @@ public class RdfFormatGroup implements FormatGroup {
 			}
 		}
 		return Collections.unmodifiableMap(fileExtensionsMap);
+	}
+
+	@Override
+	public FormatGroupConverter buildConverter(FormatGroup sinkFormatGroup) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

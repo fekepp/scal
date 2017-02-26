@@ -3,6 +3,8 @@ package net.fekepp.ldfu.server.formats;
 import java.util.Map;
 import java.util.Set;
 
+import net.fekepp.ldfu.server.converter.FormatGroupConverter;
+
 public interface FormatGroup {
 
 	public String getName();
@@ -14,5 +16,7 @@ public interface FormatGroup {
 	public Map<String, Format> getMediaTypesMap();
 
 	public Map<String, Format> getFileExtensionsMap();
+
+	public FormatGroupConverter buildConverter(FormatGroup sinkFormatGroup);
 
 }
