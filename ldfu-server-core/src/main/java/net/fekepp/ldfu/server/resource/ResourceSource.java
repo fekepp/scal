@@ -7,8 +7,8 @@ import java.net.URI;
 
 import org.apache.commons.compress.utils.IOUtils;
 
-import net.fekepp.ldfu.server.data.converters.FormatConverter;
-import net.fekepp.ldfu.server.data.formats.Format;
+import net.fekepp.ldfu.server.data.Format;
+import net.fekepp.ldfu.server.data.FormatConverter;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
 

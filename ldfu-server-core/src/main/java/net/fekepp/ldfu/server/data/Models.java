@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.server.data.models;
+package net.fekepp.ldfu.server.data;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
-import net.fekepp.ldfu.server.data.formats.Format;
+import net.fekepp.ldfu.server.data.models.Notation3Model;
+import net.fekepp.ldfu.server.data.models.RdfModel;
+import net.fekepp.ldfu.server.data.models.SparqlQueryModel;
 
 public final class Models {
 

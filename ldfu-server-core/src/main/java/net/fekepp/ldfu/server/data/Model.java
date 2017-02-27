@@ -1,10 +1,7 @@
-package net.fekepp.ldfu.server.data.models;
+package net.fekepp.ldfu.server.data;
 
 import java.util.Map;
 import java.util.Set;
-
-import net.fekepp.ldfu.server.data.converters.ModelConverter;
-import net.fekepp.ldfu.server.data.formats.Format;
 
 public interface Model {
 

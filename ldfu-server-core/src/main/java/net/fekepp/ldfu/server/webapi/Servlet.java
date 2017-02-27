@@ -28,8 +28,8 @@ import javax.ws.rs.core.UriInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.fekepp.ldfu.server.data.formats.Format;
-import net.fekepp.ldfu.server.data.models.Models;
+import net.fekepp.ldfu.server.data.Format;
+import net.fekepp.ldfu.server.data.Models;
 import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
 import net.fekepp.ldfu.server.exceptions.ParseException;

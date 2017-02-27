@@ -2,8 +2,8 @@ package net.fekepp.ldfu.server.resource;
 
 import java.io.IOException;
 
-import net.fekepp.ldfu.server.data.converters.FormatConverter;
-import net.fekepp.ldfu.server.data.formats.Format;
+import net.fekepp.ldfu.server.data.Format;
+import net.fekepp.ldfu.server.data.FormatConverter;
 import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
 import net.fekepp.ldfu.server.exceptions.ParseException;

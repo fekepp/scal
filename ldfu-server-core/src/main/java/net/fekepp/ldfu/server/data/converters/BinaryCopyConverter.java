@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.apache.commons.compress.utils.IOUtils;
 
-import net.fekepp.ldfu.server.data.formats.Format;
+import net.fekepp.ldfu.server.data.Format;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
 

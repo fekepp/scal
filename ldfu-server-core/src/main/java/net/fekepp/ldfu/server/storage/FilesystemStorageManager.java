@@ -25,9 +25,9 @@ import org.semanticweb.yars.nx.namespace.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.fekepp.ldfu.server.data.formats.Format;
+import net.fekepp.ldfu.server.data.Format;
+import net.fekepp.ldfu.server.data.Models;
 import net.fekepp.ldfu.server.data.formats.NtriplesFormat;
-import net.fekepp.ldfu.server.data.models.Models;
 import net.fekepp.ldfu.server.data.models.RdfModel;
 import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;

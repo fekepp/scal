@@ -1,9 +1,6 @@
-package net.fekepp.ldfu.server.data.formats;
+package net.fekepp.ldfu.server.data;
 
 import java.util.Set;
-
-import net.fekepp.ldfu.server.data.converters.FormatConverter;
-import net.fekepp.ldfu.server.data.models.Model;
 
 public interface Format {
 

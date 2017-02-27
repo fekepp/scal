@@ -9,7 +9,7 @@ import org.semanticweb.yars.nx.parser.RdfParser;
 import org.semanticweb.yars.rdfxml.RdfXmlParser;
 import org.semanticweb.yars.turtle.TurtleParser;
 
-import net.fekepp.ldfu.server.data.formats.Format;
+import net.fekepp.ldfu.server.data.Format;
 import net.fekepp.ldfu.server.data.formats.NtriplesFormat;
 import net.fekepp.ldfu.server.data.formats.RdfXmlFormat;
 import net.fekepp.ldfu.server.data.formats.TurtleFormat;

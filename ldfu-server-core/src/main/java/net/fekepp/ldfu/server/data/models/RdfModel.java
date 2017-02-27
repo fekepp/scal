@@ -6,8 +6,9 @@ import java.util.Map;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
-import net.fekepp.ldfu.server.data.converters.ModelConverter;
-import net.fekepp.ldfu.server.data.formats.Format;
+import net.fekepp.ldfu.server.data.Format;
+import net.fekepp.ldfu.server.data.Model;
+import net.fekepp.ldfu.server.data.ModelConverter;
 import net.fekepp.ldfu.server.data.formats.NtriplesFormat;
 import net.fekepp.ldfu.server.data.formats.RdfXmlFormat;
 import net.fekepp.ldfu.server.data.formats.TurtleFormat;

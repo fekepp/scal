@@ -4,9 +4,10 @@ import java.util.Collections;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
-import net.fekepp.ldfu.server.data.converters.FormatConverter;
+import net.fekepp.ldfu.server.data.Format;
+import net.fekepp.ldfu.server.data.FormatConverter;
+import net.fekepp.ldfu.server.data.Model;
 import net.fekepp.ldfu.server.data.converters.RdfConverter;
-import net.fekepp.ldfu.server.data.models.Model;
 import net.fekepp.ldfu.server.data.models.RdfModel;
 
 public class NtriplesFormat implements Format {

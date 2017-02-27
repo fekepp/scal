@@ -1,6 +1,4 @@
-package net.fekepp.ldfu.server.data.converters;
-
-import net.fekepp.ldfu.server.data.models.Model;
+package net.fekepp.ldfu.server.data;
 
 public interface ModelConverter {
 
