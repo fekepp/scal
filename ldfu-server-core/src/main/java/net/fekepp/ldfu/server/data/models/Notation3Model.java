@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.server.formats;
+package net.fekepp.ldfu.server.data.models;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -6,25 +6,26 @@ import java.util.Map;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
-import net.fekepp.ldfu.server.converter.FormatGroupConverter;
+import net.fekepp.ldfu.server.data.converters.ModelConverter;
+import net.fekepp.ldfu.server.data.formats.Format;
+import net.fekepp.ldfu.server.data.formats.Notation3Format;
 
-public class RdfFormatGroup implements FormatGroup {
+public class Notation3Model implements Model {
 
-	private static String NAME = "RDF";
+	private static String NAME = "Notation3";
 
-	private static Format DEFAULT_FORMAT = TurtleFormat.getInstance();
+	private static Format DEFAULT_FORMAT = Notation3Format.getInstance();
 
-	private static Set<Format> FORMATS = Sets.newHashSet(DEFAULT_FORMAT, NtriplesFormat.getInstance(),
-			RdfXmlFormat.getInstance());
+	private static Set<Format> FORMATS = Sets.newHashSet(DEFAULT_FORMAT);
 
 	private static class InstanceHolder {
-		static final RdfFormatGroup INSTANCE = new RdfFormatGroup();
+		static final Notation3Model INSTANCE = new Notation3Model();
 	}
 
-	private RdfFormatGroup() {
+	private Notation3Model() {
 	}
 
-	public static RdfFormatGroup getInstance() {
+	public static Notation3Model getInstance() {
 		return InstanceHolder.INSTANCE;
 	}
 
@@ -51,7 +52,7 @@ public class RdfFormatGroup implements FormatGroup {
 				contentTypesMap.put(mediaType, format);
 			}
 		}
-		return Collections.unmodifiableMap(contentTypesMap);
+		return contentTypesMap;
 	}
 
 	@Override
@@ -62,11 +63,11 @@ public class RdfFormatGroup implements FormatGroup {
 				fileExtensionsMap.put(fileExtensions, format);
 			}
 		}
-		return Collections.unmodifiableMap(fileExtensionsMap);
+		return fileExtensionsMap;
 	}
 
 	@Override
-	public FormatGroupConverter buildConverter(FormatGroup sinkFormatGroup) {
+	public ModelConverter buildConverter(Model sinkFormatGroup) {
 		// TODO Auto-generated method stub
 		return null;
 	}

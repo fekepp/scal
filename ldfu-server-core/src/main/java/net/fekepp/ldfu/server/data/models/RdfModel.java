@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.server.formats;
+package net.fekepp.ldfu.server.data.models;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -6,24 +6,29 @@ import java.util.Map;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
-import net.fekepp.ldfu.server.converter.FormatGroupConverter;
+import net.fekepp.ldfu.server.data.converters.ModelConverter;
+import net.fekepp.ldfu.server.data.formats.Format;
+import net.fekepp.ldfu.server.data.formats.NtriplesFormat;
+import net.fekepp.ldfu.server.data.formats.RdfXmlFormat;
+import net.fekepp.ldfu.server.data.formats.TurtleFormat;
 
-public class SparqlQueryFormatGroup implements FormatGroup {
+public class RdfModel implements Model {
 
-	private static String NAME = "SPARQL";
+	private static String NAME = "RDF";
 
-	private static Format DEFAULT_FORMAT = SparqlQueryFormat.getInstance();
+	private static Format DEFAULT_FORMAT = TurtleFormat.getInstance();
 
-	private static Set<Format> FORMATS = Sets.newHashSet(DEFAULT_FORMAT);
+	private static Set<Format> FORMATS = Sets.newHashSet(DEFAULT_FORMAT, NtriplesFormat.getInstance(),
+			RdfXmlFormat.getInstance());
 
 	private static class InstanceHolder {
-		static final SparqlQueryFormatGroup INSTANCE = new SparqlQueryFormatGroup();
+		static final RdfModel INSTANCE = new RdfModel();
 	}
 
-	private SparqlQueryFormatGroup() {
+	private RdfModel() {
 	}
 
-	public static SparqlQueryFormatGroup getInstance() {
+	public static RdfModel getInstance() {
 		return InstanceHolder.INSTANCE;
 	}
 
@@ -50,7 +55,7 @@ public class SparqlQueryFormatGroup implements FormatGroup {
 				contentTypesMap.put(mediaType, format);
 			}
 		}
-		return contentTypesMap;
+		return Collections.unmodifiableMap(contentTypesMap);
 	}
 
 	@Override
@@ -61,11 +66,11 @@ public class SparqlQueryFormatGroup implements FormatGroup {
 				fileExtensionsMap.put(fileExtensions, format);
 			}
 		}
-		return fileExtensionsMap;
+		return Collections.unmodifiableMap(fileExtensionsMap);
 	}
 
 	@Override
-	public FormatGroupConverter buildConverter(FormatGroup sinkFormatGroup) {
+	public ModelConverter buildConverter(Model sinkFormatGroup) {
 		// TODO Auto-generated method stub
 		return null;
 	}

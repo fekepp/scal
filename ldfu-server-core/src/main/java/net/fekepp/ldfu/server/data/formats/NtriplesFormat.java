@@ -1,35 +1,36 @@
-package net.fekepp.ldfu.server.formats;
+package net.fekepp.ldfu.server.data.formats;
 
 import java.util.Collections;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
-import net.fekepp.ldfu.server.converter.FormatConverter;
-import net.fekepp.ldfu.server.converter.RdfConverter;
+import net.fekepp.ldfu.server.data.converters.FormatConverter;
+import net.fekepp.ldfu.server.data.converters.RdfConverter;
+import net.fekepp.ldfu.server.data.models.Model;
+import net.fekepp.ldfu.server.data.models.RdfModel;
 
-public class TurtleFormat implements Format {
+public class NtriplesFormat implements Format {
 
-	private static String NAME = "Turtle";
+	private static String NAME = "N-Triples";
 
-	private static FormatGroup FORMAT_GROUP = RdfFormatGroup.getInstance();
+	private static Model FORMAT_GROUP = RdfModel.getInstance();
 
-	private static String DEFAULT_MEDIA_TYPE = "text/turtle";
+	private static String DEFAULT_MEDIA_TYPE = "application/n-triples";
 
-	private static Set<String> MEDIA_TYPES = Sets.newHashSet(DEFAULT_MEDIA_TYPE, "application/x-turtle",
-			"application/turtle");
+	private static Set<String> MEDIA_TYPES = Sets.newHashSet(DEFAULT_MEDIA_TYPE);
 
-	private static String DEFAULT_FILE_EXTENSION = ".ttl";
+	private static String DEFAULT_FILE_EXTENSION = ".nt";
 
-	private static Set<String> FILE_EXTENSIONS = Sets.newHashSet(DEFAULT_FILE_EXTENSION, ".turtle");
+	private static Set<String> FILE_EXTENSIONS = Sets.newHashSet(DEFAULT_FILE_EXTENSION, ".ntriples");
 
 	private static class InstanceHolder {
-		static final TurtleFormat INSTANCE = new TurtleFormat();
+		static final NtriplesFormat INSTANCE = new NtriplesFormat();
 	}
 
-	private TurtleFormat() {
+	private NtriplesFormat() {
 	}
 
-	public static TurtleFormat getInstance() {
+	public static NtriplesFormat getInstance() {
 		return InstanceHolder.INSTANCE;
 	}
 
@@ -39,7 +40,7 @@ public class TurtleFormat implements Format {
 	}
 
 	@Override
-	public FormatGroup getFormatGroup() {
+	public Model getFormatGroup() {
 		return FORMAT_GROUP;
 	}
 

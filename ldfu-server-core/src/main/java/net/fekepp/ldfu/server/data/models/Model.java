@@ -1,11 +1,12 @@
-package net.fekepp.ldfu.server.formats;
+package net.fekepp.ldfu.server.data.models;
 
 import java.util.Map;
 import java.util.Set;
 
-import net.fekepp.ldfu.server.converter.FormatGroupConverter;
+import net.fekepp.ldfu.server.data.converters.ModelConverter;
+import net.fekepp.ldfu.server.data.formats.Format;
 
-public interface FormatGroup {
+public interface Model {
 
 	public String getName();
 
@@ -17,6 +18,6 @@ public interface FormatGroup {
 
 	public Map<String, Format> getFileExtensionsMap();
 
-	public FormatGroupConverter buildConverter(FormatGroup sinkFormatGroup);
+	public ModelConverter buildConverter(Model sinkFormatGroup);
 
 }

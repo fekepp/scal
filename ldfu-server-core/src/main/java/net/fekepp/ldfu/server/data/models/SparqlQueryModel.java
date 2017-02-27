@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.server.formats;
+package net.fekepp.ldfu.server.data.models;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -6,24 +6,26 @@ import java.util.Map;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
-import net.fekepp.ldfu.server.converter.FormatGroupConverter;
+import net.fekepp.ldfu.server.data.converters.ModelConverter;
+import net.fekepp.ldfu.server.data.formats.Format;
+import net.fekepp.ldfu.server.data.formats.SparqlQueryFormat;
 
-public class Notation3FormatGroup implements FormatGroup {
+public class SparqlQueryModel implements Model {
 
-	private static String NAME = "Notation3";
+	private static String NAME = "SPARQL";
 
-	private static Format DEFAULT_FORMAT = Notation3Format.getInstance();
+	private static Format DEFAULT_FORMAT = SparqlQueryFormat.getInstance();
 
 	private static Set<Format> FORMATS = Sets.newHashSet(DEFAULT_FORMAT);
 
 	private static class InstanceHolder {
-		static final Notation3FormatGroup INSTANCE = new Notation3FormatGroup();
+		static final SparqlQueryModel INSTANCE = new SparqlQueryModel();
 	}
 
-	private Notation3FormatGroup() {
+	private SparqlQueryModel() {
 	}
 
-	public static Notation3FormatGroup getInstance() {
+	public static SparqlQueryModel getInstance() {
 		return InstanceHolder.INSTANCE;
 	}
 
@@ -65,7 +67,7 @@ public class Notation3FormatGroup implements FormatGroup {
 	}
 
 	@Override
-	public FormatGroupConverter buildConverter(FormatGroup sinkFormatGroup) {
+	public ModelConverter buildConverter(Model sinkFormatGroup) {
 		// TODO Auto-generated method stub
 		return null;
 	}

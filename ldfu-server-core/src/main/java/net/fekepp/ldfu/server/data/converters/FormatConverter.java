@@ -1,13 +1,13 @@
-package net.fekepp.ldfu.server.converter;
+package net.fekepp.ldfu.server.data.converters;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 
+import net.fekepp.ldfu.server.data.formats.Format;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
-import net.fekepp.ldfu.server.formats.Format;
 
 public interface FormatConverter {
 

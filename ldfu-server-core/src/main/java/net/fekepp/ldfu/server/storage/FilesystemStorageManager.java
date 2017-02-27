@@ -25,16 +25,16 @@ import org.semanticweb.yars.nx.namespace.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.fekepp.ldfu.server.data.formats.Format;
+import net.fekepp.ldfu.server.data.formats.NtriplesFormat;
+import net.fekepp.ldfu.server.data.models.Models;
+import net.fekepp.ldfu.server.data.models.RdfModel;
 import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
 import net.fekepp.ldfu.server.exceptions.ResourceIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ResourceNotFoundException;
-import net.fekepp.ldfu.server.formats.Format;
-import net.fekepp.ldfu.server.formats.FormatGroups;
-import net.fekepp.ldfu.server.formats.NtriplesFormat;
-import net.fekepp.ldfu.server.formats.RdfFormatGroup;
 import net.fekepp.ldfu.server.resource.Description;
 import net.fekepp.ldfu.server.resource.ResourceSource;
 import net.fekepp.ldfu.server.resource.Source;
@@ -45,7 +45,7 @@ public class FilesystemStorageManager implements StorageManager {
 
 	private Path rootPath;
 
-	private Map<String, Format> fileExtensionToFormatMap = FormatGroups.getFileExtensionsMap();
+	private Map<String, Format> fileExtensionToFormatMap = Models.getFileExtensionsMap();
 
 	public FilesystemStorageManager(Path rootPath) {
 		this.rootPath = rootPath;
@@ -161,14 +161,14 @@ public class FilesystemStorageManager implements StorageManager {
 
 			// Directory and file with same name and RDF extension exists
 			if (Files.isDirectory(path) && pathWithExtension != null && pathWithExtensionFormat != null
-					&& pathWithExtensionFormat.getFormatGroup().equals(RdfFormatGroup.getInstance())) {
+					&& pathWithExtensionFormat.getFormatGroup().equals(RdfModel.getInstance())) {
 
 				logger.info("Directory and file with same name and RDF extension exists");
 
 				// If source format is not available or if source format is
 				// avaliable but not part of the RDF model
 				if (source.getFormat() == null || (source.getFormat() != null
-						&& !source.getFormat().getFormatGroup().equals(RdfFormatGroup.getInstance()))) {
+						&& !source.getFormat().getFormatGroup().equals(RdfModel.getInstance()))) {
 
 					// Delete the directory
 					Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
@@ -197,7 +197,7 @@ public class FilesystemStorageManager implements StorageManager {
 			// NOT ALLOWED
 			// Directory and file with same name and Non-RDF extension exists
 			else if (Files.isDirectory(path) && pathWithExtension != null && pathWithExtensionFormat != null
-					&& !pathWithExtensionFormat.getFormatGroup().equals(RdfFormatGroup.getInstance())) {
+					&& !pathWithExtensionFormat.getFormatGroup().equals(RdfModel.getInstance())) {
 
 				logger.error("Inconsistent storage > Directory and non-RDF file > Renaming file > {} | {}", path,
 						pathWithExtension);
@@ -215,7 +215,7 @@ public class FilesystemStorageManager implements StorageManager {
 				// If source format is not available or if source format is
 				// avaliable but not part of the RDF model
 				if (source.getFormat() == null || (source.getFormat() != null
-						&& !source.getFormat().getFormatGroup().equals(RdfFormatGroup.getInstance()))) {
+						&& !source.getFormat().getFormatGroup().equals(RdfModel.getInstance()))) {
 
 					// Delete the directory
 					Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
@@ -276,7 +276,7 @@ public class FilesystemStorageManager implements StorageManager {
 
 				logger.info("Source format is available");
 
-				if (source.getFormat().getFormatGroup().equals(RdfFormatGroup.getInstance())) {
+				if (source.getFormat().getFormatGroup().equals(RdfModel.getInstance())) {
 
 					logger.info("Register trigger and react asyncronously on containers");
 

@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.server.converter;
+package net.fekepp.ldfu.server.data.converters;
 
 import java.io.IOException;
 
@@ -9,12 +9,12 @@ import org.semanticweb.yars.nx.parser.RdfParser;
 import org.semanticweb.yars.rdfxml.RdfXmlParser;
 import org.semanticweb.yars.turtle.TurtleParser;
 
+import net.fekepp.ldfu.server.data.formats.Format;
+import net.fekepp.ldfu.server.data.formats.NtriplesFormat;
+import net.fekepp.ldfu.server.data.formats.RdfXmlFormat;
+import net.fekepp.ldfu.server.data.formats.TurtleFormat;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
-import net.fekepp.ldfu.server.formats.Format;
-import net.fekepp.ldfu.server.formats.NtriplesFormat;
-import net.fekepp.ldfu.server.formats.RdfXmlFormat;
-import net.fekepp.ldfu.server.formats.TurtleFormat;
 import net.fekepp.ldfu.server.formats.serializers.CallbackNtriplesSerializer;
 import net.fekepp.ldfu.server.formats.serializers.CallbackRdfXmlSerializer;
 import net.fekepp.ldfu.server.formats.serializers.CallbackTurtleSerializer;

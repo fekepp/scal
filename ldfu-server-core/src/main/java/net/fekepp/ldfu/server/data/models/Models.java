@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.server.formats;
+package net.fekepp.ldfu.server.data.models;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -6,19 +6,20 @@ import java.util.Map;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
+import net.fekepp.ldfu.server.data.formats.Format;
 
-public final class FormatGroups {
+public final class Models {
 
-	private static Set<FormatGroup> FORMAT_GROUPS = Sets.newHashSet(Notation3FormatGroup.getInstance(),
-			RdfFormatGroup.getInstance(), SparqlQueryFormatGroup.getInstance());
+	private static Set<Model> FORMAT_GROUPS = Sets.newHashSet(Notation3Model.getInstance(),
+			RdfModel.getInstance(), SparqlQueryModel.getInstance());
 
-	public static Set<FormatGroup> getFormatGroups() {
+	public static Set<Model> getFormatGroups() {
 		return Collections.unmodifiableSet(FORMAT_GROUPS);
 	}
 
 	public static Map<String, Format> getMediaTypesMap() {
 		Map<String, Format> contentTypesMap = new HashMap<String, Format>();
-		for (FormatGroup formatGroup : FORMAT_GROUPS) {
+		for (Model formatGroup : FORMAT_GROUPS) {
 			contentTypesMap.putAll(formatGroup.getMediaTypesMap());
 		}
 		return Collections.unmodifiableMap(contentTypesMap);
@@ -26,7 +27,7 @@ public final class FormatGroups {
 
 	public static Map<String, Format> getFileExtensionsMap() {
 		Map<String, Format> fileExtensionsMap = new HashMap<String, Format>();
-		for (FormatGroup formatGroup : FORMAT_GROUPS) {
+		for (Model formatGroup : FORMAT_GROUPS) {
 			fileExtensionsMap.putAll(formatGroup.getFileExtensionsMap());
 		}
 		return Collections.unmodifiableMap(fileExtensionsMap);

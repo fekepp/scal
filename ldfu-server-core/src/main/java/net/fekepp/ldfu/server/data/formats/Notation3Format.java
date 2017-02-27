@@ -1,17 +1,19 @@
-package net.fekepp.ldfu.server.formats;
+package net.fekepp.ldfu.server.data.formats;
 
 import java.util.Collections;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
-import net.fekepp.ldfu.server.converter.BinaryCopyConverter;
-import net.fekepp.ldfu.server.converter.FormatConverter;
+import net.fekepp.ldfu.server.data.converters.BinaryCopyConverter;
+import net.fekepp.ldfu.server.data.converters.FormatConverter;
+import net.fekepp.ldfu.server.data.models.Model;
+import net.fekepp.ldfu.server.data.models.Notation3Model;
 
 public class Notation3Format implements Format {
 
 	private static String NAME = "Notation3";
 
-	private static FormatGroup FORMAT_GROUP = Notation3FormatGroup.getInstance();
+	private static Model FORMAT_GROUP = Notation3Model.getInstance();
 
 	private static String DEFAULT_MEDIA_TYPE = "text/n3";// text/n3;charset=utf-8
 
@@ -38,7 +40,7 @@ public class Notation3Format implements Format {
 	}
 
 	@Override
-	public FormatGroup getFormatGroup() {
+	public Model getFormatGroup() {
 		return FORMAT_GROUP;
 	}
 

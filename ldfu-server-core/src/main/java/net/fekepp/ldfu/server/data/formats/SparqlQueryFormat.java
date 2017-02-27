@@ -1,34 +1,36 @@
-package net.fekepp.ldfu.server.formats;
+package net.fekepp.ldfu.server.data.formats;
 
 import java.util.Collections;
 import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
-import net.fekepp.ldfu.server.converter.FormatConverter;
-import net.fekepp.ldfu.server.converter.RdfConverter;
+import net.fekepp.ldfu.server.data.converters.BinaryCopyConverter;
+import net.fekepp.ldfu.server.data.converters.FormatConverter;
+import net.fekepp.ldfu.server.data.models.Model;
+import net.fekepp.ldfu.server.data.models.SparqlQueryModel;
 
-public class RdfXmlFormat implements Format {
+public class SparqlQueryFormat implements Format {
 
-	private static String NAME = "RDF/XML";
+	private static String NAME = "SPARQL Query";
 
-	private static FormatGroup FORMAT_GROUP = RdfFormatGroup.getInstance();
+	private static Model FORMAT_GROUP = SparqlQueryModel.getInstance();
 
-	private static String DEFAULT_MEDIA_TYPE = "application/rdf+xml";
+	private static String DEFAULT_MEDIA_TYPE = "application/sparql-query";
 
 	private static Set<String> MEDIA_TYPES = Sets.newHashSet(DEFAULT_MEDIA_TYPE);
 
-	private static String DEFAULT_FILE_EXTENSION = ".rdf";
+	private static String DEFAULT_FILE_EXTENSION = ".rq";
 
 	private static Set<String> FILE_EXTENSIONS = Sets.newHashSet(DEFAULT_FILE_EXTENSION);
 
 	private static class InstanceHolder {
-		static final RdfXmlFormat INSTANCE = new RdfXmlFormat();
+		static final SparqlQueryFormat INSTANCE = new SparqlQueryFormat();
 	}
 
-	private RdfXmlFormat() {
+	private SparqlQueryFormat() {
 	}
 
-	public static RdfXmlFormat getInstance() {
+	public static SparqlQueryFormat getInstance() {
 		return InstanceHolder.INSTANCE;
 	}
 
@@ -38,7 +40,7 @@ public class RdfXmlFormat implements Format {
 	}
 
 	@Override
-	public FormatGroup getFormatGroup() {
+	public Model getFormatGroup() {
 		return FORMAT_GROUP;
 	}
 
@@ -64,10 +66,9 @@ public class RdfXmlFormat implements Format {
 
 	@Override
 	public FormatConverter buildFormatConverter(Format sinkFormat) {
-		if (getFormatGroup().getFormats().contains(sinkFormat)) {
-			return new RdfConverter(getInstance(), sinkFormat);
+		if (sinkFormat.equals(getInstance())) {
+			return new BinaryCopyConverter(getInstance(), sinkFormat);
 		}
-		// TODO Add support for conversion between format groups
 		return null;
 	}
 

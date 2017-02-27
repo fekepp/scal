@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import net.fekepp.ldfu.server.converter.FormatConverter;
+import net.fekepp.ldfu.server.data.converters.FormatConverter;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
 

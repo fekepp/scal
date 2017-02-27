@@ -1,8 +1,9 @@
-package net.fekepp.ldfu.server.formats;
+package net.fekepp.ldfu.server.data.formats;
 
 import java.util.Set;
 
-import net.fekepp.ldfu.server.converter.FormatConverter;
+import net.fekepp.ldfu.server.data.converters.FormatConverter;
+import net.fekepp.ldfu.server.data.models.Model;
 
 public interface Format {
 
@@ -16,7 +17,7 @@ public interface Format {
 	// Format Group
 	//
 
-	public FormatGroup getFormatGroup();
+	public Model getFormatGroup();
 
 	// public void setFormatGroup(FormatGroup formatGroup);
 

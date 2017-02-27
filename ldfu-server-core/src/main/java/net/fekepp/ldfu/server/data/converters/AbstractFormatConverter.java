@@ -1,10 +1,10 @@
-package net.fekepp.ldfu.server.converter;
+package net.fekepp.ldfu.server.data.converters;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 
-import net.fekepp.ldfu.server.formats.Format;
+import net.fekepp.ldfu.server.data.formats.Format;
 
 public abstract class AbstractFormatConverter implements FormatConverter {
 

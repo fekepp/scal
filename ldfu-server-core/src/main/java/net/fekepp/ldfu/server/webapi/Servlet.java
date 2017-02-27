@@ -28,14 +28,14 @@ import javax.ws.rs.core.UriInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.fekepp.ldfu.server.data.formats.Format;
+import net.fekepp.ldfu.server.data.models.Models;
 import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
 import net.fekepp.ldfu.server.exceptions.ResourceIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ResourceNotFoundException;
-import net.fekepp.ldfu.server.formats.Format;
-import net.fekepp.ldfu.server.formats.FormatGroups;
 import net.fekepp.ldfu.server.resource.ResourceDescription;
 import net.fekepp.ldfu.server.resource.ResourceManager;
 import net.fekepp.ldfu.server.resource.ResourceSource;
@@ -51,7 +51,7 @@ public class Servlet {
 
 	private static ResourceManager resourceManager;
 
-	private static Map<String, Format> mediaTypeToFormatMap = FormatGroups.getMediaTypesMap();
+	private static Map<String, Format> mediaTypeToFormatMap = Models.getMediaTypesMap();
 
 	public static ServerController getController() {
 		return controller;
