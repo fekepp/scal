@@ -11,9 +11,7 @@ import net.fekepp.ldfu.server.exceptions.ResourceNotFoundException;
 import net.fekepp.ldfu.server.resource.Description;
 import net.fekepp.ldfu.server.resource.Source;
 
-public interface Storage {
-
-	// NEW
+public interface StorageManager {
 
 	public Source getResource(Description description) throws ResourceNotFoundException,
 			ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, IOException;
@@ -24,20 +22,5 @@ public interface Storage {
 
 	public void delResource(Description description) throws ResourceNotFoundException,
 			ResourceIdentifierExpectedException, ContainerIdentifierExpectedException, IOException;
-
-	// OLD
-
-	// public StorageResource getResource(String identifier)
-	// throws ResourceNotFoundException, ContainerIdentifierExpectedException,
-	// ResourceIdentifierExpectedException;
-	//
-	// public void setResource(String identifier, StorageResource resource)
-	// throws ContainerIdentifierExpectedException,
-	// ResourceIdentifierExpectedException, ParentNotFoundException,
-	// IOException;
-	//
-	// public void delResource(String identifier) throws
-	// ResourceNotFoundException, ResourceIdentifierExpectedException,
-	// ContainerIdentifierExpectedException, IOException;
 
 }

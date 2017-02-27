@@ -10,8 +10,8 @@ import java.util.logging.Logger;
 import net.fekepp.controllers.BaseJettyJerseyController;
 import net.fekepp.ldfu.server.resource.DefaultResourceManager;
 import net.fekepp.ldfu.server.resource.ResourceManager;
-import net.fekepp.ldfu.server.storage.Storage;
-import net.fekepp.ldfu.server.storage.filesystem.FilesystemStorage;
+import net.fekepp.ldfu.server.storage.FilesystemStorageManager;
+import net.fekepp.ldfu.server.storage.StorageManager;
 
 /**
  * @author "Felix Leif Keppmann"
@@ -26,7 +26,7 @@ public class ServerController extends BaseJettyJerseyController {
 
 	private static ResourceManager resourceManager;
 
-	private static Storage storage;
+	private static StorageManager storage;
 
 	@Override
 	public void startup() {
@@ -42,7 +42,7 @@ public class ServerController extends BaseJettyJerseyController {
 
 		rootDirectory = Paths.get("../doc/example");
 
-		storage = new FilesystemStorage(rootDirectory);
+		storage = new FilesystemStorageManager(rootDirectory);
 
 		resourceManager = new DefaultResourceManager(storage);
 

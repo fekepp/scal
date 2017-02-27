@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.server.storage.database;
+package net.fekepp.ldfu.server.storage;
 
 import java.io.IOException;
 
@@ -9,9 +9,8 @@ import net.fekepp.ldfu.server.exceptions.ResourceIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ResourceNotFoundException;
 import net.fekepp.ldfu.server.resource.Description;
 import net.fekepp.ldfu.server.resource.Source;
-import net.fekepp.ldfu.server.storage.Storage;
 
-public class DatabaseStorage implements Storage {
+public class DatabaseStorageManager implements StorageManager {
 
 	@Override
 	public Source getResource(Description description) throws ResourceNotFoundException,
