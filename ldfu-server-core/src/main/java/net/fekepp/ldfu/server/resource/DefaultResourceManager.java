@@ -5,11 +5,12 @@ import java.io.IOException;
 import net.fekepp.ldfu.server.converter.FormatConverter;
 import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
+import net.fekepp.ldfu.server.exceptions.ParseException;
+import net.fekepp.ldfu.server.exceptions.ParserException;
 import net.fekepp.ldfu.server.exceptions.ResourceIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ResourceNotFoundException;
 import net.fekepp.ldfu.server.formats.Format;
 import net.fekepp.ldfu.server.storage.Storage;
-import net.fekepp.ldfu.server.storage.StorageResource;
 
 public class DefaultResourceManager implements ResourceManager {
 
@@ -21,10 +22,10 @@ public class DefaultResourceManager implements ResourceManager {
 
 	@Override
 	public Source getResource(Description description) throws ResourceNotFoundException,
-			ContainerIdentifierExpectedException, ResourceIdentifierExpectedException {
+			ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, IOException {
 
 		// Get the source
-		StorageResource source = storage.getResource(description.getIdentifier());
+		Source source = storage.getResource(description);
 
 		// If source is available
 		if (source != null) {
@@ -92,8 +93,9 @@ public class DefaultResourceManager implements ResourceManager {
 	}
 
 	@Override
-	public void setResource(Source source) throws ContainerIdentifierExpectedException,
-			ResourceIdentifierExpectedException, ParentNotFoundException, IOException {
+	public void setResource(Source source)
+			throws ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, ParentNotFoundException,
+			ParseException, ParserException, InterruptedException, IOException {
 
 		// Get the source format
 		Format sourceFormat = source.getFormat();
@@ -104,7 +106,7 @@ public class DefaultResourceManager implements ResourceManager {
 			try {
 
 				// Get the sink resource
-				StorageResource sink = storage.getResource(source.getIdentifier());
+				Description sink = storage.getResource(source);
 
 				// Get the sink format
 				Format sinkFormat = sink.getFormat();
@@ -118,12 +120,9 @@ public class DefaultResourceManager implements ResourceManager {
 					// If converter is available
 					if (formatConverter != null) {
 
-						// TODO TMP
-						ResourceSource test = new ResourceSource(source.getBaseUri(), source.getIdentifier(),
-								sinkFormat, source.getInputStream(), formatConverter);
-
 						// Set sink to data serialized in format of sink
-						storage.setResource(source.getIdentifier(), null);
+						storage.setResource(new ResourceSource(source.getBaseUri(), source.getIdentifier(), sinkFormat,
+								source.getInputStream(), formatConverter));
 
 						return;
 
@@ -151,12 +150,10 @@ public class DefaultResourceManager implements ResourceManager {
 			// If converter is available
 			if (formatConverter != null) {
 
-				ResourceSource test = new ResourceSource(source.getBaseUri(), source.getIdentifier(),
-						sourceFormat.getFormatGroup().getDefaultFormat(), source.getInputStream(), formatConverter);
-
 				// Set sink to data serialized in default format of source
 				// format group
-				storage.setResource(source.getIdentifier(), null);
+				storage.setResource(new ResourceSource(source.getBaseUri(), source.getIdentifier(),
+						sourceFormat.getFormatGroup().getDefaultFormat(), source.getInputStream(), formatConverter));
 
 				return;
 
@@ -167,7 +164,7 @@ public class DefaultResourceManager implements ResourceManager {
 		// If source format is not available
 
 		// Set sink to binary data
-		storage.setResource(source.getIdentifier(), null);
+		storage.setResource(source);
 
 		return;
 
@@ -178,7 +175,7 @@ public class DefaultResourceManager implements ResourceManager {
 			ResourceIdentifierExpectedException, ContainerIdentifierExpectedException, IOException {
 
 		// Delete the resource from storage
-		storage.delResource(description.getIdentifier());
+		storage.delResource(description);
 
 	}
 

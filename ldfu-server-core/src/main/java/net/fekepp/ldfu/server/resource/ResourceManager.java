@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
+import net.fekepp.ldfu.server.exceptions.ParseException;
+import net.fekepp.ldfu.server.exceptions.ParserException;
 import net.fekepp.ldfu.server.exceptions.ResourceIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ResourceNotFoundException;
 
@@ -11,11 +13,12 @@ public interface ResourceManager {
 
 	// NEW
 
-	public Source getResource(Description description)
-			throws ResourceNotFoundException, ContainerIdentifierExpectedException, ResourceIdentifierExpectedException;
+	public Source getResource(Description description) throws ResourceNotFoundException,
+			ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, IOException;
 
-	public void setResource(Source source) throws ContainerIdentifierExpectedException,
-			ResourceIdentifierExpectedException, ParentNotFoundException, IOException;
+	public void setResource(Source source)
+			throws ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, ParentNotFoundException,
+			IOException, ParseException, ParserException, InterruptedException;
 
 	public void delResource(Description resource) throws ResourceNotFoundException, ResourceIdentifierExpectedException,
 			ContainerIdentifierExpectedException, IOException;

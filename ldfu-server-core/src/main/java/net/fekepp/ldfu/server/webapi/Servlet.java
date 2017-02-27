@@ -35,7 +35,7 @@ import net.fekepp.ldfu.server.exceptions.ParserException;
 import net.fekepp.ldfu.server.exceptions.ResourceIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ResourceNotFoundException;
 import net.fekepp.ldfu.server.formats.Format;
-import net.fekepp.ldfu.server.formats.RdfFormatGroup;
+import net.fekepp.ldfu.server.formats.FormatGroups;
 import net.fekepp.ldfu.server.resource.ResourceDescription;
 import net.fekepp.ldfu.server.resource.ResourceManager;
 import net.fekepp.ldfu.server.resource.ResourceSource;
@@ -51,7 +51,7 @@ public class Servlet {
 
 	private static ResourceManager resourceManager;
 
-	private static Map<String, Format> mediaTypeToFormatMap = RdfFormatGroup.getInstance().getMediaTypesMap();
+	private static Map<String, Format> mediaTypeToFormatMap = FormatGroups.getMediaTypesMap();
 
 	public static ServerController getController() {
 		return controller;
@@ -164,6 +164,11 @@ public class Servlet {
 			// correct identifier with slash
 			throw new RedirectionException(Status.MOVED_PERMANENTLY, URI.create(uri.toString() + "/"));
 
+		} catch (IOException e) {
+
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
+
 		}
 
 	}
@@ -183,6 +188,9 @@ public class Servlet {
 		// Get the media type of the request
 		MediaType mediaType = httpHeaders.getMediaType();
 
+		// Format
+		Format format = mediaTypeToFormatMap.get(httpHeaders.getMediaType().toString());
+
 		// Log the media type
 		logger.info("httpHeaders.getMediaType() > {}", mediaType);
 
@@ -192,8 +200,7 @@ public class Servlet {
 			// Set the resource for the path
 			// resourceManager.setResource(path, mediaType.toString(),
 			// inputStream, uriInfo.getBaseUri());
-			resourceManager.setResource(new ResourceSource(uriInfo.getBaseUri(), path,
-					mediaTypeToFormatMap.get(httpHeaders.getMediaType()), inputStream));
+			resourceManager.setResource(new ResourceSource(uriInfo.getBaseUri(), path, format, inputStream));
 
 			// Response with HTTP 200
 			return Response.ok().build();
@@ -225,6 +232,27 @@ public class Servlet {
 		}
 
 		catch (IOException e) {
+
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
+
+		}
+
+		catch (ParseException e) {
+
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
+
+		}
+
+		catch (ParserException e) {
+
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
+
+		}
+
+		catch (InterruptedException e) {
 
 			// TODO Align with specified LDP behaviour
 			throw new BadRequestException("Could not create the resource");
