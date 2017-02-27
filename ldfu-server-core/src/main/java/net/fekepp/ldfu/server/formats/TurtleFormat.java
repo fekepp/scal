@@ -15,11 +15,12 @@ public class TurtleFormat implements Format {
 
 	private static String DEFAULT_MEDIA_TYPE = "text/turtle";
 
-	private static Set<String> MEDIA_TYPES = Sets.newHashSet(DEFAULT_MEDIA_TYPE, "test/test");
+	private static Set<String> MEDIA_TYPES = Sets.newHashSet(DEFAULT_MEDIA_TYPE, "application/x-turtle",
+			"application/turtle");
 
 	private static String DEFAULT_FILE_EXTENSION = ".ttl";
 
-	private static Set<String> FILE_EXTENSIONS = Sets.newHashSet(DEFAULT_FILE_EXTENSION, ".test");
+	private static Set<String> FILE_EXTENSIONS = Sets.newHashSet(DEFAULT_FILE_EXTENSION, ".turtle");
 
 	private static class InstanceHolder {
 		static final TurtleFormat INSTANCE = new TurtleFormat();

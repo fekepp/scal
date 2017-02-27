@@ -15,11 +15,11 @@ public class Notation3Format implements Format {
 
 	private static String DEFAULT_MEDIA_TYPE = "text/n3";// text/n3;charset=utf-8
 
-	private static Set<String> MEDIA_TYPES = Sets.newHashSet(DEFAULT_MEDIA_TYPE);
+	private static Set<String> MEDIA_TYPES = Sets.newHashSet(DEFAULT_MEDIA_TYPE, "text/rdf+n3", "application/rdf+n3");
 
 	private static String DEFAULT_FILE_EXTENSION = ".n3";
 
-	private static Set<String> FILE_EXTENSIONS = Sets.newHashSet(DEFAULT_FILE_EXTENSION);
+	private static Set<String> FILE_EXTENSIONS = Sets.newHashSet(DEFAULT_FILE_EXTENSION, ".notation3");
 
 	private static class InstanceHolder {
 		static final Notation3Format INSTANCE = new Notation3Format();

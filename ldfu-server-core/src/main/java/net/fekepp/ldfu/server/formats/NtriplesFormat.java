@@ -19,7 +19,7 @@ public class NtriplesFormat implements Format {
 
 	private static String DEFAULT_FILE_EXTENSION = ".nt";
 
-	private static Set<String> FILE_EXTENSIONS = Sets.newHashSet(DEFAULT_FILE_EXTENSION);
+	private static Set<String> FILE_EXTENSIONS = Sets.newHashSet(DEFAULT_FILE_EXTENSION, ".ntriples");
 
 	private static class InstanceHolder {
 		static final NtriplesFormat INSTANCE = new NtriplesFormat();

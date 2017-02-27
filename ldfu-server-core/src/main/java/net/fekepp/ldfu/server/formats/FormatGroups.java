@@ -10,7 +10,7 @@ import jersey.repackaged.com.google.common.collect.Sets;
 public final class FormatGroups {
 
 	private static Set<FormatGroup> FORMAT_GROUPS = Sets.newHashSet(Notation3FormatGroup.getInstance(),
-			RdfFormatGroup.getInstance());
+			RdfFormatGroup.getInstance(), SparqlQueryFormatGroup.getInstance());
 
 	public static Set<FormatGroup> getFormatGroups() {
 		return Collections.unmodifiableSet(FORMAT_GROUPS);
