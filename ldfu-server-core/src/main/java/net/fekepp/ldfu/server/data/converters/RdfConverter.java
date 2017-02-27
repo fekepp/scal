@@ -13,11 +13,11 @@ import net.fekepp.ldfu.server.data.Format;
 import net.fekepp.ldfu.server.data.formats.NtriplesFormat;
 import net.fekepp.ldfu.server.data.formats.RdfXmlFormat;
 import net.fekepp.ldfu.server.data.formats.TurtleFormat;
+import net.fekepp.ldfu.server.data.serializers.CallbackNtriplesSerializer;
+import net.fekepp.ldfu.server.data.serializers.CallbackRdfXmlSerializer;
+import net.fekepp.ldfu.server.data.serializers.CallbackTurtleSerializer;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
-import net.fekepp.ldfu.server.formats.serializers.CallbackNtriplesSerializer;
-import net.fekepp.ldfu.server.formats.serializers.CallbackRdfXmlSerializer;
-import net.fekepp.ldfu.server.formats.serializers.CallbackTurtleSerializer;
 
 public class RdfConverter extends AbstractFormatConverter {
 

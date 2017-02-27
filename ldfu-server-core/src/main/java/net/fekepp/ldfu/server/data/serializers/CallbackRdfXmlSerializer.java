@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.server.formats.serializers;
+package net.fekepp.ldfu.server.data.serializers;
 
 import java.io.OutputStream;
 
@@ -8,16 +8,16 @@ import org.semanticweb.yars.nx.Nodes;
 import org.semanticweb.yars.nx.parser.Callback;
 
 import edu.kit.aifb.datafu.bindings.BindingSimple;
-import edu.kit.aifb.datafu.io.serialisers.NTriplesSerialiser;
+import edu.kit.aifb.datafu.io.serialisers.RdfXmlSerialiser;
 
-public class CallbackNtriplesSerializer extends Callback {
+public class CallbackRdfXmlSerializer extends Callback {
 
-	private NTriplesSerialiser serializer;
+	private RdfXmlSerialiser serializer;
 	private OutputStream outputStream;
 
-	public CallbackNtriplesSerializer(OutputStream outputStream) {
+	public CallbackRdfXmlSerializer(OutputStream outputStream) {
 		this.outputStream = outputStream;
-		serializer = new NTriplesSerialiser(outputStream);
+		serializer = new RdfXmlSerialiser(outputStream);
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package net.fekepp.ldfu.server.formats.serializers;
+package net.fekepp.ldfu.server.data.serializers;
 
 import java.io.OutputStream;
 
@@ -8,16 +8,16 @@ import org.semanticweb.yars.nx.Nodes;
 import org.semanticweb.yars.nx.parser.Callback;
 
 import edu.kit.aifb.datafu.bindings.BindingSimple;
-import edu.kit.aifb.datafu.io.serialisers.RdfXmlSerialiser;
+import edu.kit.aifb.datafu.io.serialisers.TurtleSerialiser;
 
-public class CallbackRdfXmlSerializer extends Callback {
+public class CallbackTurtleSerializer extends Callback {
 
-	private RdfXmlSerialiser serializer;
+	private TurtleSerialiser serializer;
 	private OutputStream outputStream;
 
-	public CallbackRdfXmlSerializer(OutputStream outputStream) {
+	public CallbackTurtleSerializer(OutputStream outputStream) {
 		this.outputStream = outputStream;
-		serializer = new RdfXmlSerialiser(outputStream);
+		serializer = new TurtleSerialiser(outputStream);
 	}
 
 	@Override
