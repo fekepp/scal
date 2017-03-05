@@ -14,7 +14,7 @@ public class Notation3Format implements Format {
 
 	private static String NAME = "Notation3";
 
-	private static Model FORMAT_GROUP = Notation3Model.getInstance();
+	private static Model MODEL = Notation3Model.getInstance();
 
 	private static String DEFAULT_MEDIA_TYPE = "text/n3";// text/n3;charset=utf-8
 
@@ -41,8 +41,8 @@ public class Notation3Format implements Format {
 	}
 
 	@Override
-	public Model getFormatGroup() {
-		return FORMAT_GROUP;
+	public Model getModel() {
+		return MODEL;
 	}
 
 	@Override

@@ -62,7 +62,7 @@ public class DefaultResourceManager implements ResourceManager {
 				// Get converter from source format to the default format of the
 				// source format group
 				FormatConverter formatConverter = sourceFormat
-						.buildFormatConverter(sourceFormat.getFormatGroup().getDefaultFormat());
+						.buildFormatConverter(sourceFormat.getModel().getDefaultFormat());
 
 				// If converter is available
 				if (formatConverter != null) {
@@ -70,7 +70,7 @@ public class DefaultResourceManager implements ResourceManager {
 					// Return data serialized with the default format of the
 					// source format group
 					return new ResourceSource(description.getBaseUri(), description.getIdentifier(),
-							sourceFormat.getFormatGroup().getDefaultFormat(), source.getInputStream(), formatConverter);
+							sourceFormat.getModel().getDefaultFormat(), source.getInputStream(), formatConverter);
 
 				}
 
@@ -145,7 +145,7 @@ public class DefaultResourceManager implements ResourceManager {
 			// Get converter from source format to the default format of the
 			// source format group
 			FormatConverter formatConverter = sourceFormat
-					.buildFormatConverter(sourceFormat.getFormatGroup().getDefaultFormat());
+					.buildFormatConverter(sourceFormat.getModel().getDefaultFormat());
 
 			// If converter is available
 			if (formatConverter != null) {
@@ -153,7 +153,7 @@ public class DefaultResourceManager implements ResourceManager {
 				// Set sink to data serialized in default format of source
 				// format group
 				storage.setResource(new ResourceSource(source.getBaseUri(), source.getIdentifier(),
-						sourceFormat.getFormatGroup().getDefaultFormat(), source.getInputStream(), formatConverter));
+						sourceFormat.getModel().getDefaultFormat(), source.getInputStream(), formatConverter));
 
 				return;
 
@@ -180,7 +180,7 @@ public class DefaultResourceManager implements ResourceManager {
 	}
 
 	@Override
-	public Source proResource(Source source) {
+	public Source proResource(Source input) {
 		return null;
 	}
 

@@ -161,14 +161,14 @@ public class FilesystemStorageManager implements StorageManager {
 
 			// Directory and file with same name and RDF extension exists
 			if (Files.isDirectory(path) && pathWithExtension != null && pathWithExtensionFormat != null
-					&& pathWithExtensionFormat.getFormatGroup().equals(RdfModel.getInstance())) {
+					&& pathWithExtensionFormat.getModel().equals(RdfModel.getInstance())) {
 
 				logger.info("Directory and file with same name and RDF extension exists");
 
 				// If source format is not available or if source format is
 				// avaliable but not part of the RDF model
 				if (source.getFormat() == null || (source.getFormat() != null
-						&& !source.getFormat().getFormatGroup().equals(RdfModel.getInstance()))) {
+						&& !source.getFormat().getModel().equals(RdfModel.getInstance()))) {
 
 					// Delete the directory
 					Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
@@ -197,7 +197,7 @@ public class FilesystemStorageManager implements StorageManager {
 			// NOT ALLOWED
 			// Directory and file with same name and Non-RDF extension exists
 			else if (Files.isDirectory(path) && pathWithExtension != null && pathWithExtensionFormat != null
-					&& !pathWithExtensionFormat.getFormatGroup().equals(RdfModel.getInstance())) {
+					&& !pathWithExtensionFormat.getModel().equals(RdfModel.getInstance())) {
 
 				logger.error("Inconsistent storage > Directory and non-RDF file > Renaming file > {} | {}", path,
 						pathWithExtension);
@@ -215,7 +215,7 @@ public class FilesystemStorageManager implements StorageManager {
 				// If source format is not available or if source format is
 				// avaliable but not part of the RDF model
 				if (source.getFormat() == null || (source.getFormat() != null
-						&& !source.getFormat().getFormatGroup().equals(RdfModel.getInstance()))) {
+						&& !source.getFormat().getModel().equals(RdfModel.getInstance()))) {
 
 					// Delete the directory
 					Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
@@ -276,7 +276,7 @@ public class FilesystemStorageManager implements StorageManager {
 
 				logger.info("Source format is available");
 
-				if (source.getFormat().getFormatGroup().equals(RdfModel.getInstance())) {
+				if (source.getFormat().getModel().equals(RdfModel.getInstance())) {
 
 					logger.info("Register trigger and react asyncronously on containers");
 

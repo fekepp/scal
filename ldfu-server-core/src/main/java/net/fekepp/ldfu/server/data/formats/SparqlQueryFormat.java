@@ -14,7 +14,7 @@ public class SparqlQueryFormat implements Format {
 
 	private static String NAME = "SPARQL Query";
 
-	private static Model FORMAT_GROUP = SparqlQueryModel.getInstance();
+	private static Model MODEL = SparqlQueryModel.getInstance();
 
 	private static String DEFAULT_MEDIA_TYPE = "application/sparql-query";
 
@@ -41,8 +41,8 @@ public class SparqlQueryFormat implements Format {
 	}
 
 	@Override
-	public Model getFormatGroup() {
-		return FORMAT_GROUP;
+	public Model getModel() {
+		return MODEL;
 	}
 
 	@Override

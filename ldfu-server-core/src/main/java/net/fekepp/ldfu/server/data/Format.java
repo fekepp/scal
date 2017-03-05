@@ -11,14 +11,14 @@ public interface Format {
 	public String getName();
 
 	//
-	// Format Group
+	// Model
 	//
 
-	public Model getFormatGroup();
+	public Model getModel();
 
-	// public void setFormatGroup(FormatGroup formatGroup);
+	// public void setModel(Model model);
 
-	// public void delFormatGroup();
+	// public void delModel();
 
 	//
 	// Media Types

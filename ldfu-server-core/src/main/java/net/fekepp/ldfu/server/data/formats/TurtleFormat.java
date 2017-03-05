@@ -14,7 +14,7 @@ public class TurtleFormat implements Format {
 
 	private static String NAME = "Turtle";
 
-	private static Model FORMAT_GROUP = RdfModel.getInstance();
+	private static Model MODEL = RdfModel.getInstance();
 
 	private static String DEFAULT_MEDIA_TYPE = "text/turtle";
 
@@ -42,8 +42,8 @@ public class TurtleFormat implements Format {
 	}
 
 	@Override
-	public Model getFormatGroup() {
-		return FORMAT_GROUP;
+	public Model getModel() {
+		return MODEL;
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class TurtleFormat implements Format {
 
 	@Override
 	public FormatConverter buildFormatConverter(Format sinkFormat) {
-		if (getFormatGroup().getFormats().contains(sinkFormat)) {
+		if (getModel().getFormats().contains(sinkFormat)) {
 			return new RdfConverter(getInstance(), sinkFormat);
 		}
 		// TODO Add support for conversion between format groups
