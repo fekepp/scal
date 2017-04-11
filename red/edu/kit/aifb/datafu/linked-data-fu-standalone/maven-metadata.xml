@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>edu.kit.aifb.datafu</groupId>
+  <artifactId>linked-data-fu-standalone</artifactId>
+  <versioning>
+    <release>0.9.12-pr.0-no-webapi</release>
+    <versions>
+      <version>0.9.12-pr.0-no-webapi</version>
+    </versions>
+    <lastUpdated>20170411092712</lastUpdated>
+  </versioning>
+</metadata>

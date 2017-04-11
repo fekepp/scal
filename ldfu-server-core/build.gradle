@@ -48,7 +48,7 @@ dependencies {
 	compile 'commons-io:commons-io:2.5'
 	
 	// Linked Data-Fu 0.9.10 without WebAPI
-	compile 'edu.kit.aifb.datafu:linked-data-fu-standalone-0.9.10-without-webapi:0.9.10-without-webapi-SNAPSHOT'
+	compile 'edu.kit.aifb.datafu:linked-data-fu-standalone:0.9.12-pr.0-no-webapi'
 	
 	// Jersey
 	compile 'org.glassfish.jersey.containers:jersey-container-jetty-servlet:' + rootProject.jersey_version
