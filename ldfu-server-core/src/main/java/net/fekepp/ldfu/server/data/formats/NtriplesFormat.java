@@ -7,7 +7,6 @@ import jersey.repackaged.com.google.common.collect.Sets;
 import net.fekepp.ldfu.server.data.Format;
 import net.fekepp.ldfu.server.data.FormatConverter;
 import net.fekepp.ldfu.server.data.Model;
-import net.fekepp.ldfu.server.data.converters.RdfConverter;
 import net.fekepp.ldfu.server.data.models.RdfModel;
 
 public class NtriplesFormat implements Format {
@@ -67,11 +66,7 @@ public class NtriplesFormat implements Format {
 
 	@Override
 	public FormatConverter buildFormatConverter(Format sinkFormat) {
-		if (getModel().getFormats().contains(sinkFormat)) {
-			return new RdfConverter(getInstance(), sinkFormat);
-		}
-		// TODO Add support for conversion between format groups
-		return null;
+		return getModel().buildFormatConverter(this, sinkFormat);
 	}
 
 }

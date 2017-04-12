@@ -15,6 +15,10 @@ public interface Model {
 
 	public Map<String, Format> getFileExtensionsMap();
 
-	public ModelConverter buildConverter(Model sinkFormatGroup);
+	public ModelConverter buildModelConverter(Model sinkModel);
+
+	public FormatConverter buildFormatConverter(Format sourceFormat, Format sinkFormat);
+
+	// public ContentListener buildContentListener();
 
 }

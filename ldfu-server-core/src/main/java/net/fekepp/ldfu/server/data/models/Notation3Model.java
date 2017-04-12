@@ -7,6 +7,7 @@ import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
 import net.fekepp.ldfu.server.data.Format;
+import net.fekepp.ldfu.server.data.FormatConverter;
 import net.fekepp.ldfu.server.data.Model;
 import net.fekepp.ldfu.server.data.ModelConverter;
 import net.fekepp.ldfu.server.data.formats.Notation3Format;
@@ -68,7 +69,13 @@ public class Notation3Model implements Model {
 	}
 
 	@Override
-	public ModelConverter buildConverter(Model sinkFormatGroup) {
+	public ModelConverter buildModelConverter(Model sinkFormatGroup) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FormatConverter buildFormatConverter(Format sourceFormat, Format sinkFormat) {
 		// TODO Auto-generated method stub
 		return null;
 	}

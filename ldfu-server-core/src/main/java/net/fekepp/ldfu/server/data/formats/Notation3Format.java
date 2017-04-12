@@ -7,7 +7,6 @@ import jersey.repackaged.com.google.common.collect.Sets;
 import net.fekepp.ldfu.server.data.Format;
 import net.fekepp.ldfu.server.data.FormatConverter;
 import net.fekepp.ldfu.server.data.Model;
-import net.fekepp.ldfu.server.data.converters.BinaryCopyConverter;
 import net.fekepp.ldfu.server.data.models.Notation3Model;
 
 public class Notation3Format implements Format {
@@ -67,10 +66,7 @@ public class Notation3Format implements Format {
 
 	@Override
 	public FormatConverter buildFormatConverter(Format sinkFormat) {
-		if (sinkFormat.equals(getInstance())) {
-			return new BinaryCopyConverter(getInstance(), sinkFormat);
-		}
-		return null;
+		return getModel().buildFormatConverter(this, sinkFormat);
 	}
 
 }

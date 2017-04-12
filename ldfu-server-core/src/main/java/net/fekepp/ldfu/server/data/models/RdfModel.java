@@ -7,8 +7,10 @@ import java.util.Set;
 
 import jersey.repackaged.com.google.common.collect.Sets;
 import net.fekepp.ldfu.server.data.Format;
+import net.fekepp.ldfu.server.data.FormatConverter;
 import net.fekepp.ldfu.server.data.Model;
 import net.fekepp.ldfu.server.data.ModelConverter;
+import net.fekepp.ldfu.server.data.converters.RdfConverter;
 import net.fekepp.ldfu.server.data.formats.NtriplesFormat;
 import net.fekepp.ldfu.server.data.formats.RdfXmlFormat;
 import net.fekepp.ldfu.server.data.formats.TurtleFormat;
@@ -71,9 +73,17 @@ public class RdfModel implements Model {
 	}
 
 	@Override
-	public ModelConverter buildConverter(Model sinkFormatGroup) {
+	public ModelConverter buildModelConverter(Model sinkFormatGroup) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public FormatConverter buildFormatConverter(Format sourceFormat, Format sinkFormat) {
+		if (FORMATS.contains(sourceFormat) && FORMATS.contains(sinkFormat)) {
+			return new RdfConverter(sourceFormat, sinkFormat);
+		}
+		// TODO Add support for conversion between format groups
+		return null;
+	}
 }
