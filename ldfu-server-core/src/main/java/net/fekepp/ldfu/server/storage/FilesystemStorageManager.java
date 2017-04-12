@@ -145,7 +145,7 @@ public class FilesystemStorageManager implements StorageManager {
 		// TODO Improve to handle root directory or root file
 		if (Files.exists(path.getParent())) {
 
-			logger.info("Parent path exists");
+			logger.info("Parent path is existing");
 
 			Path pathWithExtension = null;
 			Format pathWithExtensionFormat = null;
@@ -210,7 +210,7 @@ public class FilesystemStorageManager implements StorageManager {
 			// Directory exists
 			else if (Files.isDirectory(path)) {
 
-				logger.info("Directory exists");
+				logger.info("Directory is existing");
 
 				// If source format is not available or if source format is
 				// avaliable but not part of the RDF model
@@ -304,6 +304,8 @@ public class FilesystemStorageManager implements StorageManager {
 			return;
 
 		}
+
+		logger.info("Parent path is not existing");
 
 		// Else if parent directory does not exist
 		throw new ParentNotFoundException();
