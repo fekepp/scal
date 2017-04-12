@@ -11,6 +11,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -204,6 +205,138 @@ public class Servlet {
 
 			// Response with HTTP 200
 			return Response.ok().build();
+
+		}
+
+		catch (ContainerIdentifierExpectedException e) {
+
+			// Response with HTTP 301 Moved Permanentaly to the correct
+			// identifier with slash
+			throw new RedirectionException(Status.MOVED_PERMANENTLY, URI.create(uri.toString() + "/"));
+
+		}
+
+		catch (ResourceIdentifierExpectedException e) {
+
+			// Response with HTTP 301 Moved Permanentaly to the correct
+			// identifier without a slash
+			throw new RedirectionException(Status.MOVED_PERMANENTLY,
+					URI.create(uri.toString().substring(0, uri.toString().length() - 1)));
+
+		}
+
+		catch (ParentNotFoundException e) {
+
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Parnet not found");
+
+		}
+
+		catch (IOException e) {
+
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
+
+		}
+
+		catch (ParseException e) {
+
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
+
+		}
+
+		catch (ParserException e) {
+
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
+
+		}
+
+		catch (InterruptedException e) {
+
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
+
+		}
+
+	}
+
+	@POST
+	public Response proResource(@PathParam("path") String path, InputStream inputStream) {
+
+		// Log the request
+		logger.info("postResource(String path, InputStream inputStream) > path={}", path);
+
+		// Get the request URI
+		URI uri = uriInfo.getRequestUri();
+
+		// Log the request URI
+		logger.info("uri.getPath() > {}", uriInfo.getRequestUri().getPath());
+
+		// Get the media type of the request
+		MediaType mediaType = httpHeaders.getMediaType();
+
+		// Format
+		Format format = mediaTypeToFormatMap.get(httpHeaders.getMediaType().toString());
+
+		// Log the media type
+		logger.info("httpHeaders.getMediaType() > {}", mediaType);
+
+		// Try to
+		try {
+
+			// Process the input with resource for the path
+			final Source resource = resourceManager
+					.proResource(new ResourceSource(uriInfo.getBaseUri(), path, format, inputStream));
+
+			// If the processing of the input returns an output exists
+			if (resource != null) {
+
+				// Return with HTTP 200 and the binary representation of the
+				// resource as payload
+				ResponseBuilder responseBuilder = Response.ok(new StreamingOutput() {
+
+					@Override
+					public void write(OutputStream outputStream) throws IOException, WebApplicationException {
+						try {
+							resource.streamTo(outputStream);
+						} catch (ParseException | ParserException | InterruptedException e) {
+							throw new InternalServerErrorException(e);
+						}
+					}
+
+				});
+
+				if (resource.getFormat() != null) {
+					responseBuilder = responseBuilder.header("Content-Type",
+							resource.getFormat().getDefaultMediaType());
+				}
+
+				return responseBuilder.build();
+
+			}
+
+			// Else if the resource does not exists
+			// This should not happen because common failures are covered by the
+			// exceptions
+			else {
+
+				// Response with HTTP 500
+				// throw new InternalServerErrorException("Failed to read the
+				// resource");
+
+				// Response with HTTP 200
+				return Response.ok().build();
+
+			}
+
+		}
+
+		catch (ResourceNotFoundException e) {
+
+			// Response with HTTP 404
+			throw new NotFoundException();
 
 		}
 

@@ -1,7 +1,5 @@
 package net.fekepp.ldfu.server.webapi;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
@@ -20,31 +18,38 @@ public class ServerController extends BaseJettyJerseyController {
 
 	private final Logger logger = Logger.getLogger(getClass().getName());
 
-	private URI base;
+	// private URI base;
 
-	private Path rootDirectory;
+	private Path storageDirectory;
+
+	private Path storageDirectoryTemporary;
 
 	private static ResourceManager resourceManager;
 
-	private static StorageManager storage;
+	private static StorageManager storageManager;
+
+	private static StorageManager storageManagerTemporary;
 
 	@Override
 	public void startup() {
 
 		logger.log(Level.INFO, "public void startup()");
 
-		try {
-			base = new URI("http://" + getHost() + (getPort() == 80 ? "" : ":" + getPort()) + "/");
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// try {
+		// base = new URI("http://" + getHost() + (getPort() == 80 ? "" : ":" +
+		// getPort()) + "/");
+		// } catch (URISyntaxException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 
-		rootDirectory = Paths.get("../doc/example");
+		storageDirectory = Paths.get("../doc/example");
+		storageDirectoryTemporary = Paths.get("../tmp");
 
-		storage = new FilesystemStorageManager(rootDirectory);
+		storageManager = new FilesystemStorageManager(storageDirectory);
+		storageManagerTemporary = new FilesystemStorageManager(storageDirectoryTemporary);
 
-		resourceManager = new DefaultResourceManager(storage);
+		resourceManager = new DefaultResourceManager(storageManager, storageManagerTemporary);
 
 		// Register servlets
 		Servlet.setController(this);

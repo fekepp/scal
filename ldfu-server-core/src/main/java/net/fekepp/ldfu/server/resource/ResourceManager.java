@@ -16,11 +16,13 @@ public interface ResourceManager {
 
 	public void setResource(Source source)
 			throws ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, ParentNotFoundException,
-			IOException, ParseException, ParserException, InterruptedException;
+			ParseException, ParserException, InterruptedException, IOException;
 
 	public void delResource(Description resource) throws ResourceNotFoundException, ResourceIdentifierExpectedException,
 			ContainerIdentifierExpectedException, IOException;
 
-	public Source proResource(Source source);
+	public Source proResource(Source source)
+			throws ResourceNotFoundException, ContainerIdentifierExpectedException, ResourceIdentifierExpectedException,
+			ParentNotFoundException, ParseException, ParserException, InterruptedException, IOException;
 
 }

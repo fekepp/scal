@@ -1,9 +1,14 @@
 package net.fekepp.ldfu.server.resource;
 
 import java.io.IOException;
+import java.util.UUID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.fekepp.ldfu.server.data.Format;
 import net.fekepp.ldfu.server.data.FormatConverter;
+import net.fekepp.ldfu.server.data.formats.TurtleFormat;
 import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
 import net.fekepp.ldfu.server.exceptions.ParseException;
@@ -14,10 +19,14 @@ import net.fekepp.ldfu.server.storage.StorageManager;
 
 public class DefaultResourceManager implements ResourceManager {
 
-	private StorageManager storage;
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public DefaultResourceManager(StorageManager storage) {
-		this.storage = storage;
+	private StorageManager storageManager;
+	private StorageManager storageManagerTemporary;
+
+	public DefaultResourceManager(StorageManager storageManager, StorageManager storageManagerTemporary) {
+		this.storageManager = storageManager;
+		this.storageManagerTemporary = storageManagerTemporary;
 	}
 
 	@Override
@@ -25,7 +34,7 @@ public class DefaultResourceManager implements ResourceManager {
 			ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, IOException {
 
 		// Get the source
-		Source source = storage.getResource(description);
+		Source source = storageManager.getResource(description);
 
 		// If source is available
 		if (source != null) {
@@ -106,7 +115,7 @@ public class DefaultResourceManager implements ResourceManager {
 			try {
 
 				// Get the sink resource
-				Description sink = storage.getResource(source);
+				Description sink = storageManager.getResource(source);
 
 				// Get the sink format
 				Format sinkFormat = sink.getFormat();
@@ -121,8 +130,8 @@ public class DefaultResourceManager implements ResourceManager {
 					if (formatConverter != null) {
 
 						// Set sink to data serialized in format of sink
-						storage.setResource(new ResourceSource(source.getBaseUri(), source.getIdentifier(), sinkFormat,
-								source.getInputStream(), formatConverter));
+						storageManager.setResource(new ResourceSource(source.getBaseUri(), source.getIdentifier(),
+								sinkFormat, source.getInputStream(), formatConverter));
 
 						return;
 
@@ -152,7 +161,7 @@ public class DefaultResourceManager implements ResourceManager {
 
 				// Set sink to data serialized in default format of source
 				// format group
-				storage.setResource(new ResourceSource(source.getBaseUri(), source.getIdentifier(),
+				storageManager.setResource(new ResourceSource(source.getBaseUri(), source.getIdentifier(),
 						sourceFormat.getModel().getDefaultFormat(), source.getInputStream(), formatConverter));
 
 				return;
@@ -164,7 +173,7 @@ public class DefaultResourceManager implements ResourceManager {
 		// If source format is not available
 
 		// Set sink to binary data
-		storage.setResource(source);
+		storageManager.setResource(source);
 
 		return;
 
@@ -175,13 +184,73 @@ public class DefaultResourceManager implements ResourceManager {
 			ResourceIdentifierExpectedException, ContainerIdentifierExpectedException, IOException {
 
 		// Delete the resource from storage
-		storage.delResource(description);
+		storageManager.delResource(description);
 
 	}
 
 	@Override
-	public Source proResource(Source input) {
-		return null;
+	public Source proResource(Source input)
+			throws ResourceNotFoundException, ContainerIdentifierExpectedException, ResourceIdentifierExpectedException,
+			ParentNotFoundException, ParseException, ParserException, InterruptedException, IOException {
+
+		// public Source proResource(Identifier identifier, Source input, Format
+		// outputFormat)
+
+		// Should probably be read from output description in
+		// "proResource(Source input, Description output)"
+		// or
+		// "proResource(Source input, Format outputFormat)"
+		// to trigger listeners for specific output formats/models
+		Format outputFormat = TurtleFormat.getInstance();
+
+		// Throws not found
+		Source storage = storageManager.getResource(input);
+
+		// if (storage != null) {
+
+		Source storageTemporary = null;
+
+		// Description to be generated
+		Description descriptionTemporary = null;
+
+		do {
+
+			// Generate a unique identifier
+			UUID uuid = UUID.randomUUID();
+
+			// Create a description based on the identifier string
+			descriptionTemporary = new ResourceDescription(null, uuid.toString());
+
+			try {
+				storageTemporary = storageManagerTemporary.getResource(descriptionTemporary);
+			}
+
+			catch (ResourceNotFoundException e) {
+				// Ignore
+			}
+
+		}
+
+		// Repeat if a temporary resource with already exists
+		// We ignore that until the identifier may get created until it is
+		// actually used below
+		while (storageTemporary != null);
+
+		Format inputFormat = input.getFormat();
+
+		FormatConverter inputFormatConverter = inputFormat == null ? null
+				: inputFormat.buildFormatConverter(inputFormat.getModel().getDefaultFormat());
+
+		logger.info(
+				"storageManagerTemporary.setResource() >\nbaseUri={}\nidentifier={}\nformat={}\ninputStream={}\nformatConverter={}",
+				input.getBaseUri(), descriptionTemporary.getIdentifier(), inputFormat.getModel().getDefaultFormat(),
+				input.getInputStream(), inputFormatConverter);
+
+		storageManagerTemporary.setResource(new ResourceSource(input.getBaseUri(), descriptionTemporary.getIdentifier(),
+				inputFormat.getModel().getDefaultFormat(), input.getInputStream(), inputFormatConverter));
+
+		return storageManagerTemporary.getResource(descriptionTemporary);
+
 	}
 
 }
