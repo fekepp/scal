@@ -20,7 +20,7 @@ public interface FormatConverter {
 
 	public void setBaseUri(URI baseUri);
 
-	// Source
+	// Input
 
 	public InputStream getInputStream();
 
@@ -28,7 +28,7 @@ public interface FormatConverter {
 
 	public Format getInputFormat();
 
-	// Sink
+	// Output
 
 	public OutputStream getOutputStream();
 

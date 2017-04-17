@@ -4,8 +4,8 @@ public interface ModelConverter {
 
 	public void convert();
 
-	public Model getSourceFormatGroup();
+	public Model getInputModel();
 
-	public Model getSinkFormatGroup();
+	public Model getOutputModel();
 
 }
