@@ -150,7 +150,8 @@ public class FilesystemStorageManager implements StorageManager {
 		String identifier = source.getIdentifier();
 
 		// TODO Ensure that the resulting path in the root directory
-		Path path = rootPath.resolve("./" + identifier).normalize();
+		// Path must be final for Java 7 support related to listeners
+		final Path path = rootPath.resolve("./" + identifier).normalize();
 
 		logger.info("path > {}", path);
 

@@ -320,9 +320,9 @@ public class DefaultResourceManager implements ResourceManager, ListenerDelegate
 				listenersInterested.add(listener);
 
 				// Build converter listeners for storage, input, and output
-				Set<FormatConverterListener> storageFormatConverterListeners = listener
+				final Set<FormatConverterListener> storageFormatConverterListeners = listener
 						.buildStorageFormatConverterListener(storageFormatConverter);
-				Set<FormatConverterListener> inputFormatConverterListeners = listener
+				final Set<FormatConverterListener> inputFormatConverterListeners = listener
 						.buildInputFormatConverterListener(inputFormatConverter);
 
 				// Continue if listener is not interested in any converters
