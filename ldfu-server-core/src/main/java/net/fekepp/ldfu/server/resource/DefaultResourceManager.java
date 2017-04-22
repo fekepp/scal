@@ -275,8 +275,8 @@ public class DefaultResourceManager implements ResourceManager, ListenerDelegate
 			// Create list of listeners that are still interested after metadata
 			Set<Listener> listenersInterested = new HashSet<Listener>();
 
-			Set<Listener> listenersNotInterestedInStorage = new HashSet<Listener>();
-			Set<Listener> listenersNotInterestedInInput = new HashSet<Listener>();
+			final Set<Listener> listenersNotInterestedInStorage = new HashSet<Listener>();
+			final Set<Listener> listenersNotInterestedInInput = new HashSet<Listener>();
 
 			/*
 			 * Select listeners
