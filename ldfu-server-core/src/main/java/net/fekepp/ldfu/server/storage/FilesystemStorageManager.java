@@ -400,7 +400,7 @@ public class FilesystemStorageManager implements StorageManager {
 				Path pathTest = rootPath.resolve(
 						"./" + identifier.substring(0, identifier.length() - 1) + fileExtensionToFormatEntry.getKey())
 						.normalize();
-				logger.info("Testing path > {}", pathTest);
+				logger.debug("Testing path > {}", pathTest);
 				if (Files.exists(pathTest)) {
 					logger.info("Deleting file > {}", pathTest);
 					Files.delete(pathTest);
