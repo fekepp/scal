@@ -285,7 +285,7 @@ public class DefaultResourceManager implements ResourceManager, ListenerDelegate
 			logger.info("PRO > SELECT LISTENERS");
 
 			// Fill list with interested listeners based on metadata
-			for (Listener listener : listeners) {
+			for (final Listener listener : listeners) {
 
 				logger.info("Check interest of listener > {}", listener);
 
