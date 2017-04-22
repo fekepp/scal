@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.util.Set;
 
+import net.fekepp.ldfu.server.exceptions.ConverterException;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
 
@@ -13,7 +14,7 @@ public interface FormatConverter {
 
 	// Conversion
 
-	public void convert() throws ParseException, ParserException, IOException, InterruptedException;
+	public void convert() throws ParseException, ParserException, IOException, InterruptedException, ConverterException;
 
 	// Listeners
 	public Set<FormatConverterListener> getFormatConverterListeners();

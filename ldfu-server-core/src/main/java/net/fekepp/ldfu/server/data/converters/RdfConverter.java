@@ -19,6 +19,7 @@ import net.fekepp.ldfu.server.data.formats.TurtleFormat;
 import net.fekepp.ldfu.server.data.serializers.CallbackNtriplesSerializer;
 import net.fekepp.ldfu.server.data.serializers.CallbackRdfXmlSerializer;
 import net.fekepp.ldfu.server.data.serializers.CallbackTurtleSerializer;
+import net.fekepp.ldfu.server.exceptions.ConverterException;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
 
@@ -31,14 +32,12 @@ public class RdfConverter extends AbstractFormatConverter {
 	}
 
 	@Override
-	public void convert() throws ParseException, ParserException, IOException, InterruptedException {
-
-		// TODO Introduce parse exceptions for missing base, parser, or
-		// serializer
+	public void convert()
+			throws ParseException, ParserException, ConverterException, IOException, InterruptedException {
 
 		if (base == null) {
 			logger.error("Base URI is null > Abort conversion");
-			return;
+			throw new ConverterException();
 		}
 
 		// The parser that will parse the input of the input stream
@@ -57,7 +56,7 @@ public class RdfConverter extends AbstractFormatConverter {
 			logger.info("Parser found > inputFormat={} | parser={}", inputFormat, parser);
 		} else {
 			logger.error("Parser not found > Abort conversion > inputFormat={}", inputFormat);
-			return;
+			throw new ConverterException();
 		}
 
 		// The current callback that can be encapsulated by further callbacks
@@ -77,7 +76,7 @@ public class RdfConverter extends AbstractFormatConverter {
 			logger.info("Serializer found > outputFormat={} | serializer={}", outputFormat, callback);
 		} else {
 			logger.error("Serializer not found > Abort conversion > outputFormat={}", outputFormat);
-			return;
+			throw new ConverterException();
 		}
 
 		// Layer all listener callbacks on top of the serializer callback

@@ -19,6 +19,7 @@ import net.fekepp.ldfu.server.data.listeners.ContainerResourceListener;
 import net.fekepp.ldfu.server.data.listeners.Listener;
 import net.fekepp.ldfu.server.data.listeners.ListenerDelegate;
 import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
+import net.fekepp.ldfu.server.exceptions.ConverterException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
@@ -121,7 +122,7 @@ public class DefaultResourceManager implements ResourceManager, ListenerDelegate
 	@Override
 	public void setResource(Source source)
 			throws ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, ParentNotFoundException,
-			ParseException, ParserException, InterruptedException, IOException {
+			ParseException, ParserException, ConverterException, InterruptedException, IOException {
 
 		// Get the source format
 		Format sourceFormat = source.getFormat();
@@ -210,9 +211,9 @@ public class DefaultResourceManager implements ResourceManager, ListenerDelegate
 	}
 
 	@Override
-	public Source proResource(Source input, Format outputFormat)
-			throws ResourceNotFoundException, ContainerIdentifierExpectedException, ResourceIdentifierExpectedException,
-			ParentNotFoundException, ParseException, ParserException, InterruptedException, IOException {
+	public Source proResource(Source input, Format outputFormat) throws ResourceNotFoundException,
+			ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, ParentNotFoundException,
+			ParseException, ParserException, ConverterException, InterruptedException, IOException {
 
 		logger.info("PRO > START");
 
@@ -546,7 +547,7 @@ public class DefaultResourceManager implements ResourceManager, ListenerDelegate
 	@Override
 	public Source process(Source storage, Source input)
 			throws ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, ParentNotFoundException,
-			ParseException, ParserException, InterruptedException, IOException {
+			ParseException, ParserException, ConverterException, InterruptedException, IOException {
 
 		logger.info("public Source process(...) > storage={} | input={}", storage.getIdentifier(),
 				input.getIdentifier());

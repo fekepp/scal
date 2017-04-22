@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import net.fekepp.ldfu.server.data.FormatConverter;
+import net.fekepp.ldfu.server.exceptions.ConverterException;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
 
@@ -15,7 +16,7 @@ public interface Source extends Description {
 	public FormatConverter getFormatConverter();
 
 	public void streamTo(OutputStream outputStream)
-			throws ParseException, ParserException, IOException, InterruptedException;
+			throws ParseException, ParserException, ConverterException, IOException, InterruptedException;
 
 	// public void streamTo(Sink sink);
 

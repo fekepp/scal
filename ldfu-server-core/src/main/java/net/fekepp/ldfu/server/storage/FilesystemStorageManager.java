@@ -33,6 +33,7 @@ import net.fekepp.ldfu.server.data.converters.RdfConverterTripleListener;
 import net.fekepp.ldfu.server.data.formats.TurtleFormat;
 import net.fekepp.ldfu.server.data.models.RdfModel;
 import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
+import net.fekepp.ldfu.server.exceptions.ConverterException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
@@ -143,7 +144,7 @@ public class FilesystemStorageManager implements StorageManager {
 	@Override
 	public void setResource(Source source)
 			throws ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, ParentNotFoundException,
-			ParseException, ParserException, InterruptedException, IOException {
+			ParseException, ParserException, ConverterException, InterruptedException, IOException {
 
 		logger.info("setResource(Source source) > description.getIdentifier()={}", source.getIdentifier());
 

@@ -9,6 +9,7 @@ import org.apache.commons.compress.utils.IOUtils;
 
 import net.fekepp.ldfu.server.data.Format;
 import net.fekepp.ldfu.server.data.FormatConverter;
+import net.fekepp.ldfu.server.exceptions.ConverterException;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
 
@@ -48,7 +49,7 @@ public class ResourceSource extends ResourceDescription implements Source {
 
 	@Override
 	public void streamTo(OutputStream outputStream)
-			throws ParseException, ParserException, IOException, InterruptedException {
+			throws ParseException, ParserException, ConverterException, IOException, InterruptedException {
 		if (formatConverter != null) {
 			formatConverter.setBaseUri(getBaseUri());
 			formatConverter.setInputStream(inputStream);

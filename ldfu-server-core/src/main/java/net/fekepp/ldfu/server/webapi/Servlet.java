@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import net.fekepp.ldfu.server.data.Format;
 import net.fekepp.ldfu.server.data.Models;
 import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
+import net.fekepp.ldfu.server.exceptions.ConverterException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
@@ -115,7 +116,7 @@ public class Servlet {
 					public void write(OutputStream outputStream) throws IOException, WebApplicationException {
 						try {
 							resource.streamTo(outputStream);
-						} catch (ParseException | ParserException | InterruptedException e) {
+						} catch (ParseException | ParserException | ConverterException | InterruptedException e) {
 							throw new InternalServerErrorException(e);
 						}
 					}
@@ -253,6 +254,13 @@ public class Servlet {
 
 		}
 
+		catch (ConverterException e) {
+
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
+
+		}
+
 		catch (InterruptedException e) {
 
 			// TODO Align with specified LDP behaviour
@@ -303,7 +311,7 @@ public class Servlet {
 					public void write(OutputStream outputStream) throws IOException, WebApplicationException {
 						try {
 							resource.streamTo(outputStream);
-						} catch (ParseException | ParserException | InterruptedException e) {
+						} catch (ParseException | ParserException | ConverterException | InterruptedException e) {
 							throw new InternalServerErrorException(e);
 						}
 					}
@@ -381,6 +389,13 @@ public class Servlet {
 		}
 
 		catch (ParserException e) {
+
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
+
+		}
+
+		catch (ConverterException e) {
 
 			// TODO Align with specified LDP behaviour
 			throw new BadRequestException("Could not create the resource");

@@ -3,6 +3,7 @@ package net.fekepp.ldfu.server.storage;
 import java.io.IOException;
 
 import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
+import net.fekepp.ldfu.server.exceptions.ConverterException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
 import net.fekepp.ldfu.server.exceptions.ParseException;
 import net.fekepp.ldfu.server.exceptions.ParserException;
@@ -18,7 +19,7 @@ public interface StorageManager {
 
 	public void setResource(Source source)
 			throws ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, ParentNotFoundException,
-			ParseException, ParserException, InterruptedException, IOException;
+			ParseException, ParserException, ConverterException, InterruptedException, IOException;
 
 	public void delResource(Description description) throws ResourceNotFoundException,
 			ResourceIdentifierExpectedException, ContainerIdentifierExpectedException, IOException;
