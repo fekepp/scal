@@ -374,6 +374,7 @@ public class FilesystemStorageManager implements StorageManager {
 				throw new ContainerIdentifierExpectedException();
 			}
 
+			// Delete the directory
 			Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
 
 				@Override
@@ -391,6 +392,26 @@ public class FilesystemStorageManager implements StorageManager {
 				}
 
 			});
+
+			// Delete file with the same name that contains additional data
+			Path pathWithExtension = null;
+
+			for (Entry<String, Format> fileExtensionToFormatEntry : fileExtensionToFormatMap.entrySet()) {
+				Path pathTest = rootPath.resolve(
+						"./" + identifier.substring(0, identifier.length() - 1) + fileExtensionToFormatEntry.getKey())
+						.normalize();
+				logger.info("Testing path > {}", pathTest);
+				if (Files.exists(pathTest)) {
+					logger.info("Deleting file > {}", pathTest);
+					Files.delete(pathTest);
+					pathWithExtension = pathTest;
+				}
+			}
+
+			if (pathWithExtension == null) {
+				logger.info("Path is not existing");
+				throw new ResourceNotFoundException();
+			}
 
 		}
 
