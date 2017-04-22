@@ -3,11 +3,16 @@ package net.fekepp.ldfu.server.data.converters;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.fekepp.ldfu.server.data.Format;
 import net.fekepp.ldfu.server.data.FormatConverter;
+import net.fekepp.ldfu.server.data.FormatConverterListener;
 
 public abstract class AbstractFormatConverter implements FormatConverter {
+
+	protected Set<FormatConverterListener> formatConverterListeners = new HashSet<FormatConverterListener>();
 
 	protected URI base;
 
@@ -20,6 +25,11 @@ public abstract class AbstractFormatConverter implements FormatConverter {
 	public AbstractFormatConverter(Format inputFormat, Format outputFormat) {
 		this.inputFormat = inputFormat;
 		this.outputFormat = outputFormat;
+	}
+
+	@Override
+	public Set<FormatConverterListener> getFormatConverterListeners() {
+		return formatConverterListeners;
 	}
 
 	@Override

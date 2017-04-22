@@ -47,7 +47,7 @@ public class ServerController extends BaseJettyJerseyController {
 		storageDirectoryTemporary = Paths.get("../tmp");
 
 		storageManager = new FilesystemStorageManager(storageDirectory);
-		storageManagerTemporary = new FilesystemStorageManager(storageDirectoryTemporary);
+		storageManagerTemporary = new FilesystemStorageManager(storageDirectoryTemporary, true);
 
 		resourceManager = new DefaultResourceManager(storageManager, storageManagerTemporary);
 

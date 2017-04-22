@@ -2,6 +2,7 @@ package net.fekepp.ldfu.server.resource;
 
 import java.io.IOException;
 
+import net.fekepp.ldfu.server.data.Format;
 import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
 import net.fekepp.ldfu.server.exceptions.ParseException;
@@ -21,7 +22,7 @@ public interface ResourceManager {
 	public void delResource(Description resource) throws ResourceNotFoundException, ResourceIdentifierExpectedException,
 			ContainerIdentifierExpectedException, IOException;
 
-	public Source proResource(Source source)
+	public Source proResource(Source input, Format outputFormat)
 			throws ResourceNotFoundException, ContainerIdentifierExpectedException, ResourceIdentifierExpectedException,
 			ParentNotFoundException, ParseException, ParserException, InterruptedException, IOException;
 

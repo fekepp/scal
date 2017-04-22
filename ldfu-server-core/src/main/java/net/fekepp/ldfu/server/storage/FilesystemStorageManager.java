@@ -26,8 +26,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.fekepp.ldfu.server.data.Format;
+import net.fekepp.ldfu.server.data.FormatConverterListenerDelegate;
 import net.fekepp.ldfu.server.data.Models;
-import net.fekepp.ldfu.server.data.formats.NtriplesFormat;
+import net.fekepp.ldfu.server.data.converters.RdfConverter;
+import net.fekepp.ldfu.server.data.converters.RdfConverterTripleListener;
+import net.fekepp.ldfu.server.data.formats.TurtleFormat;
 import net.fekepp.ldfu.server.data.models.RdfModel;
 import net.fekepp.ldfu.server.exceptions.ContainerIdentifierExpectedException;
 import net.fekepp.ldfu.server.exceptions.ParentNotFoundException;
@@ -47,8 +50,17 @@ public class FilesystemStorageManager implements StorageManager {
 
 	private Map<String, Format> fileExtensionToFormatMap = Models.getFileExtensionsMap();
 
+	// TODO Find a more elegant way to skip directory creation for temporary
+	// storage
+	private boolean temporaryStorage;
+
 	public FilesystemStorageManager(Path rootPath) {
+		this(rootPath, false);
+	}
+
+	public FilesystemStorageManager(Path rootPath, boolean temporaryStorage) {
 		this.rootPath = rootPath;
+		this.temporaryStorage = temporaryStorage;
 	}
 
 	@Override
@@ -72,7 +84,8 @@ public class FilesystemStorageManager implements StorageManager {
 				throw new ContainerIdentifierExpectedException();
 			}
 
-			return new ResourceSource(null, identifier, NtriplesFormat.getInstance(),
+			// TODO Replace Turtle by N-Tripels
+			return new ResourceSource(null, identifier, TurtleFormat.getInstance(),
 					buildContainerInputStream(identifier, path));
 
 		}
@@ -101,7 +114,7 @@ public class FilesystemStorageManager implements StorageManager {
 				for (Entry<String, Format> fileExtensionToFormatEntry : fileExtensionToFormatMap.entrySet()) {
 					Path pathTest = rootPath.resolve("./" + identifier + fileExtensionToFormatEntry.getKey())
 							.normalize();
-					logger.info("Testing path > {}", pathTest);
+					logger.debug("Testing path > {}", pathTest);
 					if (Files.exists(pathTest)) {
 						pathWithExtension = pathTest;
 						pathWithExtensionFormat = fileExtensionToFormatEntry.getValue();
@@ -109,7 +122,7 @@ public class FilesystemStorageManager implements StorageManager {
 				}
 
 				if (pathWithExtension != null && pathWithExtensionFormat != null) {
-					logger.info("Path is file with extension and known format");
+					logger.info("Path is file with extension and known format > {}", pathWithExtension);
 
 					return new ResourceSource(null, identifier, pathWithExtensionFormat,
 							new FileInputStream(pathWithExtension.toString()));
@@ -152,7 +165,7 @@ public class FilesystemStorageManager implements StorageManager {
 
 			for (Entry<String, Format> fileExtensionToFormatEntry : fileExtensionToFormatMap.entrySet()) {
 				Path pathTest = rootPath.resolve("./" + identifier + fileExtensionToFormatEntry.getKey()).normalize();
-				logger.info("Testing path > {}", pathTest);
+				logger.debug("Testing path > {}", pathTest);
 				if (Files.exists(pathTest)) {
 					pathWithExtension = pathTest;
 					pathWithExtensionFormat = fileExtensionToFormatEntry.getValue();
@@ -163,7 +176,7 @@ public class FilesystemStorageManager implements StorageManager {
 			if (Files.isDirectory(path) && pathWithExtension != null && pathWithExtensionFormat != null
 					&& pathWithExtensionFormat.getModel().equals(RdfModel.getInstance())) {
 
-				logger.info("Directory and file with same name and RDF extension exists");
+				logger.info("Directory and file with same name and RDF extension exists > {}", pathWithExtensionFormat);
 
 				// If source format is not available or if source format is
 				// avaliable but not part of the RDF model
@@ -210,7 +223,7 @@ public class FilesystemStorageManager implements StorageManager {
 			// Directory exists
 			else if (Files.isDirectory(path)) {
 
-				logger.info("Directory is existing");
+				logger.info("Directory is existing > {}", path);
 
 				// If source format is not available or if source format is
 				// avaliable but not part of the RDF model
@@ -254,7 +267,7 @@ public class FilesystemStorageManager implements StorageManager {
 			// File with extension exists
 			else if (pathWithExtension != null && pathWithExtensionFormat != null) {
 
-				logger.info("File with extension exists");
+				logger.info("File with extension exists > {}", pathWithExtensionFormat);
 
 				// Delete the file with extension
 				Files.delete(pathWithExtension);
@@ -264,7 +277,7 @@ public class FilesystemStorageManager implements StorageManager {
 			// File without extension exists
 			else if (Files.exists(path)) {
 
-				logger.info("File without extension exists");
+				logger.info("File without extension exists > {}", path);
 
 				// Delete the file without extension
 				Files.delete(path);
@@ -276,16 +289,44 @@ public class FilesystemStorageManager implements StorageManager {
 
 				logger.info("Source format is available");
 
-				if (source.getFormat().getModel().equals(RdfModel.getInstance())) {
+				if (!temporaryStorage && source.getFormat().getModel().equals(RdfModel.getInstance())) {
 
-					logger.info("Register trigger and react asyncronously on containers");
+					logger.info("Register trigger and react on containers");
 
-					// TODO Register trigger and react asyncronously on
-					// containers
+					logger.info("source.getFormatConverter()={}", source.getFormatConverter());
+
+					if (source.getFormatConverter() instanceof RdfConverter) {
+
+						logger.info("source.getFormatConverter() instanceof RdfConverter");
+
+						RdfConverter rdfConverter = (RdfConverter) source.getFormatConverter();
+
+						RdfConverterTripleListener rdfConverterTripleListener = new RdfConverterTripleListener();
+						rdfConverterTripleListener
+								.setPredicate(new Resource("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"));
+						rdfConverterTripleListener.setObject(new Resource("http://www.w3.org/ns/ldp#Container"));
+						rdfConverterTripleListener
+								.setFormatConverterListenerDelegate(new FormatConverterListenerDelegate() {
+
+									@Override
+									public void process() {
+										try {
+											Files.createDirectory(path);
+										} catch (IOException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+									}
+
+								});
+
+						rdfConverter.getFormatConverterListeners().add(rdfConverterTripleListener);
+					}
 
 				}
 
-				logger.info("Create file with extension");
+				logger.info("Create file with extension > {}",
+						path.toString() + source.getFormat().getDefaultFileExtension());
 
 				// Create file with extension
 				source.streamTo(new FileOutputStream(path.toString() + source.getFormat().getDefaultFileExtension()));
@@ -296,7 +337,7 @@ public class FilesystemStorageManager implements StorageManager {
 
 			logger.info("Source format is not available");
 
-			logger.info("Create file without extension");
+			logger.info("Create file without extension > {}", path);
 
 			// Create file without extension
 			source.streamTo(new FileOutputStream(path.toString()));
@@ -376,7 +417,7 @@ public class FilesystemStorageManager implements StorageManager {
 				for (Entry<String, Format> fileExtensionToFormatEntry : fileExtensionToFormatMap.entrySet()) {
 					Path pathTest = rootPath.resolve("./" + identifier + fileExtensionToFormatEntry.getKey())
 							.normalize();
-					logger.info("Testing path > {}", pathTest);
+					logger.debug("Testing path > {}", pathTest);
 					if (Files.exists(pathTest)) {
 						logger.info("Deleting file > {}", pathTest);
 						Files.delete(pathTest);

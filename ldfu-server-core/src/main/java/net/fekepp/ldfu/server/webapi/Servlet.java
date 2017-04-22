@@ -287,8 +287,10 @@ public class Servlet {
 		try {
 
 			// Process the input with resource for the path
-			final Source resource = resourceManager
-					.proResource(new ResourceSource(uriInfo.getBaseUri(), path, format, inputStream));
+			// TODO Support more than one acceptable media type
+			final Source resource = resourceManager.proResource(
+					new ResourceSource(uriInfo.getBaseUri(), path, format, inputStream),
+					mediaTypeToFormatMap.get(httpHeaders.getAcceptableMediaTypes().get(0).toString()));
 
 			// If the processing of the input returns an output exists
 			if (resource != null) {
