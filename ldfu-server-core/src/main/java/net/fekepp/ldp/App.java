@@ -1,7 +1,9 @@
-package net.fekepp.ldp.server;
+package net.fekepp.ldp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.fekepp.ldp.server.ServerController;
 
 public class App {
 
