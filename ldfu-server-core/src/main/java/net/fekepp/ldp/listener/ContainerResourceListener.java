@@ -12,7 +12,7 @@ import net.fekepp.ldp.ModelConverter;
 import net.fekepp.ldp.ModelConverterListener;
 import net.fekepp.ldp.converter.RdfConverterTripleListener;
 
-public class ContainerResourceListener extends AbstractListener {
+public class ContainerResourceListener extends AbstractResourceListener {
 
 	public ContainerResourceListener(ResourceListenerDelegate delegate) {
 		super(delegate);

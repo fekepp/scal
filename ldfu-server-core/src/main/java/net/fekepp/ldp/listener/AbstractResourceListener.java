@@ -8,7 +8,7 @@ import net.fekepp.ldp.ResourceListener;
 import net.fekepp.ldp.ResourceListenerDelegate;
 import net.fekepp.ldp.Model;
 
-public abstract class AbstractListener implements ResourceListener {
+public abstract class AbstractResourceListener implements ResourceListener {
 
 	private ResourceListenerDelegate listenerDelegate;
 
@@ -25,11 +25,11 @@ public abstract class AbstractListener implements ResourceListener {
 	private Set<Model> outputModels = new HashSet<Model>();
 	private Set<Format> outputFormats = new HashSet<Format>();
 
-	public AbstractListener() {
+	public AbstractResourceListener() {
 		this(null);
 	}
 
-	public AbstractListener(ResourceListenerDelegate listenerDelegate) {
+	public AbstractResourceListener(ResourceListenerDelegate listenerDelegate) {
 		this.listenerDelegate = listenerDelegate;
 	}
 

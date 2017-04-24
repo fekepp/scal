@@ -8,7 +8,7 @@ import net.fekepp.ldp.ResourceListenerDelegate;
 import net.fekepp.ldp.ModelConverter;
 import net.fekepp.ldp.ModelConverterListener;
 
-public class DefaultResourceListener extends AbstractListener {
+public class DefaultResourceListener extends AbstractResourceListener {
 
 	public DefaultResourceListener(ResourceListenerDelegate listenerDelegate) {
 		super(listenerDelegate);
