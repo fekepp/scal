@@ -2,7 +2,6 @@ package net.fekepp.ldp.server;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.fekepp.controllers.BaseJettyJerseyController;
@@ -33,15 +32,7 @@ public class ServerController extends BaseJettyJerseyController {
 	@Override
 	public void startup() {
 
-		logger.log(Level.INFO, "public void startup()");
-
-		// try {
-		// base = new URI("http://" + getHost() + (getPort() == 80 ? "" : ":" +
-		// getPort()) + "/");
-		// } catch (URISyntaxException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+		logger.info("LDP Server > Startup");
 
 		storageDirectory = Paths.get("../doc/example");
 		storageDirectoryTemporary = Paths.get("../tmp");
@@ -63,7 +54,7 @@ public class ServerController extends BaseJettyJerseyController {
 
 	@Override
 	public void shutdown() {
-		logger.log(Level.INFO, "public void shutdown()");
+		logger.info("LDP Server > Shutdown");
 		super.shutdown();
 	}
 
