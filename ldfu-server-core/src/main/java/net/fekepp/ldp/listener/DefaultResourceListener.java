@@ -4,12 +4,13 @@ import java.util.Set;
 
 import net.fekepp.ldp.FormatConverter;
 import net.fekepp.ldp.FormatConverterListener;
+import net.fekepp.ldp.ResourceListenerDelegate;
 import net.fekepp.ldp.ModelConverter;
 import net.fekepp.ldp.ModelConverterListener;
 
-public class ResourceListener extends AbstractListener {
+public class DefaultResourceListener extends AbstractListener {
 
-	public ResourceListener(ListenerDelegate listenerDelegate) {
+	public DefaultResourceListener(ResourceListenerDelegate listenerDelegate) {
 		super(listenerDelegate);
 	}
 

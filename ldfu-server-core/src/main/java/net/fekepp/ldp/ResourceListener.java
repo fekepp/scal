@@ -1,20 +1,13 @@
-package net.fekepp.ldp.listener;
+package net.fekepp.ldp;
 
 import java.util.Set;
 
-import net.fekepp.ldp.Format;
-import net.fekepp.ldp.FormatConverter;
-import net.fekepp.ldp.FormatConverterListener;
-import net.fekepp.ldp.Model;
-import net.fekepp.ldp.ModelConverter;
-import net.fekepp.ldp.ModelConverterListener;
-
-public interface Listener {
+public interface ResourceListener {
 
 	// Delegate
-	public ListenerDelegate getListenerDelegate();
+	public ResourceListenerDelegate getListenerDelegate();
 
-	public void setListenerDelegate(ListenerDelegate listenerDelegate);
+	public void setListenerDelegate(ResourceListenerDelegate listenerDelegate);
 
 	// Processing
 	// public Source process(Source storage, Source input);

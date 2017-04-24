@@ -7,13 +7,14 @@ import org.semanticweb.yars.nx.Resource;
 
 import net.fekepp.ldp.FormatConverter;
 import net.fekepp.ldp.FormatConverterListener;
+import net.fekepp.ldp.ResourceListenerDelegate;
 import net.fekepp.ldp.ModelConverter;
 import net.fekepp.ldp.ModelConverterListener;
 import net.fekepp.ldp.converter.RdfConverterTripleListener;
 
 public class ContainerResourceListener extends AbstractListener {
 
-	public ContainerResourceListener(ListenerDelegate delegate) {
+	public ContainerResourceListener(ResourceListenerDelegate delegate) {
 		super(delegate);
 	}
 

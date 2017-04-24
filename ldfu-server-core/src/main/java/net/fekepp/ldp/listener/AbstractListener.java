@@ -4,11 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.fekepp.ldp.Format;
+import net.fekepp.ldp.ResourceListener;
+import net.fekepp.ldp.ResourceListenerDelegate;
 import net.fekepp.ldp.Model;
 
-public abstract class AbstractListener implements Listener {
+public abstract class AbstractListener implements ResourceListener {
 
-	private ListenerDelegate listenerDelegate;
+	private ResourceListenerDelegate listenerDelegate;
 
 	private Set<String> identifiers = new HashSet<String>();
 
@@ -27,17 +29,17 @@ public abstract class AbstractListener implements Listener {
 		this(null);
 	}
 
-	public AbstractListener(ListenerDelegate listenerDelegate) {
+	public AbstractListener(ResourceListenerDelegate listenerDelegate) {
 		this.listenerDelegate = listenerDelegate;
 	}
 
 	@Override
-	public ListenerDelegate getListenerDelegate() {
+	public ResourceListenerDelegate getListenerDelegate() {
 		return listenerDelegate;
 	}
 
 	@Override
-	public void setListenerDelegate(ListenerDelegate listenerDelegate) {
+	public void setListenerDelegate(ResourceListenerDelegate listenerDelegate) {
 		this.listenerDelegate = listenerDelegate;
 	}
 

@@ -15,6 +15,8 @@ import net.fekepp.ldp.Format;
 import net.fekepp.ldp.FormatConverter;
 import net.fekepp.ldp.FormatConverterListener;
 import net.fekepp.ldp.FormatConverterListenerDelegate;
+import net.fekepp.ldp.ResourceListener;
+import net.fekepp.ldp.ResourceListenerDelegate;
 import net.fekepp.ldp.Model;
 import net.fekepp.ldp.ResourceManager;
 import net.fekepp.ldp.Source;
@@ -27,17 +29,15 @@ import net.fekepp.ldp.exception.ParserException;
 import net.fekepp.ldp.exception.ResourceIdentifierExpectedException;
 import net.fekepp.ldp.exception.ResourceNotFoundException;
 import net.fekepp.ldp.listener.ContainerResourceListener;
-import net.fekepp.ldp.listener.Listener;
-import net.fekepp.ldp.listener.ListenerDelegate;
 
-public class DefaultResourceManager implements ResourceManager, ListenerDelegate {
+public class DefaultResourceManager implements ResourceManager, ResourceListenerDelegate {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private StorageManager storageManager;
 	private StorageManager storageManagerTemporary;
 
-	private Set<Listener> listeners = new HashSet<Listener>();
+	private Set<ResourceListener> listeners = new HashSet<ResourceListener>();
 
 	public DefaultResourceManager(StorageManager storageManager, StorageManager storageManagerTemporary) {
 
@@ -277,10 +277,10 @@ public class DefaultResourceManager implements ResourceManager, ListenerDelegate
 					outputFormat == null ? "null" : outputFormat.getName());
 
 			// Create list of listeners that are still interested after metadata
-			Set<Listener> listenersInterested = new HashSet<Listener>();
+			Set<ResourceListener> listenersInterested = new HashSet<ResourceListener>();
 
-			final Set<Listener> listenersNotInterestedInStorage = new HashSet<Listener>();
-			final Set<Listener> listenersNotInterestedInInput = new HashSet<Listener>();
+			final Set<ResourceListener> listenersNotInterestedInStorage = new HashSet<ResourceListener>();
+			final Set<ResourceListener> listenersNotInterestedInInput = new HashSet<ResourceListener>();
 
 			/*
 			 * Select listeners
@@ -289,7 +289,7 @@ public class DefaultResourceManager implements ResourceManager, ListenerDelegate
 			logger.info("PRO > SELECT LISTENERS");
 
 			// Fill list with interested listeners based on metadata
-			for (final Listener listener : listeners) {
+			for (final ResourceListener listener : listeners) {
 
 				logger.info("Check interest of listener > {}", listener);
 
@@ -450,7 +450,7 @@ public class DefaultResourceManager implements ResourceManager, ListenerDelegate
 
 			// Let interested listeners process the storage and input
 			Set<Source> processOutputs = new HashSet<Source>();
-			for (Listener listener : listeners) {
+			for (ResourceListener listener : listeners) {
 				if (listener.getListenerDelegate() != null) {
 
 					Source processStorage = storageManager.getResource(storage);
