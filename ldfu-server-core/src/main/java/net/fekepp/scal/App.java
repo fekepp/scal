@@ -1,9 +1,9 @@
-package net.fekepp.ldp;
+package net.fekepp.scal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.fekepp.ldp.server.ServerController;
+import net.fekepp.scal.server.ServerController;
 
 public class App {
 
@@ -11,7 +11,7 @@ public class App {
 
 	public static void main(String[] args) {
 
-		loggerStatic.info("LDP App > Main");
+		loggerStatic.info("SCAL App > Main");
 
 		ServerController controller = new ServerController();
 		controller.setPort(8888);
