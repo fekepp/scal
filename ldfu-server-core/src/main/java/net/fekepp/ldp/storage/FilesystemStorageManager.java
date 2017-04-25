@@ -305,9 +305,8 @@ public class FilesystemStorageManager implements StorageManager {
 						RdfConverter rdfConverter = (RdfConverter) source.getFormatConverter();
 
 						RdfConverterTripleListener rdfConverterTripleListener = new RdfConverterTripleListener();
-						rdfConverterTripleListener
-								.setPredicate(new Resource("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"));
-						rdfConverterTripleListener.setObject(new Resource("http://www.w3.org/ns/ldp#Container"));
+						rdfConverterTripleListener.setPredicate(RDF.TYPE);
+						rdfConverterTripleListener.setObject(LDP.CONTAINER);
 						rdfConverterTripleListener
 								.setFormatConverterListenerDelegate(new FormatConverterListenerDelegate() {
 

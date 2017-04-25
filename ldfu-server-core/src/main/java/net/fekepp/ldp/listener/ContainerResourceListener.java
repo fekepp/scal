@@ -3,24 +3,19 @@ package net.fekepp.ldp.listener;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.semanticweb.yars.nx.Resource;
+import org.semanticweb.yars.nx.namespace.LDP;
+import org.semanticweb.yars.nx.namespace.RDF;
 
 import net.fekepp.ldp.FormatConverter;
 import net.fekepp.ldp.FormatConverterListener;
 import net.fekepp.ldp.ResourceListenerDelegate;
-import net.fekepp.ldp.ModelConverter;
-import net.fekepp.ldp.ModelConverterListener;
+import net.fekepp.ldp.converter.RdfConverter;
 import net.fekepp.ldp.converter.RdfConverterTripleListener;
 
-public class ContainerResourceListener extends AbstractResourceListener {
+public class ContainerResourceListener extends DefaultResourceListener {
 
 	public ContainerResourceListener(ResourceListenerDelegate delegate) {
 		super(delegate);
-	}
-
-	@Override
-	public Set<ModelConverterListener> buildStorageModelConverterListener(ModelConverter modelConverter) {
-		return null;
 	}
 
 	@Override
@@ -28,33 +23,19 @@ public class ContainerResourceListener extends AbstractResourceListener {
 
 		Set<FormatConverterListener> listeners = new HashSet<FormatConverterListener>();
 
-		RdfConverterTripleListener rdfConverterTripleListener = new RdfConverterTripleListener();
-		rdfConverterTripleListener.setPredicate(new Resource("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"));
-		rdfConverterTripleListener.setObject(new Resource("http://www.w3.org/ns/ldp#Container"));
+		if (formatConverter instanceof RdfConverter) {
 
-		listeners.add(rdfConverterTripleListener);
+			RdfConverterTripleListener rdfConverterTripleListener = new RdfConverterTripleListener();
+			rdfConverterTripleListener.setPredicate(RDF.TYPE);
+			rdfConverterTripleListener.setObject(LDP.CONTAINER);
+
+			((RdfConverter) formatConverter).getFormatConverterListeners().add(rdfConverterTripleListener);
+
+			listeners.add(rdfConverterTripleListener);
+
+		}
 
 		return listeners;
-	}
-
-	@Override
-	public Set<ModelConverterListener> buildInputModelConverterListener(ModelConverter modelConverter) {
-		return null;
-	}
-
-	@Override
-	public Set<FormatConverterListener> buildInputFormatConverterListener(FormatConverter formatConverter) {
-		return null;
-	}
-
-	@Override
-	public Set<ModelConverterListener> buildOutputModelConverterListener(ModelConverter modelConverter) {
-		return null;
-	}
-
-	@Override
-	public Set<FormatConverterListener> buildOutputFormatConverterListener(FormatConverter formatConverter) {
-		return null;
 	}
 
 }
