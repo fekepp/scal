@@ -15,9 +15,9 @@ import net.fekepp.ldp.Format;
 import net.fekepp.ldp.FormatConverter;
 import net.fekepp.ldp.FormatConverterListener;
 import net.fekepp.ldp.FormatConverterListenerDelegate;
+import net.fekepp.ldp.Model;
 import net.fekepp.ldp.ResourceListener;
 import net.fekepp.ldp.ResourceListenerDelegate;
-import net.fekepp.ldp.Model;
 import net.fekepp.ldp.ResourceManager;
 import net.fekepp.ldp.Source;
 import net.fekepp.ldp.StorageManager;
@@ -37,7 +37,7 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 	private StorageManager storageManager;
 	private StorageManager storageManagerTemporary;
 
-	private Set<ResourceListener> listeners = new HashSet<ResourceListener>();
+	private Set<ResourceListener> resourceListeners = new HashSet<ResourceListener>();
 
 	public DefaultResourceManager(StorageManager storageManager, StorageManager storageManagerTemporary) {
 
@@ -46,7 +46,7 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 
 		ContainerResourceListener containerResourceListener = new ContainerResourceListener(this);
 		containerResourceListener.getMethods().add("pro");
-		listeners.add(containerResourceListener);
+		resourceListeners.add(containerResourceListener);
 
 	}
 
@@ -289,7 +289,7 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 			logger.info("PRO > SELECT LISTENERS");
 
 			// Fill list with interested listeners based on metadata
-			for (final ResourceListener listener : listeners) {
+			for (final ResourceListener listener : resourceListeners) {
 
 				logger.info("Check interest of listener > {}", listener);
 
@@ -395,9 +395,9 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 				storageFormatConverter.getInputStream().close();
 				storageFormatConverter.getOutputStream().close();
 
-			} else
+			}
 
-			{
+			else {
 
 				logger.info("Close storage because no storage format converter listeners");
 				storage.getInputStream().close();
@@ -450,7 +450,7 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 
 			// Let interested listeners process the storage and input
 			Set<Source> processOutputs = new HashSet<Source>();
-			for (ResourceListener listener : listeners) {
+			for (ResourceListener listener : resourceListeners) {
 				if (listener.getListenerDelegate() != null) {
 
 					Source processStorage = storageManager.getResource(storage);
@@ -545,6 +545,11 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 		// Return null
 		return null;
 
+	}
+
+	@Override
+	public Set<ResourceListener> getResourceListeners() {
+		return resourceListeners;
 	}
 
 	@Override

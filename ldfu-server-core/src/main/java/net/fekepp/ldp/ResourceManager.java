@@ -1,6 +1,7 @@
 package net.fekepp.ldp;
 
 import java.io.IOException;
+import java.util.Set;
 
 import net.fekepp.ldp.exception.ContainerIdentifierExpectedException;
 import net.fekepp.ldp.exception.ConverterException;
@@ -25,5 +26,7 @@ public interface ResourceManager {
 	public Source proResource(Source input, Format outputFormat) throws ResourceNotFoundException,
 			ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, ParentNotFoundException,
 			ParseException, ParserException, ConverterException, InterruptedException, IOException;
+
+	public Set<ResourceListener> getResourceListeners();
 
 }
