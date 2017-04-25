@@ -16,7 +16,7 @@ public interface ResourceListener {
 	public boolean isListeningOnIdentifier(String identifier);
 
 	// Method
-	public boolean isListeningOnMethod(String method);
+	public boolean isListeningOnMethod(Method method);
 
 	// Storage
 	public boolean isListeningOnStorage(Model model);

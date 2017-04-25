@@ -17,17 +17,15 @@ public class ServerController extends BaseJettyJerseyController {
 
 	private final Logger logger = Logger.getLogger(getClass().getName());
 
-	// private URI base;
+	protected Path storageDirectory;
 
-	private Path storageDirectory;
+	protected Path storageDirectoryTemporary;
 
-	private Path storageDirectoryTemporary;
+	protected ResourceManager resourceManager;
 
-	private static ResourceManager resourceManager;
+	protected StorageManager storageManager;
 
-	private static StorageManager storageManager;
-
-	private static StorageManager storageManagerTemporary;
+	protected StorageManager storageManagerTemporary;
 
 	@Override
 	public void startup() {

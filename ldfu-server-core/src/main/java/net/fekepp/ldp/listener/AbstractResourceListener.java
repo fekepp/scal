@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.fekepp.ldp.Format;
+import net.fekepp.ldp.Method;
 import net.fekepp.ldp.Model;
 import net.fekepp.ldp.ResourceListener;
 import net.fekepp.ldp.ResourceListenerDelegate;
@@ -14,7 +15,7 @@ public abstract class AbstractResourceListener implements ResourceListener {
 
 	private Set<String> identifiers;
 
-	private Set<String> methods;
+	private Set<Method> methods;
 
 	private Set<Model> storageModels;
 	private Set<Format> storageFormats;
@@ -52,7 +53,7 @@ public abstract class AbstractResourceListener implements ResourceListener {
 	}
 
 	@Override
-	public boolean isListeningOnMethod(String method) {
+	public boolean isListeningOnMethod(Method method) {
 		if (methods == null || methods.isEmpty() || methods.contains(method)) {
 			return true;
 		}
@@ -119,11 +120,11 @@ public abstract class AbstractResourceListener implements ResourceListener {
 
 	}
 
-	public Set<String> getMethods() {
+	public Set<Method> getMethods() {
 
 		// Lazy initialization
 		if (methods == null) {
-			methods = new HashSet<String>();
+			methods = new HashSet<Method>();
 		}
 
 		// Return

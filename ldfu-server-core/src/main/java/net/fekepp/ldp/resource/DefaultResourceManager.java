@@ -15,6 +15,7 @@ import net.fekepp.ldp.Format;
 import net.fekepp.ldp.FormatConverter;
 import net.fekepp.ldp.FormatConverterListener;
 import net.fekepp.ldp.FormatConverterListenerDelegate;
+import net.fekepp.ldp.Method;
 import net.fekepp.ldp.Model;
 import net.fekepp.ldp.ResourceListener;
 import net.fekepp.ldp.ResourceListenerDelegate;
@@ -45,7 +46,7 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 		this.storageManagerTemporary = storageManagerTemporary;
 
 		ContainerResourceListener containerResourceListener = new ContainerResourceListener(this);
-		containerResourceListener.getMethods().add("pro");
+		containerResourceListener.getMethods().add(Method.PRO);
 		resourceListeners.add(containerResourceListener);
 
 	}
@@ -296,7 +297,7 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 				if (!listener.isListeningOnIdentifier(identifier))
 					continue;
 
-				if (!listener.isListeningOnMethod("pro"))
+				if (!listener.isListeningOnMethod(Method.PRO))
 					continue;
 
 				if (!listener.isListeningOnInput(inputModel))
