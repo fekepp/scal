@@ -102,7 +102,7 @@ public class Servlet {
 			// resourceManager.getResource(path,
 			// (mediaType != null ? mediaType.toString() : null), uri);
 			// TODO Support more than one acceptable media type
-			final Source resource = resourceManager.getResource(new ResourceDescription(uriInfo.getBaseUri(), path,
+			final Source resource = resourceManager.getResource(new ResourceDescription(uri, path,
 					mediaTypeToFormatMap.get(httpHeaders.getAcceptableMediaTypes().get(0).toString())));
 
 			// If the resource exists
@@ -201,8 +201,8 @@ public class Servlet {
 
 			// Set the resource for the path
 			// resourceManager.setResource(path, mediaType.toString(),
-			// inputStream, uriInfo.getBaseUri());
-			resourceManager.setResource(new ResourceSource(uriInfo.getBaseUri(), path, format, inputStream));
+			// inputStream, uri);
+			resourceManager.setResource(new ResourceSource(uri, path, format, inputStream));
 
 			// Response with HTTP 200
 			return Response.ok().build();
@@ -297,7 +297,7 @@ public class Servlet {
 			// Process the input with resource for the path
 			// TODO Support more than one acceptable media type
 			final Source resource = resourceManager.proResource(
-					new ResourceSource(uriInfo.getBaseUri(), path, format, inputStream),
+					new ResourceSource(uri, path, format, inputStream),
 					mediaTypeToFormatMap.get(httpHeaders.getAcceptableMediaTypes().get(0).toString()));
 
 			// If the processing of the input returns an output exists
@@ -426,7 +426,7 @@ public class Servlet {
 		try {
 
 			// Delete the resource
-			resourceManager.delResource(new ResourceDescription(uriInfo.getBaseUri(), path,
+			resourceManager.delResource(new ResourceDescription(uri, path,
 					mediaTypeToFormatMap.get(httpHeaders.getMediaType())));
 
 			// Response with HTTP 200
