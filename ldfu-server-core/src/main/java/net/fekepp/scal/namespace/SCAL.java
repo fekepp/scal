@@ -1,5 +1,8 @@
 package net.fekepp.scal.namespace;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.semanticweb.yars.nx.Resource;
 
 public final class SCAL {
@@ -44,17 +47,17 @@ public final class SCAL {
 
 	public static final Resource Trigger = new Resource(NS + "Trigger");
 
-	public static final Resource EventTrigger = new Resource(NS + "EventTrigger");
-
 	public static final Resource TimeTrigger = new Resource(NS + "TimeTrigger");
 
-	public static final Resource ResourceRequestedTrigger = new Resource(NS + "ResourceRequestedTrigger");
-
-	public static final Resource ResourceChangedTrigger = new Resource(NS + "ResourceChangedTrigger");
+	public static final Resource EventTrigger = new Resource(NS + "EventTrigger");
 
 	public static final Resource FrequencyTrigger = new Resource(NS + "FrequencyTrigger");
 
 	public static final Resource DelayTrigger = new Resource(NS + "DelayTrigger");
+
+	public static final Resource ResourceRequestedTrigger = new Resource(NS + "ResourceRequestedTrigger");
+
+	public static final Resource ResourceChangedTrigger = new Resource(NS + "ResourceChangedTrigger");
 
 	// Cross-concept
 
@@ -63,5 +66,44 @@ public final class SCAL {
 	public static final Resource sink = new Resource(NS + "sink");
 
 	public static final Resource state = new Resource(NS + "state");
+
+	public static final Set<Resource> getResources() {
+		HashSet<Resource> resources = new HashSet<Resource>();
+		resources.addAll(getClasses());
+		resources.addAll(getProperties());
+		return resources;
+	}
+
+	public static final Set<Resource> getClasses() {
+		HashSet<Resource> resources = new HashSet<Resource>();
+		resources.add(Run);
+		resources.add(Program);
+		resources.add(Query);
+		resources.add(Resource);
+		resources.add(FileResource);
+		resources.add(HttpResource);
+		resources.add(FtpResource);
+		resources.add(SshResource);
+		resources.add(Trigger);
+		resources.add(TimeTrigger);
+		resources.add(EventTrigger);
+		resources.add(FrequencyTrigger);
+		resources.add(DelayTrigger);
+		resources.add(ResourceRequestedTrigger);
+		resources.add(ResourceChangedTrigger);
+		return resources;
+	}
+
+	public static final Set<Resource> getProperties() {
+		HashSet<Resource> resources = new HashSet<Resource>();
+		resources.add(program);
+		resources.add(query);
+		resources.add(resource);
+		resources.add(trigger);
+		resources.add(declaration);
+		resources.add(sink);
+		resources.add(state);
+		return resources;
+	}
 
 }
