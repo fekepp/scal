@@ -15,6 +15,8 @@ public final class SCAL {
 
 	public static final Resource Run = new Resource(NS + "Run");
 
+	public static final Resource threadingModel = new Resource(NS + "threadingModel");
+
 	public static final Resource program = new Resource(NS + "program");
 
 	public static final Resource query = new Resource(NS + "query");
@@ -96,6 +98,7 @@ public final class SCAL {
 
 	public static final Set<Resource> getProperties() {
 		HashSet<Resource> resources = new HashSet<Resource>();
+		resources.add(threadingModel);
 		resources.add(program);
 		resources.add(query);
 		resources.add(resource);
