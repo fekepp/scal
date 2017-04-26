@@ -44,7 +44,7 @@ allprojects {
 	//project.ext.nxparser_groupid = 'org.semanticweb.yars'
 	//project.ext.nxparser_version = '3.0.0'
 	project.ext.nxparser_groupid = 'com.github.nxparser.nxparser'
-	project.ext.nxparser_version = '038e93e58f336aead51d8e065bcf591519c7183c'
+	project.ext.nxparser_version = '3dd34fc0fd1843614112e02fa048ba6aff82faa5'
 	
 	
 	
