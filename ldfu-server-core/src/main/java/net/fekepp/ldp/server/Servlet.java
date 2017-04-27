@@ -84,11 +84,14 @@ public class Servlet {
 
 		logger.info("getResource(String path) > {}", path);
 
-		// Get the request URI
-		URI uri = uriInfo.getRequestUri();
+		// Get the URI base
+		URI base = uriInfo.getBaseUri();
 
-		// Log the request URI
-		logger.info("uri.getPath() > {}", uriInfo.getRequestUri().getPath());
+		// Log the URI base
+		logger.info("URI Base > {}", base);
+
+		// Log the URI path
+		logger.info("URI Path > {}", uriInfo.getRequestUri().getPath());
 
 		// Log acceptable media types
 		for (MediaType accept : httpHeaders.getAcceptableMediaTypes()) {
@@ -98,11 +101,8 @@ public class Servlet {
 		try {
 
 			// Get the resource for the path
-			// final SourceResourceOLD resource =
-			// resourceManager.getResource(path,
-			// (mediaType != null ? mediaType.toString() : null), uri);
 			// TODO Support more than one acceptable media type
-			final Source resource = resourceManager.getResource(new ResourceDescription(uri, path,
+			final Source resource = resourceManager.getResource(new ResourceDescription(base, path,
 					mediaTypeToFormatMap.get(httpHeaders.getAcceptableMediaTypes().get(0).toString())));
 
 			// If the resource exists
@@ -156,7 +156,7 @@ public class Servlet {
 			// Response with HTTP 301 Moved Permanentaly to the
 			// correct identifier without a slash
 			throw new RedirectionException(Status.MOVED_PERMANENTLY,
-					URI.create(uri.toString().substring(0, uri.toString().length() - 1)));
+					URI.create(base.toString().substring(0, base.toString().length() - 1)));
 
 		}
 
@@ -164,7 +164,7 @@ public class Servlet {
 
 			// Response with HTTP 301 Moved Permanentaly to the
 			// correct identifier with slash
-			throw new RedirectionException(Status.MOVED_PERMANENTLY, URI.create(uri.toString() + "/"));
+			throw new RedirectionException(Status.MOVED_PERMANENTLY, URI.create(base.toString() + "/"));
 
 		} catch (IOException e) {
 
@@ -181,11 +181,14 @@ public class Servlet {
 		// Log the request
 		logger.info("putResource(String path, InputStream inputStream) > path={}", path);
 
-		// Get the request URI
-		URI uri = uriInfo.getRequestUri();
+		// Get the URI base
+		URI base = uriInfo.getBaseUri();
 
-		// Log the request URI
-		logger.info("uri.getPath() > {}", uriInfo.getRequestUri().getPath());
+		// Log the URI base
+		logger.info("URI Base > {}", base);
+
+		// Log the URI path
+		logger.info("URI Path > {}", uriInfo.getRequestUri().getPath());
 
 		// Get the media type of the request
 		MediaType mediaType = httpHeaders.getMediaType();
@@ -202,7 +205,7 @@ public class Servlet {
 			// Set the resource for the path
 			// resourceManager.setResource(path, mediaType.toString(),
 			// inputStream, uri);
-			resourceManager.setResource(new ResourceSource(uri, path, format, inputStream));
+			resourceManager.setResource(new ResourceSource(base, path, format, inputStream));
 
 			// Response with HTTP 200
 			return Response.ok().build();
@@ -213,7 +216,7 @@ public class Servlet {
 
 			// Response with HTTP 301 Moved Permanentaly to the correct
 			// identifier with slash
-			throw new RedirectionException(Status.MOVED_PERMANENTLY, URI.create(uri.toString() + "/"));
+			throw new RedirectionException(Status.MOVED_PERMANENTLY, URI.create(base.toString() + "/"));
 
 		}
 
@@ -222,7 +225,7 @@ public class Servlet {
 			// Response with HTTP 301 Moved Permanentaly to the correct
 			// identifier without a slash
 			throw new RedirectionException(Status.MOVED_PERMANENTLY,
-					URI.create(uri.toString().substring(0, uri.toString().length() - 1)));
+					URI.create(base.toString().substring(0, base.toString().length() - 1)));
 
 		}
 
@@ -276,11 +279,14 @@ public class Servlet {
 		// Log the request
 		logger.info("postResource(String path, InputStream inputStream) > path={}", path);
 
-		// Get the request URI
-		URI uri = uriInfo.getRequestUri();
+		// Get the URI base
+		URI base = uriInfo.getBaseUri();
 
-		// Log the request URI
-		logger.info("uri.getPath() > {}", uriInfo.getRequestUri().getPath());
+		// Log the URI base
+		logger.info("URI Base > {}", base);
+
+		// Log the URI path
+		logger.info("URI Path > {}", uriInfo.getRequestUri().getPath());
 
 		// Get the media type of the request
 		MediaType mediaType = httpHeaders.getMediaType();
@@ -296,8 +302,7 @@ public class Servlet {
 
 			// Process the input with resource for the path
 			// TODO Support more than one acceptable media type
-			final Source resource = resourceManager.proResource(
-					new ResourceSource(uri, path, format, inputStream),
+			final Source resource = resourceManager.proResource(new ResourceSource(base, path, format, inputStream),
 					mediaTypeToFormatMap.get(httpHeaders.getAcceptableMediaTypes().get(0).toString()));
 
 			// If the processing of the input returns an output exists
@@ -354,7 +359,7 @@ public class Servlet {
 
 			// Response with HTTP 301 Moved Permanentaly to the correct
 			// identifier with slash
-			throw new RedirectionException(Status.MOVED_PERMANENTLY, URI.create(uri.toString() + "/"));
+			throw new RedirectionException(Status.MOVED_PERMANENTLY, URI.create(base.toString() + "/"));
 
 		}
 
@@ -363,7 +368,7 @@ public class Servlet {
 			// Response with HTTP 301 Moved Permanentaly to the correct
 			// identifier without a slash
 			throw new RedirectionException(Status.MOVED_PERMANENTLY,
-					URI.create(uri.toString().substring(0, uri.toString().length() - 1)));
+					URI.create(base.toString().substring(0, base.toString().length() - 1)));
 
 		}
 
@@ -417,17 +422,20 @@ public class Servlet {
 		// Log the request
 		logger.info("deleteResource(String path) > path={}", path);
 
-		// Get the request URI
-		URI uri = uriInfo.getRequestUri();
+		// Get the URI base
+		URI base = uriInfo.getBaseUri();
 
-		// Log the request URI
-		logger.info("uri.getPath() > {}", uriInfo.getRequestUri().getPath());
+		// Log the URI base
+		logger.info("URI Base > {}", base);
+
+		// Log the URI path
+		logger.info("URI Path > {}", uriInfo.getRequestUri().getPath());
 
 		try {
 
 			// Delete the resource
-			resourceManager.delResource(new ResourceDescription(uri, path,
-					mediaTypeToFormatMap.get(httpHeaders.getMediaType())));
+			resourceManager.delResource(
+					new ResourceDescription(base, path, mediaTypeToFormatMap.get(httpHeaders.getMediaType())));
 
 			// Response with HTTP 200
 			return Response.ok().build();
@@ -446,7 +454,7 @@ public class Servlet {
 			// Response with HTTP 301 Moved Permanentaly to the
 			// correct identifier without a slash
 			throw new RedirectionException(Status.MOVED_PERMANENTLY,
-					URI.create(uri.toString().substring(0, uri.toString().length() - 1)));
+					URI.create(base.toString().substring(0, base.toString().length() - 1)));
 
 		}
 
@@ -454,7 +462,7 @@ public class Servlet {
 
 			// Response with HTTP 301 Moved Permanentaly to the
 			// correct identifier with slash
-			throw new RedirectionException(Status.MOVED_PERMANENTLY, URI.create(uri.toString() + "/"));
+			throw new RedirectionException(Status.MOVED_PERMANENTLY, URI.create(base.toString() + "/"));
 
 		}
 

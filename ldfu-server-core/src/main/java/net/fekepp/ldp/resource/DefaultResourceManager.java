@@ -331,8 +331,9 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 						.buildInputFormatConverterListener(inputFormatConverter);
 
 				// Continue if listener is not interested in any converters
-				if (storageFormatConverterListeners == null && inputFormatConverterListeners == null)
+				if (storageFormatConverterListeners == null && inputFormatConverterListeners == null) {
 					continue;
+				}
 
 				if (storageFormatConverterListeners != null) {
 					logger.info("Listener is interested in storage payload");
@@ -343,7 +344,8 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 									@Override
 									public void process() {
 										logger.info(
-												"Removing listener from list of not interested storage payload listeners");
+												"Removing listener from list of not interested storage payload listeners > listener={} | listenerDelegate={}",
+												listener, listener.getListenerDelegate());
 										listenersNotInterestedInStorage.remove(listener);
 									}
 								});
@@ -360,7 +362,8 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 									@Override
 									public void process() {
 										logger.info(
-												"Removing listener from list of not interested input payload listeners");
+												"Removing listener from list of not interested input payload listeners > listener={} | listenerDelegate={}",
+												listener, listener.getListenerDelegate());
 										listenersNotInterestedInInput.remove(listener);
 									}
 								});
@@ -406,7 +409,13 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 			}
 
 			// Remove all listeners that are not interested in the storage
-			listenersInterested.removeAll(listenersNotInterestedInStorage);
+			if (listenersInterested.removeAll(listenersNotInterestedInStorage)) {
+				logger.info("Removed listeners that are not interested in the storage");
+			}
+
+			else {
+				logger.info("Removed no listeners that are not interested in the storage");
+			}
 
 			/*
 			 * Stream input to temporary storage
@@ -451,8 +460,11 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 
 			// Let interested listeners process the storage and input
 			Set<Source> processOutputs = new HashSet<Source>();
-			for (ResourceListener listener : resourceListeners) {
+			for (ResourceListener listener : listenersInterested) {
 				if (listener.getListenerDelegate() != null) {
+
+					logger.info("Process storage with input > listener={} | listenerDelegate={}", listener,
+							listener.getListenerDelegate());
 
 					Source processStorage = storageManager.getResource(storage);
 					Source processInput = storageManagerTemporary.getResource(descriptionTemporary);

@@ -50,7 +50,7 @@ public class ResourceSink extends ResourceDescription implements Sink {
 	public void streamFrom(InputStream inputStream)
 			throws ParseException, ParserException, ConverterException, IOException, InterruptedException {
 		// TODO Check for null?
-		formatConverter.setBaseUri(getBaseUri());
+		formatConverter.setBaseUri(getBaseUri().resolve(getIdentifier()));
 		formatConverter.setInputStream(inputStream);
 		formatConverter.setOutputStream(outputStream);
 		formatConverter.convert();

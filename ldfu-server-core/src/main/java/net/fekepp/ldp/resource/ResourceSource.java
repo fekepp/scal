@@ -52,7 +52,7 @@ public class ResourceSource extends ResourceDescription implements Source {
 	public void streamTo(OutputStream outputStream)
 			throws ParseException, ParserException, ConverterException, IOException, InterruptedException {
 		if (formatConverter != null) {
-			formatConverter.setBaseUri(getBaseUri());
+			formatConverter.setBaseUri(getBaseUri().resolve(getIdentifier()));
 			formatConverter.setInputStream(inputStream);
 			formatConverter.setOutputStream(outputStream);
 			formatConverter.convert();
