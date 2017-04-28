@@ -1,8 +1,12 @@
 package net.fekepp.scal.run;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.semanticweb.yars.nx.Node;
 import org.semanticweb.yars.nx.namespace.RDF;
@@ -14,6 +18,12 @@ import org.semanticweb.yars.turtle.TurtleParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.kit.aifb.datafu.Program;
+import edu.kit.aifb.datafu.io.origins.InputOrigin;
+import edu.kit.aifb.datafu.io.origins.RequestOrigin;
+import edu.kit.aifb.datafu.io.stream.CountingInputStream;
+import edu.kit.aifb.datafu.parser.ProgramConsumerImpl;
+import edu.kit.aifb.datafu.parser.notation3.Notation3Parser;
 import net.fekepp.ldp.FormatConverter;
 import net.fekepp.ldp.FormatConverterListener;
 import net.fekepp.ldp.Method;
@@ -29,14 +39,18 @@ import net.fekepp.ldp.exception.ParentNotFoundException;
 import net.fekepp.ldp.exception.ParseException;
 import net.fekepp.ldp.exception.ParserException;
 import net.fekepp.ldp.exception.ResourceIdentifierExpectedException;
+import net.fekepp.ldp.exception.ResourceNotFoundException;
 import net.fekepp.ldp.format.NtriplesFormat;
 import net.fekepp.ldp.format.RdfXmlFormat;
 import net.fekepp.ldp.format.TurtleFormat;
 import net.fekepp.ldp.listener.DefaultResourceListener;
+import net.fekepp.ldp.resource.ResourceDescription;
 import net.fekepp.scal.RunManager;
 import net.fekepp.scal.namespace.SCAL;
 
 public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
+
+	private static Map<String, RunController> runControllers = new ConcurrentHashMap<String, RunController>();
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -62,14 +76,20 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 		logger.info("storage.getBaseUri() > {}", storage.getBaseUri());
 		logger.info("input.getBaseUri() > {}", input.getBaseUri());
 
+		String identifier = storage.getIdentifier();
+		logger.info("Identifier > {}", identifier);
+
+		URI base = input.getBaseUri().resolve(identifier);
+		logger.info("Base > {}", base);
+
 		RdfParser parser = null;
 
 		if (storage.getFormat().equals(NtriplesFormat.getInstance())) {
 			parser = new NxParser(storage.getInputStream());
 		} else if (storage.getFormat().equals(TurtleFormat.getInstance())) {
-			parser = new TurtleParser(storage.getInputStream(), input.getBaseUri());
+			parser = new TurtleParser(storage.getInputStream(), base);
 		} else if (storage.getFormat().equals(RdfXmlFormat.getInstance())) {
-			parser = new RdfXmlParser(storage.getInputStream(), input.getBaseUri());
+			parser = new RdfXmlParser(storage.getInputStream(), base);
 		}
 
 		if (parser != null) {
@@ -97,11 +117,13 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 
 		// Runs
 		Set<Node> runs = callback.getClassSubjects(SCAL.Run);
-		if (runs != null) {
+		if (runs != null && runs.size() == 1) {
 			for (Node run : runs) {
 
 				// TODO Create run
-				logger.info("Create Run > {}", run);
+				logger.info("Create Run > {}", run.getLabel());
+
+				RunController runController = new RunController();
 
 				// Programs
 				Set<Node> programs = callback.getPropertyObjects(SCAL.program, run);
@@ -113,10 +135,55 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 
 						// Program Declarations
 						Set<Node> declarations = callback.getPropertyObjects(SCAL.declaration, program);
-						if (declarations != null) {
+						if (declarations != null && declarations.size() == 1) {
 
-							// TODO Add declaration to program
-							logger.info("Add program declaration");
+							for (Node declaration : declarations) {
+
+								// TODO Add declaration to program
+								logger.info("Add program declaration > URI > {}", declaration.getLabel());
+
+								String programIdentifier = URI.create(declaration.getLabel()).getPath().substring(1);
+
+								logger.info("Add program declaration > Identifier > {}", programIdentifier);
+
+								Source programResource = null;
+
+								try {
+									programResource = resourceManager
+											.getResource(new ResourceDescription(base, programIdentifier));
+								}
+
+								catch (ResourceNotFoundException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+
+								// Create origin based on request URI and method
+								InputOrigin origin = new RequestOrigin(base.resolve(identifier),
+										edu.kit.aifb.datafu.Request.Method.POST);
+
+								Program programDeclaration = null;
+								try {
+									programDeclaration = parseProgram(origin, programResource.getInputStream());
+								}
+
+								catch (edu.kit.aifb.datafu.parser.notation3.ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+
+								logger.info("Parsed program > {}:\n{}", programIdentifier, programDeclaration);
+
+								runController.getPrograms().put(programIdentifier, programDeclaration);
+
+							}
+
+						}
+
+						else if (declarations != null) {
+
+							// TODO Handle multiple program declaration
+							logger.info("Handle multiple program declaration");
 
 						}
 
@@ -179,7 +246,24 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 					}
 				}
 
+				runControllers.put(identifier, runController);
+
 			}
+
+		}
+
+		else if (runs != null) {
+
+			// TODO Handle multiple runs
+			logger.info("Handle multiple runs");
+
+		}
+
+		else {
+
+			// TODO Handle missing run
+			logger.info("Handle missing run");
+
 		}
 
 		return null;
@@ -223,6 +307,31 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 		resourceListener.getMethods().add(Method.PRO);
 
 		resourceListeners.add(resourceListener);
+
+	}
+
+	public static Program parseProgram(InputOrigin origin, InputStream inputStream)
+			throws IOException, edu.kit.aifb.datafu.parser.notation3.ParseException {
+
+		CountingInputStream countingInputStream = new CountingInputStream(inputStream);
+
+		ProgramConsumerImpl programConsumer = new ProgramConsumerImpl(origin);
+
+		origin.beginRequest(Thread.currentThread().getName());
+
+		try {
+			Notation3Parser parser = new Notation3Parser(countingInputStream);
+			parser.parse(programConsumer, origin);
+		}
+
+		finally {
+			origin.endRequest();
+			origin.setTriples(programConsumer.getFacts().size());
+			origin.setBytes(countingInputStream.getBytesRead());
+			inputStream.close();
+		}
+
+		return programConsumer.getProgram(origin);
 
 	}
 
