@@ -18,12 +18,16 @@ import org.semanticweb.yars.turtle.TurtleParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.kit.aifb.datafu.ConstructQuery;
 import edu.kit.aifb.datafu.Program;
+import edu.kit.aifb.datafu.Query;
+import edu.kit.aifb.datafu.SelectQuery;
 import edu.kit.aifb.datafu.io.origins.InputOrigin;
 import edu.kit.aifb.datafu.io.origins.RequestOrigin;
-import edu.kit.aifb.datafu.io.stream.CountingInputStream;
 import edu.kit.aifb.datafu.parser.ProgramConsumerImpl;
+import edu.kit.aifb.datafu.parser.QueryConsumerImpl;
 import edu.kit.aifb.datafu.parser.notation3.Notation3Parser;
+import edu.kit.aifb.datafu.parser.sparql.SparqlParser;
 import net.fekepp.ldp.FormatConverter;
 import net.fekepp.ldp.FormatConverterListener;
 import net.fekepp.ldp.Method;
@@ -139,7 +143,6 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 
 							for (Node declaration : declarations) {
 
-								// TODO Add declaration to program
 								logger.info("Add program declaration > URI > {}", declaration.getLabel());
 
 								String programIdentifier = URI.create(declaration.getLabel()).getPath().substring(1);
@@ -180,17 +183,12 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 
 						}
 
-						else if (declarations != null) {
-
-							// TODO Handle multiple program declaration
-							logger.info("Handle multiple program declaration");
-
-						}
-
 						else {
 
-							// TODO Handle missing program declaration
-							logger.info("Handle missing program declaration");
+							// TODO Handle missing or multiple program
+							// declaration
+							logger.info("Handle multiple program declaration > declarations={}",
+									declarations != null ? declarations.size() : "null");
 
 						}
 
@@ -205,43 +203,94 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 				if (queries != null) {
 					for (Node query : queries) {
 
-						// TODO Create query
 						logger.info("Create query > {}", query);
 
 						// Query Declarations
 						Set<Node> declarations = callback.getPropertyObjects(SCAL.declaration, query);
-						if (declarations != null) {
-
-							// TODO Add declaration to query
-							logger.info("Add declaration to query");
-
-						}
-
-						else {
-
-							// TODO Handle missing query declaration
-							logger.info("Handle missing query declaration");
-
-						}
 
 						// Query Sink Resource
 						Set<Node> sinks = callback.getPropertyObjects(SCAL.sink, query);
-						if (sinks != null) {
 
-							// TODO Add sink to query
-							logger.info("Add sink resource to query");
+						if (declarations != null && declarations.size() == 1 && sinks != null && sinks.size() == 1) {
+
+							logger.info("Add declaration with sink to query");
+
+							for (Node declaration : declarations) {
+
+								logger.info("Add query declaration > URI > {}", declaration.getLabel());
+
+								String queryIdentifier = URI.create(declaration.getLabel()).getPath().substring(1);
+
+								logger.info("Add query declaration > Identifier > {}", queryIdentifier);
+
+								Source queryResource = null;
+
+								try {
+									queryResource = resourceManager
+											.getResource(new ResourceDescription(base, queryIdentifier));
+								}
+
+								catch (ResourceNotFoundException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+
+								// Create origin based on request URI and method
+								InputOrigin origin = new RequestOrigin(base.resolve(identifier),
+										edu.kit.aifb.datafu.Request.Method.POST);
+
+								Set<Query> queryDeclarations = null;
+								try {
+									queryDeclarations = parseQueries(origin, queryResource.getInputStream());
+								}
+
+								catch (edu.kit.aifb.datafu.parser.sparql.ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+
+								// Split construct and select queries
+								Set<ConstructQuery> constructQueryDeclarations = new HashSet<ConstructQuery>();
+								Set<SelectQuery> selectQueryDeclarations = new HashSet<SelectQuery>();
+								for (Query queryDeclaration : queryDeclarations) {
+									if (queryDeclaration instanceof ConstructQuery) {
+										logger.info("Parsed CONSTRUCT query > {}:\n{}", queryIdentifier,
+												queryDeclaration);
+										constructQueryDeclarations.add((ConstructQuery) queryDeclaration);
+									} else if (queryDeclaration instanceof SelectQuery) {
+										logger.info("Parsed SELECT query > {}:\n{}", queryIdentifier, queryDeclaration);
+										selectQueryDeclarations.add((SelectQuery) queryDeclaration);
+									}
+								}
+
+								// Add construct queries to run
+								if (constructQueryDeclarations.size() > 0) {
+									runController.getConstructQueryCollections().put(queryIdentifier,
+											constructQueryDeclarations);
+								}
+
+								// Add select queries to run
+								if (selectQueryDeclarations.size() > 0) {
+									runController.getSelectQueryCollections().put(queryIdentifier,
+											selectQueryDeclarations);
+								}
+
+							}
 
 						}
 
 						else {
 
-							// TODO Handle missing query sink
-							logger.info("Handle missing query sink");
+							// TODO Handle missing or multiple query declaration
+							// and query sink
+							logger.info(
+									"Handle missing or multiple query declaration and query sink > declarations={} | sinks={}",
+									declarations != null ? declarations.size() : "null",
+									sinks != null ? sinks.size() : "null");
 
 						}
 
-						// TODO Add query to run
-						logger.info("Add query to run");
+						// logger.info("Add query to run");
 
 					}
 				}
@@ -252,7 +301,9 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 
 		}
 
-		else if (runs != null) {
+		else if (runs != null)
+
+		{
 
 			// TODO Handle multiple runs
 			logger.info("Handle multiple runs");
@@ -311,27 +362,55 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 	}
 
 	public static Program parseProgram(InputOrigin origin, InputStream inputStream)
-			throws IOException, edu.kit.aifb.datafu.parser.notation3.ParseException {
+			throws edu.kit.aifb.datafu.parser.notation3.ParseException, IOException {
 
-		CountingInputStream countingInputStream = new CountingInputStream(inputStream);
-
+		// Create a program consumer for the program to be returned
 		ProgramConsumerImpl programConsumer = new ProgramConsumerImpl(origin);
 
-		origin.beginRequest(Thread.currentThread().getName());
-
+		// Try to parse the input stream
 		try {
-			Notation3Parser parser = new Notation3Parser(countingInputStream);
+			Notation3Parser parser = new Notation3Parser(inputStream);
 			parser.parse(programConsumer, origin);
 		}
 
+		// Always close the input stream
 		finally {
-			origin.endRequest();
-			origin.setTriples(programConsumer.getFacts().size());
-			origin.setBytes(countingInputStream.getBytesRead());
 			inputStream.close();
 		}
 
+		// Return the program
 		return programConsumer.getProgram(origin);
+
+	}
+
+	public static Set<Query> parseQueries(InputOrigin origin, InputStream inputStream)
+			throws edu.kit.aifb.datafu.parser.sparql.ParseException, IOException {
+
+		// Create a set of queries to be returned
+		Set<Query> queries = new HashSet<Query>();
+
+		// Create a query consumer for queries to be returned
+		QueryConsumerImpl queryConsumer = new QueryConsumerImpl(origin);
+
+		// Try to parse the input stream
+		try {
+			SparqlParser parser = new SparqlParser(inputStream);
+			parser.parse(queryConsumer, origin);
+		}
+
+		// Always close the input stream
+		finally {
+			inputStream.close();
+		}
+
+		// Add possible contained select query to returned queries
+		queries.addAll(queryConsumer.getSelectQueries());
+
+		// Add possible contained construct queries to returned queries
+		queries.addAll(queryConsumer.getConstructQueries());
+
+		// Return the queries
+		return queries;
 
 	}
 
