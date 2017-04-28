@@ -51,6 +51,19 @@ public class RunController extends AbstractController {
 
 	}
 
+	public void executeStep() {
+
+		// Manually evaluate
+		// TODO Figure out if external triggering of the evaluation of a step
+		// could be possible while time-based evaluation is running, i.e.,
+		// external triggering must respect a currently evaluating step and be
+		// executed afterwards or in parallel
+		if (delay < 1) {
+			evaluate();
+		}
+
+	}
+
 	@Override
 	protected void startup() throws Exception {
 
@@ -110,38 +123,20 @@ public class RunController extends AbstractController {
 
 	}
 
-	protected void execute() {
+	@Override
+	protected void execute() throws Exception {
 
-		while (execution && !shutdown) {
-
-			for (BindingConsumerCollectionSink sink : sinks) {
-				sink.clear();
+		// Continuously evaluate if a delay is set until shutdown
+		// TODO: Support frequencies, not just delays
+		if (delay > 1) {
+			while (execution && !shutdown) {
+				evaluate();
 			}
+		}
 
-			try {
-
-				if (delegate != null) {
-
-					Set<Nodes> nodesSet = delegate.getNodes();
-
-					if (nodesSet != null) {
-						for (Nodes nodes : nodesSet) {
-							evaluation.getBaseConsumer().consume(engine.getBindingFactory().createBinding(nodes));
-						}
-					}
-
-				}
-
-				evaluation.awaitIdleAndReset(delay);
-
-			}
-
-			catch (InterruptedException e) {
-				if (super.delegate != null) {
-					super.delegate.onControllerExecutionException(e);
-				}
-			}
-
+		// Wait until shutdown (default execution)
+		else {
+			super.execute();
 		}
 
 	}
@@ -167,6 +162,41 @@ public class RunController extends AbstractController {
 
 		sinks.clear();
 		constructQueryConsumers.clear();
+
+	}
+
+	private void evaluate() {
+
+		// Clear sinks
+		for (BindingConsumerCollectionSink sink : sinks) {
+			sink.clear();
+		}
+
+		try {
+
+			// Get input nodes from the delegate if it exists
+			if (delegate != null) {
+
+				Set<Nodes> nodesSet = delegate.getNodes();
+
+				if (nodesSet != null) {
+					for (Nodes nodes : nodesSet) {
+						evaluation.getBaseConsumer().consume(engine.getBindingFactory().createBinding(nodes));
+					}
+				}
+
+			}
+
+			// Evaluate with delay which may be zero in case of manual execution
+			evaluation.awaitIdleAndReset(delay);
+
+		}
+
+		catch (InterruptedException e) {
+			if (super.delegate != null) {
+				super.delegate.onControllerExecutionException(e);
+			}
+		}
 
 	}
 
