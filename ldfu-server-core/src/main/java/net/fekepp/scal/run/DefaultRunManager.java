@@ -271,12 +271,14 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 
 								// Add construct queries to run
 								if (constructQueryDeclarations.size() > 0 && selectQueryDeclarations.size() == 0) {
+									logger.warn("Added CONSTRUCT query");
 									runController.getConstructQueryCollections().put(queryIdentifier,
 											constructQueryDeclarations);
 								}
 
 								// Add select queries to run
 								else if (constructQueryDeclarations.size() == 0 && selectQueryDeclarations.size() > 0) {
+									logger.warn("Added SELECT query");
 									runController.getSelectQueryCollections().put(queryIdentifier,
 											selectQueryDeclarations);
 								}
@@ -285,10 +287,12 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 										&& selectQueryDeclarations.size() == 0) {
 									// TODO Error handling for CONSTRUCT and
 									// SELECT queries
+									logger.warn("Found CONSTRUCT and SELECT queries");
 								}
 
 								else {
 									// TODO Error handling for no query
+									logger.warn("Found no CONSTRUCT and SELECT queries");
 								}
 
 								for (Node sink : sinks) {
