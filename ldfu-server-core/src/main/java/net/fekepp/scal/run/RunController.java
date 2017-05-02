@@ -12,7 +12,7 @@ import org.semanticweb.yars.nx.Nodes;
 import edu.kit.aifb.datafu.ConstructQuery;
 import edu.kit.aifb.datafu.Program;
 import edu.kit.aifb.datafu.SelectQuery;
-import edu.kit.aifb.datafu.consumer.impl.BindingConsumerCollection;
+import edu.kit.aifb.datafu.Sink;
 import edu.kit.aifb.datafu.engine.EvaluateProgram;
 import edu.kit.aifb.datafu.io.origins.InternalOrigin;
 import edu.kit.aifb.datafu.planning.EvaluateProgramConfig;
@@ -30,11 +30,7 @@ public class RunController extends AbstractController {
 
 	private Map<String, Collection<SelectQuery>> selectQueryCollections = new ConcurrentHashMap<String, Collection<SelectQuery>>();
 
-	private Map<String, BindingConsumerCollection> constructQueryConsumers = new ConcurrentHashMap<String, BindingConsumerCollection>();
-
-	private Map<String, BindingConsumerCollection> selectQueryConsumers = new ConcurrentHashMap<String, BindingConsumerCollection>();
-
-	private Set<BindingConsumerCollectionSink> sinks = new HashSet<BindingConsumerCollectionSink>();
+	private Map<String, Sink> sinks = new ConcurrentHashMap<String, Sink>();
 
 	private EvaluateProgramConfig configuration = new EvaluateProgramConfig();
 
@@ -73,38 +69,43 @@ public class RunController extends AbstractController {
 		// Handle construct queries collection
 		for (Entry<String, Collection<ConstructQuery>> entry : constructQueryCollections.entrySet()) {
 
-			// Create a binding consumer and sink each collection of queries
-			BindingConsumerCollection bindingConsumerCollection = new BindingConsumerCollection();
-			BindingConsumerCollectionSink bindingConsumerSink = new BindingConsumerCollectionSink(
-					bindingConsumerCollection);
-			sinks.add(bindingConsumerSink);
+			Sink sink = sinks.get(entry.getKey());
 
-			// Add all construct queries to the program
-			for (ConstructQuery query : entry.getValue()) {
-				program.registerConstructQuery(query, bindingConsumerSink);
+			if (sink != null) {
+
+				// Add all construct queries to the program
+				for (ConstructQuery query : entry.getValue()) {
+					program.registerConstructQuery(query, sink);
+				}
+
 			}
 
-			// Remember the binding consumer
-			constructQueryConsumers.put(entry.getKey(), bindingConsumerCollection);
+			else {
+				// TODO Appropriate error handling or ignore
+				throw new Exception();
+			}
 
 		}
 
 		// Handle select queries collection
 		for (Entry<String, Collection<SelectQuery>> entry : selectQueryCollections.entrySet()) {
 
-			// Create a binding consumer and sink each collection of queries
-			BindingConsumerCollection bindingConsumerCollection = new BindingConsumerCollection();
-			BindingConsumerCollectionSink bindingConsumerSink = new BindingConsumerCollectionSink(
-					bindingConsumerCollection);
-			sinks.add(bindingConsumerSink);
+			Sink sink = sinks.get(entry.getKey());
 
-			// Add all construct queries to the program
-			for (SelectQuery query : entry.getValue()) {
-				program.registerSelectQuery(query, bindingConsumerSink);
+			if (sink != null) {
+
+				// Add all construct queries to the program
+				for (SelectQuery query : entry.getValue()) {
+					// program.registerSelectQuery(query, bindingConsumerSink);
+					program.registerSelectQuery(query, sink);
+				}
+
 			}
 
-			// Remember the binding consumer
-			selectQueryConsumers.put(entry.getKey(), bindingConsumerCollection);
+			else {
+				// TODO Appropriate error handling or ignore
+				throw new Exception();
+			}
 
 		}
 
@@ -161,16 +162,16 @@ public class RunController extends AbstractController {
 		}
 
 		sinks.clear();
-		constructQueryConsumers.clear();
+		// constructQueryConsumers.clear();
 
 	}
 
 	private void evaluate() {
 
 		// Clear sinks
-		for (BindingConsumerCollectionSink sink : sinks) {
-			sink.clear();
-		}
+		// for (BindingConsumerCollectionSink sink : sinks) {
+		// sink.clear();
+		// }
 
 		try {
 
@@ -216,16 +217,12 @@ public class RunController extends AbstractController {
 		return constructQueryCollections;
 	}
 
-	public Map<String, BindingConsumerCollection> getConstructQueryConsumers() {
-		return constructQueryConsumers;
-	}
-
 	public Map<String, Collection<SelectQuery>> getSelectQueryCollections() {
 		return selectQueryCollections;
 	}
 
-	public Map<String, BindingConsumerCollection> getSelectQueryConsumers() {
-		return selectQueryConsumers;
+	public Map<String, Sink> getSinks() {
+		return sinks;
 	}
 
 	public EvaluateProgramConfig getConfiguration() {

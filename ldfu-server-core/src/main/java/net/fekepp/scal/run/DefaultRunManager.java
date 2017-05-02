@@ -48,6 +48,7 @@ import net.fekepp.ldp.format.NtriplesFormat;
 import net.fekepp.ldp.format.RdfXmlFormat;
 import net.fekepp.ldp.format.TurtleFormat;
 import net.fekepp.ldp.listener.DefaultResourceListener;
+import net.fekepp.ldp.model.RdfModel;
 import net.fekepp.ldp.resource.ResourceDescription;
 import net.fekepp.scal.RunManager;
 import net.fekepp.scal.namespace.SCAL;
@@ -252,27 +253,58 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 								// Split construct and select queries
 								Set<ConstructQuery> constructQueryDeclarations = new HashSet<ConstructQuery>();
 								Set<SelectQuery> selectQueryDeclarations = new HashSet<SelectQuery>();
+
 								for (Query queryDeclaration : queryDeclarations) {
+
 									if (queryDeclaration instanceof ConstructQuery) {
 										logger.info("Parsed CONSTRUCT query > {}:\n{}", queryIdentifier,
 												queryDeclaration);
 										constructQueryDeclarations.add((ConstructQuery) queryDeclaration);
-									} else if (queryDeclaration instanceof SelectQuery) {
+									}
+
+									else if (queryDeclaration instanceof SelectQuery) {
 										logger.info("Parsed SELECT query > {}:\n{}", queryIdentifier, queryDeclaration);
 										selectQueryDeclarations.add((SelectQuery) queryDeclaration);
 									}
+
 								}
 
 								// Add construct queries to run
-								if (constructQueryDeclarations.size() > 0) {
+								if (constructQueryDeclarations.size() > 0 && selectQueryDeclarations.size() == 0) {
 									runController.getConstructQueryCollections().put(queryIdentifier,
 											constructQueryDeclarations);
 								}
 
 								// Add select queries to run
-								if (selectQueryDeclarations.size() > 0) {
+								else if (constructQueryDeclarations.size() == 0 && selectQueryDeclarations.size() > 0) {
 									runController.getSelectQueryCollections().put(queryIdentifier,
 											selectQueryDeclarations);
+								}
+
+								else if (constructQueryDeclarations.size() == 0
+										&& selectQueryDeclarations.size() == 0) {
+									// TODO Error handling for CONSTRUCT and
+									// SELECT queries
+								}
+
+								else {
+									// TODO Error handling for no query
+								}
+
+								for (Node sink : sinks) {
+
+									logger.info("Add query sink > URI > {}", sink.getLabel());
+
+									String sinkIdentifier = URI.create(sink.getLabel()).getPath().substring(1);
+
+									logger.info("Add query sink > Identifier > {}", sinkIdentifier);
+
+									QuerySinkResourceBridge querySink = new QuerySinkResourceBridge(resourceManager,
+											new ResourceDescription(base, sinkIdentifier,
+													RdfModel.getInstance().getDefaultFormat()));
+
+									runController.getSinks().put(queryIdentifier, querySink);
+
 								}
 
 							}
