@@ -61,6 +61,9 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 		// If source is available
 		if (source != null) {
 
+			// Adjust the base
+			source.setBase(description.getBase());
+
 			// Get the source format
 			Format sourceFormat = source.getFormat();
 
@@ -79,9 +82,14 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 					// If converter is available
 					if (formatConverter != null) {
 
+						// Adjust format to sink format
+						source.setFormat(sinkFormat);
+
+						// Set format converter for source format to sink format
+						source.setFormatConverter(formatConverter);
+
 						// Return data serialized with the sink format
-						return new ResourceSource(description.getBaseUri(), description.getIdentifier(), sinkFormat,
-								source.getInputStream(), formatConverter);
+						return source;
 
 					}
 
@@ -98,10 +106,17 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 				// If converter is available
 				if (formatConverter != null) {
 
+					// Adjust format to the default format of the source format
+					// group
+					source.setFormat(sourceFormat.getModel().getDefaultFormat());
+
+					// Set format converter for source format to the default
+					// format of the source format group
+					source.setFormatConverter(formatConverter);
+
 					// Return data serialized with the default format of the
 					// source format group
-					return new ResourceSource(description.getBaseUri(), description.getIdentifier(),
-							sourceFormat.getModel().getDefaultFormat(), source.getInputStream(), formatConverter);
+					return source;
 
 				}
 
@@ -111,8 +126,7 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 			// failed
 
 			// Return binary data
-			return new ResourceSource(description.getBaseUri(), description.getIdentifier(), null,
-					source.getInputStream());
+			return source;
 
 		}
 
@@ -151,9 +165,14 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 					// If converter is available
 					if (formatConverter != null) {
 
+						// Adjust format to sink format
+						source.setFormat(sinkFormat);
+
+						// Set format converter for source format to sink format
+						source.setFormatConverter(formatConverter);
+
 						// Set sink to data serialized in format of sink
-						storageManager.setResource(new ResourceSource(source.getBaseUri(), source.getIdentifier(),
-								sinkFormat, source.getInputStream(), formatConverter));
+						storageManager.setResource(source);
 
 						return;
 
@@ -181,10 +200,17 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 			// If converter is available
 			if (formatConverter != null) {
 
+				// Adjust format to the default format of the sink format
+				// group
+				source.setFormat(sourceFormat.getModel().getDefaultFormat());
+
+				// Set format converter for source format to the default
+				// format of the sink format group
+				source.setFormatConverter(formatConverter);
+
 				// Set sink to data serialized in default format of source
 				// format group
-				storageManager.setResource(new ResourceSource(source.getBaseUri(), source.getIdentifier(),
-						sourceFormat.getModel().getDefaultFormat(), source.getInputStream(), formatConverter));
+				storageManager.setResource(source);
 
 				return;
 
@@ -233,7 +259,7 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 			 */
 
 			// Derive the base
-			URI base = input.getBaseUri();
+			URI base = input.getBase();
 
 			// Derive the identifier
 			String identifier = input.getIdentifier();
@@ -509,7 +535,7 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 						if (formatConverter != null) {
 
 							// Return data serialized with the output format
-							return new ResourceSource(input.getBaseUri(), input.getIdentifier(), outputFormat,
+							return new ResourceSource(input.getBase(), input.getIdentifier(), outputFormat,
 									processOutput.getInputStream(), formatConverter);
 
 						}
@@ -530,7 +556,7 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 
 						// Return data serialized with the default format of the
 						// process output format group
-						return new ResourceSource(input.getBaseUri(), input.getIdentifier(),
+						return new ResourceSource(input.getBase(), input.getIdentifier(),
 								processOutputFormat.getModel().getDefaultFormat(), processOutput.getInputStream(),
 								formatConverter);
 
@@ -542,8 +568,7 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 				// format handling failed
 
 				// Return binary data
-				return new ResourceSource(input.getBaseUri(), input.getIdentifier(), null,
-						processOutput.getInputStream());
+				return new ResourceSource(input.getBase(), input.getIdentifier(), null, processOutput.getInputStream());
 
 				// TODO Implement a mechanism to delete temporary resource once
 				// they
@@ -573,10 +598,10 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 		logger.info("public Source process(...) > storage={} | input={}", storage.getIdentifier(),
 				input.getIdentifier());
 
-		logger.info("setResource() > baseUri={} | identifier={} | format={} | inputStream={}", input.getBaseUri(),
+		logger.info("setResource() > baseUri={} | identifier={} | format={} | inputStream={}", input.getBase(),
 				storage.getIdentifier() + input.getIdentifier(), input.getFormat(), input.getInputStream());
 
-		setResource(new ResourceSource(input.getBaseUri(), storage.getIdentifier() + input.getIdentifier(),
+		setResource(new ResourceSource(input.getBase(), storage.getIdentifier() + input.getIdentifier(),
 				input.getFormat(), input.getInputStream()));
 
 		return null;
