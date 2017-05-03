@@ -1,1 +1,1 @@
-# Linked Data-Fu Web API
+# SCAL
