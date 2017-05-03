@@ -33,7 +33,7 @@ public class ServerController extends BaseJettyJerseyController {
 
 		logger.info("LDP Server > Startup");
 
-		storageDirectory = Paths.get("../doc/example");
+		storageDirectory = Paths.get("../dat");
 		storageDirectoryTemporary = Paths.get("../tmp");
 
 		storageManager = new FilesystemStorageManager(storageDirectory);
