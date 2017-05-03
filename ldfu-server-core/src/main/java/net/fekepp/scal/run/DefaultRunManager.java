@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.semanticweb.yars.nx.Node;
+import org.semanticweb.yars.nx.Nodes;
 import org.semanticweb.yars.nx.namespace.RDF;
 import org.semanticweb.yars.nx.parser.InternalParserError;
 import org.semanticweb.yars.nx.parser.NxParser;
@@ -28,6 +29,7 @@ import edu.kit.aifb.datafu.parser.ProgramConsumerImpl;
 import edu.kit.aifb.datafu.parser.QueryConsumerImpl;
 import edu.kit.aifb.datafu.parser.notation3.Notation3Parser;
 import edu.kit.aifb.datafu.parser.sparql.SparqlParser;
+import net.fekepp.controllers.ControllerDelegate;
 import net.fekepp.ldp.FormatConverter;
 import net.fekepp.ldp.FormatConverterListener;
 import net.fekepp.ldp.Method;
@@ -53,7 +55,8 @@ import net.fekepp.ldp.resource.ResourceDescription;
 import net.fekepp.scal.RunManager;
 import net.fekepp.scal.namespace.SCAL;
 
-public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
+public class DefaultRunManager
+		implements RunManager, ResourceListenerDelegate, RunControllerDelegate, ControllerDelegate {
 
 	private static Map<String, RunController> runControllers = new ConcurrentHashMap<String, RunController>();
 
@@ -78,13 +81,13 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 
 		logger.info("PROCESS");
 
-		logger.info("storage.getBaseUri() > {}", storage.getBaseUri());
-		logger.info("input.getBaseUri() > {}", input.getBaseUri());
+		logger.info("storage.getBaseUri() > {}", storage.getBase());
+		logger.info("input.getBaseUri() > {}", input.getBase());
 
 		String identifier = storage.getIdentifier();
 		logger.info("Identifier > {}", identifier);
 
-		URI base = input.getBaseUri().resolve(identifier);
+		URI base = input.getBase().resolve(identifier);
 		logger.info("Base > {}", base);
 
 		RdfParser parser = null;
@@ -331,7 +334,36 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 					}
 				}
 
+				Set<Node> delayTrigger = callback.getClassSubjects(SCAL.DelayTrigger);
+				Set<Node> resourceRequestedTriggers = callback.getClassSubjects(SCAL.ResourceRequestedTrigger);
+
+				// Queries
+				Set<Node> triggers = callback.getPropertyObjects(SCAL.trigger, run);
+				if (queries != null) {
+					for (Node trigger : triggers) {
+
+						logger.info("Create trigger > {}", trigger);
+
+						if (delayTrigger.contains(trigger)) {
+							logger.info("Trigger is DelayTrigger");
+						}
+
+						if (resourceRequestedTriggers.contains(trigger)) {
+							logger.info("Trigger is ResourceRequestedTrigger");
+						}
+
+					}
+				}
+
 				runControllers.put(identifier, runController);
+
+				runController.setEvaluationControllerDelegate(this);
+
+				runController.setDelay(1000);
+
+				runController.setDelegate(this);
+
+				runController.start();
 
 			}
 
@@ -448,6 +480,55 @@ public class DefaultRunManager implements RunManager, ResourceListenerDelegate {
 		// Return the queries
 		return queries;
 
+	}
+
+	@Override
+	public Set<Nodes> getNodes() {
+
+		logger.info("Controller > Get nodes");
+
+		Set<Nodes> nodesSet = new HashSet<Nodes>();
+
+		// nodesSet.add(
+		// new Nodes(new Resource("http://test/"), new
+		// Resource("http://scenario#alarm"), new Literal("true")));
+		//
+		// nodesSet.add(
+		// new Nodes(new Resource("http://asdf/"), new Resource("http://asdf/"),
+		// new Literal("asdf")));
+
+		return nodesSet;
+
+	}
+
+	@Override
+	public void onControllerStarted() {
+		logger.info("Controller > Started");
+	}
+
+	@Override
+	public void onControllerExecuted() {
+		logger.info("Controller > Executed");
+	}
+
+	@Override
+	public void onControllerStopped() {
+		logger.info("Controller > Stopped");
+	}
+
+	@Override
+	public void onControllerStartupException(Exception e) {
+		logger.error("Controller > Startup exception", e);
+	}
+
+	@Override
+	public void onControllerExecutionException(Exception e) {
+		logger.error("Controller > Execution exception", e);
+	}
+
+	@Override
+	public void onControllerShutdownException(Exception e) {
+		logger.error("Controller > Shutdown exception", e);
 	}
 
 }

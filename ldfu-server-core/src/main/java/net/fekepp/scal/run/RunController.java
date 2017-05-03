@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.semanticweb.yars.nx.Nodes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.kit.aifb.datafu.ConstructQuery;
 import edu.kit.aifb.datafu.Program;
@@ -21,6 +23,8 @@ import edu.kit.aifb.datafu.planning.EvaluateProgramGenerator;
 import net.fekepp.controllers.AbstractController;
 
 public class RunController extends AbstractController {
+
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	protected RunControllerDelegate delegate;
 
@@ -130,6 +134,7 @@ public class RunController extends AbstractController {
 		// Continuously evaluate if a delay is set until shutdown
 		// TODO: Support frequencies, not just delays
 		if (delay > 1) {
+			logger.info("Execution with delay");
 			while (execution && !shutdown) {
 				evaluate();
 			}
@@ -137,6 +142,7 @@ public class RunController extends AbstractController {
 
 		// Wait until shutdown (default execution)
 		else {
+			logger.info("Execution with trigger");
 			super.execute();
 		}
 
@@ -188,8 +194,12 @@ public class RunController extends AbstractController {
 
 			}
 
+			logger.info("Evaluation start with delay > {}", delay);
+
 			// Evaluate with delay which may be zero in case of manual execution
 			evaluation.awaitIdleAndReset(delay);
+
+			logger.info("Evaluation end");
 
 		}
 
