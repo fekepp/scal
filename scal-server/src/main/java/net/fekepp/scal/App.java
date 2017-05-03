@@ -21,7 +21,7 @@ public class App {
 		loggerStatic.info("SCAL App > Main");
 
 		ServerController controller = new ServerController();
-		controller.setPort(8888);
+		controller.setPort(80);
 		controller.start();
 
 	}
