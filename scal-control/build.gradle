@@ -8,7 +8,7 @@
 /*
  * Configuration
  */
-description = 'SCAL Control'
+description = "SCAL Control"
 
 
 
@@ -33,19 +33,19 @@ dependencies {
 	//
 	
 	// Jersey
-	compile 'org.glassfish.jersey.containers:jersey-container-jetty-servlet:' + rootProject.jersey_version
+	compile "org.glassfish.jersey.containers:jersey-container-jetty-servlet:" + rootProject.jersey_version
 	
 	// Jetty (reflect dependencies of Jersey with newer versions)
-	compile 'org.eclipse.jetty:jetty-webapp:' + rootProject.jetty_version
-	compile 'org.eclipse.jetty:jetty-continuation:' + rootProject.jetty_version
+	compile "org.eclipse.jetty:jetty-webapp:" + rootProject.jetty_version
+	compile "org.eclipse.jetty:jetty-continuation:" + rootProject.jetty_version
 	
 	// Jetty (additional dependencies)
-	//compile 'org.eclipse.jetty:jetty-annotations:' + rootProject.jetty_version
-	//compile 'org.eclipse.jetty:apache-jsp:' + rootProject.jetty_version
+	//compile "org.eclipse.jetty:jetty-annotations:" + rootProject.jetty_version
+	//compile "org.eclipse.jetty:apache-jsp:" + rootProject.jetty_version
 	
 	// Jetty (HTTP tester and Servlet tester)
-	//compile(group: 'org.eclipse.jetty', name: 'jetty-servlet', version:rootProject.jetty_version, classifier: 'tests')
-	//compile(group: 'org.eclipse.jetty', name: 'jetty-http', version:rootProject.jetty_version, classifier: 'tests')
+	//compile(group: "org.eclipse.jetty", name: "jetty-servlet", version:rootProject.jetty_version, classifier: "tests")
+	//compile(group: "org.eclipse.jetty", name: "jetty-http", version:rootProject.jetty_version, classifier: "tests")
 	
 	
 	//

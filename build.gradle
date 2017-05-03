@@ -2,7 +2,7 @@
  * Plugins
  */
 plugins {
-	id 'distribution'
+	id "distribution"
 }
 
 
@@ -18,7 +18,7 @@ allprojects {
 	/*
 	 * Plugins
 	 */
-	apply plugin: 'eclipse'
+	apply plugin: "eclipse"
 	
 	
 	
@@ -28,23 +28,23 @@ allprojects {
 	 */
 	
 	// Group and version
-	group = 'net.fekepp.scal'
-	version = '0.0.0'
+	group = "net.fekepp.scal"
+	version = "0.0.0"
 	
 	// Jetty version
 	// Versions of Jetty higher than 9.2.21.v20170120 are Java8-only
-	project.ext.jetty_version = '9.2.21.v20170120'
+	project.ext.jetty_version = "9.2.21.v20170120"
 	
 	// Jersey version
 	// Versions of Jersey higher than 2.25.1 are Java8-only (due to dependencies)
-	project.ext.jersey_version = '2.25.1'
+	project.ext.jersey_version = "2.25.1"
 	
 	// NxParser version
 	// Different group ID for release and commit versions
-	//project.ext.nxparser_groupid = 'org.semanticweb.yars'
-	//project.ext.nxparser_version = '3.0.0'
-	project.ext.nxparser_groupid = 'com.github.nxparser.nxparser'
-	project.ext.nxparser_version = '3dd34fc0fd1843614112e02fa048ba6aff82faa5'
+	//project.ext.nxparser_groupid = "org.semanticweb.yars"
+	//project.ext.nxparser_version = "3.0.0"
+	project.ext.nxparser_groupid = "com.github.nxparser.nxparser"
+	project.ext.nxparser_version = "3dd34fc0fd1843614112e02fa048ba6aff82faa5"
 	
 	
 	
@@ -75,7 +75,7 @@ subprojects {
 	/*
 	 * Plugins
 	 */
-	apply plugin: 'java'
+	apply plugin: "java"
 	
 	
 	
@@ -85,12 +85,12 @@ subprojects {
 	 */
 	repositories {
 		maven {
-			url '../red'
+			url "../red"
 		}
 		mavenLocal()
 		mavenCentral()
 		maven {
-			url 'https://jitpack.io'
+			url "https://jitpack.io"
 		}
 	}
 	
@@ -120,11 +120,11 @@ subprojects {
 		//
 		
 		// Logging
-		compile 'org.slf4j:slf4j-api:1.7.+'
-		compile 'org.slf4j:log4j-over-slf4j:1.7.+'
-		compile 'org.slf4j:jcl-over-slf4j:1.7.+'
-		compile 'org.slf4j:jul-to-slf4j:1.7.+'
-		compile 'ch.qos.logback:logback-classic:1.1.+'
+		compile "org.slf4j:slf4j-api:1.7.+"
+		compile "org.slf4j:log4j-over-slf4j:1.7.+"
+		compile "org.slf4j:jcl-over-slf4j:1.7.+"
+		compile "org.slf4j:jul-to-slf4j:1.7.+"
+		compile "ch.qos.logback:logback-classic:1.1.+"
 		
 		
 		//
@@ -149,7 +149,7 @@ subprojects {
 		//
 		
 		// Unit testing
-		testCompile 'junit:junit:4.+'
+		testCompile "junit:junit:4.+"
 		
 		
 		//
@@ -186,7 +186,7 @@ subprojects {
 /*
  * Configurations
  */
-description = 'SCAL'
+description = "SCAL"
 
 
 
@@ -200,32 +200,32 @@ description = 'SCAL'
 		
 		contents {
 		
-			into('bin') {
+			into("bin") {
 			
-				from { project(':scal-ldp-server').startScripts.outputs.files }
+				from { project(":scal-ldp-server").startScripts.outputs.files }
 				fileMode = 0755
 			
-				from { project(':scal-server').startScripts.outputs.files }
+				from { project(":scal-server").startScripts.outputs.files }
 				fileMode = 0755
 				
 			}
 			
-			into('lib') {
+			into("lib") {
 
-				from project(':scal-control').jar
-				from project(':scal-control').configurations.runtime
+				from project(":scal-control").jar
+				from project(":scal-control").configurations.runtime
 
-				from project(':scal-ldp-server').jar
-				from project(':scal-ldp-server').configurations.runtime
+				from project(":scal-ldp-server").jar
+				from project(":scal-ldp-server").configurations.runtime
 
-				from project(':scal-server').jar
-				from project(':scal-server').configurations.runtime
+				from project(":scal-server").jar
+				from project(":scal-server").configurations.runtime
 				
 			}
 			
-			into('doc') {
+			into("doc") {
 			
-				from('doc')
+				from("doc")
 				
 			}
 			

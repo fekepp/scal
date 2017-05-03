@@ -2,7 +2,7 @@
  * Plugins
  */
 plugins {
-	id 'application'
+	id "application"
 }
 
 
@@ -11,14 +11,14 @@ plugins {
 /*
  * Configuration
  */
-description = 'SCAL LDP Server'
+description = "SCAL LDP Server"
 
-mainClassName = 'net.fekepp.ldps.App'
+mainClassName = "net.fekepp.ldps.App"
 
 jar {
 	manifest {
-		attributes	'Implementation-Title':		'SCAL LDP Server',
-				'Implementation-Version':	version
+		attributes	"Implementation-Title":		"SCAL LDP Server",
+				"Implementation-Version":	version
 	}
 }
 
@@ -38,7 +38,7 @@ dependencies {
 	//
 	// Internal
 	//
-	compile project(':scal-control')
+	compile project(":scal-control")
 	
 	
 	//
@@ -46,25 +46,25 @@ dependencies {
 	//
 	
 	// Commons
-	compile 'commons-io:commons-io:2.5'
+	compile "commons-io:commons-io:2.5"
 	
 	// Linked Data-Fu 0.9-patch without WebAPI
-	//compile 'edu.kit.aifb.datafu:linked-data-fu-standalone:0.9.12-pr.0-no-webapi'
-	compile(group: 'edu.kit.aifb.datafu', name: 'linked-data-fu-standalone', version: '0.9.12-pr.0-no-webapi') {
-		exclude(module: 'slf4j-jdk14')
+	//compile "edu.kit.aifb.datafu:linked-data-fu-standalone:0.9.12-pr.0-no-webapi"
+	compile(group: "edu.kit.aifb.datafu", name: "linked-data-fu-standalone", version: "0.9.12-pr.0-no-webapi") {
+		exclude(module: "slf4j-jdk14")
 	}
 	
 	// NxParser
-	compile rootProject.nxparser_groupid + ':nxparser-parsers:' + rootProject.nxparser_version
-	compile rootProject.nxparser_groupid + ':nxparser-utilities-uri:' + rootProject.nxparser_version
-	compile rootProject.nxparser_groupid + ':nxparser-model-datatypes:' + rootProject.nxparser_version
-	compile rootProject.nxparser_groupid + ':nxparser-api:' + rootProject.nxparser_version
-	compile rootProject.nxparser_groupid + ':nxparser-parsers-external-rdfa-semargl:' + rootProject.nxparser_version
-	compile(group: rootProject.nxparser_groupid, name: 'nxparser-jax-rs', version: rootProject.nxparser_version) {
-		exclude(module: 'slf4j-log4j12')
-		exclude(module: 'log4j')
-		exclude(module: 'slf4j-api')
-		exclude(module: 'commons-logging')
+	compile rootProject.nxparser_groupid + ":nxparser-parsers:" + rootProject.nxparser_version
+	compile rootProject.nxparser_groupid + ":nxparser-utilities-uri:" + rootProject.nxparser_version
+	compile rootProject.nxparser_groupid + ":nxparser-model-datatypes:" + rootProject.nxparser_version
+	compile rootProject.nxparser_groupid + ":nxparser-api:" + rootProject.nxparser_version
+	compile rootProject.nxparser_groupid + ":nxparser-parsers-external-rdfa-semargl:" + rootProject.nxparser_version
+	compile(group: rootProject.nxparser_groupid, name: "nxparser-jax-rs", version: rootProject.nxparser_version) {
+		exclude(module: "slf4j-log4j12")
+		exclude(module: "log4j")
+		exclude(module: "slf4j-api")
+		exclude(module: "commons-logging")
 	}
 	
 	
