@@ -12,7 +12,11 @@ public interface Source extends Description {
 
 	public InputStream getInputStream();
 
+	public void setInputStream(InputStream inputStream);
+
 	public FormatConverter getFormatConverter();
+
+	public void setFormatConverter(FormatConverter formatConverter);
 
 	public void streamTo(OutputStream outputStream)
 			throws ParseException, ParserException, ConverterException, IOException, InterruptedException;

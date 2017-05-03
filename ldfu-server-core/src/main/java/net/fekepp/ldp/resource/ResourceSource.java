@@ -19,23 +19,28 @@ public class ResourceSource extends ResourceDescription implements Source {
 	private InputStream inputStream;
 	private FormatConverter formatConverter;
 
-	public ResourceSource(URI baseUri, String identifier) {
-		this(baseUri, identifier, null);
+	public ResourceSource(URI base, String identifier) {
+		this(base, identifier, null);
 	}
 
-	public ResourceSource(URI baseUri, String identifier, Format format) {
-		this(baseUri, identifier, format, null);
+	public ResourceSource(URI base, String identifier, Format format) {
+		this(base, identifier, format, null);
 	}
 
-	public ResourceSource(URI baseUri, String identifier, Format format, InputStream inputStream) {
-		this(baseUri, identifier, format, inputStream, null);
+	public ResourceSource(URI base, String identifier, Format format, InputStream inputStream) {
+		this(base, identifier, format, inputStream, null);
 	}
 
-	public ResourceSource(URI baseUri, String identifier, Format format, InputStream inputStream,
+	public ResourceSource(URI base, String identifier, Format format, InputStream inputStream,
 			FormatConverter formatConverter) {
-		super(baseUri, identifier, format);
+		super(base, identifier, format);
 		this.inputStream = inputStream;
 		this.formatConverter = formatConverter;
+	}
+
+	@Override
+	public void setInputStream(InputStream inputStream) {
+		this.inputStream = inputStream;
 	}
 
 	@Override
@@ -49,10 +54,15 @@ public class ResourceSource extends ResourceDescription implements Source {
 	}
 
 	@Override
+	public void setFormatConverter(FormatConverter formatConverter) {
+		this.formatConverter = formatConverter;
+	}
+
+	@Override
 	public void streamTo(OutputStream outputStream)
 			throws ParseException, ParserException, ConverterException, IOException, InterruptedException {
 		if (formatConverter != null) {
-			formatConverter.setBaseUri(getBaseUri().resolve(getIdentifier()));
+			formatConverter.setBaseUri(getBase().resolve(getIdentifier()));
 			formatConverter.setInputStream(inputStream);
 			formatConverter.setOutputStream(outputStream);
 			formatConverter.convert();

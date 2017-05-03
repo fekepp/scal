@@ -12,7 +12,11 @@ public interface Sink extends Description {
 
 	public OutputStream getOutputStream();
 
+	public void setOutputStream(OutputStream outputStream);
+
 	public FormatConverter getFormatConverter();
+
+	public void setFormatConverter(FormatConverter formatConverter);
 
 	public void streamFrom(InputStream inputStream)
 			throws ParseException, ParserException, ConverterException, IOException, InterruptedException;

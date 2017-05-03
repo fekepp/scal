@@ -7,23 +7,28 @@ import net.fekepp.ldp.Format;
 
 public class ResourceDescription implements Description {
 
-	private URI baseUri;
+	private URI base;
 	private String identifier;
 	private Format format;
 
-	public ResourceDescription(URI baseUri, String identifier) {
-		this(baseUri, identifier, null);
+	public ResourceDescription(URI base, String identifier) {
+		this(base, identifier, null);
 	}
 
-	public ResourceDescription(URI baseUri, String identifier, Format format) {
-		this.baseUri = baseUri;
+	public ResourceDescription(URI base, String identifier, Format format) {
+		this.base = base;
 		this.identifier = identifier;
 		this.format = format;
 	}
 
 	@Override
-	public URI getBaseUri() {
-		return baseUri;
+	public URI getBase() {
+		return base;
+	}
+
+	@Override
+	public void setBase(URI base) {
+		this.base = base;
 	}
 
 	@Override
@@ -32,8 +37,18 @@ public class ResourceDescription implements Description {
 	}
 
 	@Override
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
+	@Override
 	public Format getFormat() {
 		return format;
+	}
+
+	@Override
+	public void setFormat(Format format) {
+		this.format = format;
 	}
 
 }

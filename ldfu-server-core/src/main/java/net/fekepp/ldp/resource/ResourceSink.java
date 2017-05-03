@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 
+import org.apache.commons.compress.utils.IOUtils;
+
 import net.fekepp.ldp.Format;
 import net.fekepp.ldp.FormatConverter;
 import net.fekepp.ldp.Sink;
@@ -17,21 +19,21 @@ public class ResourceSink extends ResourceDescription implements Sink {
 	private FormatConverter formatConverter;
 	private OutputStream outputStream;
 
-	public ResourceSink(URI baseUri, String identifier) {
-		this(baseUri, identifier, null);
+	public ResourceSink(URI base, String identifier) {
+		this(base, identifier, null);
 	}
 
-	public ResourceSink(URI baseUri, String identifier, Format format) {
-		this(baseUri, identifier, format, null);
+	public ResourceSink(URI base, String identifier, Format format) {
+		this(base, identifier, format, null);
 	}
 
-	public ResourceSink(URI baseUri, String identifier, Format format, OutputStream outputStream) {
-		this(baseUri, identifier, format, outputStream, null);
+	public ResourceSink(URI base, String identifier, Format format, OutputStream outputStream) {
+		this(base, identifier, format, outputStream, null);
 	}
 
-	public ResourceSink(URI baseUri, String identifier, Format format, OutputStream outputStream,
+	public ResourceSink(URI base, String identifier, Format format, OutputStream outputStream,
 			FormatConverter formatConverter) {
-		super(baseUri, identifier, format);
+		super(base, identifier, format);
 		this.outputStream = outputStream;
 		this.formatConverter = formatConverter;
 	}
@@ -42,18 +44,31 @@ public class ResourceSink extends ResourceDescription implements Sink {
 	}
 
 	@Override
+	public void setOutputStream(OutputStream outputStream) {
+		this.outputStream = outputStream;
+	}
+
+	@Override
 	public FormatConverter getFormatConverter() {
 		return formatConverter;
 	}
 
 	@Override
+	public void setFormatConverter(FormatConverter formatConverter) {
+		this.formatConverter = formatConverter;
+	}
+
+	@Override
 	public void streamFrom(InputStream inputStream)
 			throws ParseException, ParserException, ConverterException, IOException, InterruptedException {
-		// TODO Check for null?
-		formatConverter.setBaseUri(getBaseUri().resolve(getIdentifier()));
-		formatConverter.setInputStream(inputStream);
-		formatConverter.setOutputStream(outputStream);
-		formatConverter.convert();
+		if (formatConverter != null) {
+			formatConverter.setBaseUri(getBase().resolve(getIdentifier()));
+			formatConverter.setInputStream(inputStream);
+			formatConverter.setOutputStream(outputStream);
+			formatConverter.convert();
+		} else {
+			IOUtils.copy(inputStream, outputStream);
+		}
 	}
 
 }
