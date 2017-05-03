@@ -339,30 +339,61 @@ public class DefaultRunManager
 
 				// Queries
 				Set<Node> triggers = callback.getPropertyObjects(SCAL.trigger, run);
-				if (queries != null) {
+				if (triggers != null && triggers.size() == 1) {
 					for (Node trigger : triggers) {
 
 						logger.info("Create trigger > {}", trigger);
 
-						if (delayTrigger.contains(trigger)) {
+						if (delayTrigger != null && delayTrigger.contains(trigger)) {
+
 							logger.info("Trigger is DelayTrigger");
+
+							// Query Declarations
+							Set<Node> delays = callback.getPropertyObjects(SCAL.delay, trigger);
+
+							if (delays != null && delays.size() == 1) {
+
+								for (Node delay : delays) {
+
+									logger.info("Add delay trigger delay > {}", delay.getLabel());
+
+									int delayValue = Integer.valueOf(delay.getLabel());
+
+									runController.setDelay(delayValue);
+
+								}
+							}
+
+							else {
+
+								// TODO Handle missing or multiple delays
+								logger.info("Handle missing or multiple delays");
+
+							}
+
 						}
 
-						if (resourceRequestedTriggers.contains(trigger)) {
+						if (resourceRequestedTriggers != null && resourceRequestedTriggers.contains(trigger)) {
 							logger.info("Trigger is ResourceRequestedTrigger");
 						}
 
 					}
 				}
 
+				else {
+
+					// TODO Handle missing or multiple triggers
+					logger.info("Handle missing or multiple triggers");
+
+				}
+
 				runControllers.put(identifier, runController);
 
 				runController.setEvaluationControllerDelegate(this);
 
-				runController.setDelay(1000);
-
 				runController.setDelegate(this);
 
+				logger.info("STARTING");
 				runController.start();
 
 			}
