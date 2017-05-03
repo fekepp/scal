@@ -49,13 +49,25 @@ public final class SCAL {
 
 	public static final Resource Trigger = new Resource(NS + "Trigger");
 
+	// Trigger > Time Trigger
+
 	public static final Resource TimeTrigger = new Resource(NS + "TimeTrigger");
 
-	public static final Resource EventTrigger = new Resource(NS + "EventTrigger");
+	// Trigger > Time Trigger > Frequency Trigger
 
 	public static final Resource FrequencyTrigger = new Resource(NS + "FrequencyTrigger");
 
+	public static final Resource frequency = new Resource(NS + "frequency");
+
+	// Trigger > Time Trigger > Delay Trigger
+
 	public static final Resource DelayTrigger = new Resource(NS + "DelayTrigger");
+
+	public static final Resource delay = new Resource(NS + "delay");
+
+	// Trigger > Event Trigger
+
+	public static final Resource EventTrigger = new Resource(NS + "EventTrigger");
 
 	public static final Resource ResourceRequestedTrigger = new Resource(NS + "ResourceRequestedTrigger");
 
