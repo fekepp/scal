@@ -337,18 +337,19 @@ public class DefaultRunManager
 				Set<Node> delayTrigger = callback.getClassSubjects(SCAL.DelayTrigger);
 				Set<Node> resourceRequestedTriggers = callback.getClassSubjects(SCAL.ResourceRequestedTrigger);
 
-				// Queries
+				// Triggers
 				Set<Node> triggers = callback.getPropertyObjects(SCAL.trigger, run);
 				if (triggers != null && triggers.size() == 1) {
 					for (Node trigger : triggers) {
 
 						logger.info("Create trigger > {}", trigger);
 
+						// Delay Triggers
 						if (delayTrigger != null && delayTrigger.contains(trigger)) {
 
 							logger.info("Trigger is DelayTrigger");
 
-							// Query Declarations
+							// Delay
 							Set<Node> delays = callback.getPropertyObjects(SCAL.delay, trigger);
 
 							if (delays != null && delays.size() == 1) {
@@ -373,8 +374,39 @@ public class DefaultRunManager
 
 						}
 
+						// Resource Requested Triggers
 						if (resourceRequestedTriggers != null && resourceRequestedTriggers.contains(trigger)) {
+
 							logger.info("Trigger is ResourceRequestedTrigger");
+
+							// URIs
+							Set<Node> uris = callback.getPropertyObjects(SCAL.uri, trigger);
+
+							// Methods
+							Set<Node> methods = callback.getPropertyObjects(SCAL.method, trigger);
+
+							if (uris != null && uris.size() == 1 && methods.size() > 0) {
+
+								for (Node uri : uris) {
+
+									logger.info("Add resource requested trigger uri > {}", uri.getLabel());
+
+									for (Node method : methods) {
+
+										logger.info("Add resource requested trigger method > {}", method.getLabel());
+
+									}
+
+								}
+							}
+
+							else {
+
+								// TODO Handle missing or multiple uris or
+								// missing methods
+								logger.info("Handle missing or multiple uris or missing methods");
+
+							}
 						}
 
 					}
