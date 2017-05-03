@@ -131,7 +131,7 @@ public class DefaultRunManager
 				// TODO Create run
 				logger.info("Create Run > {}", run.getLabel());
 
-				RunController runController = new RunController();
+				final RunController runController = new RunController();
 
 				// Programs
 				Set<Node> programs = callback.getPropertyObjects(SCAL.program, run);
@@ -417,7 +417,7 @@ public class DefaultRunManager
 
 										listener.getMethods().add(Method.GET);
 										listener.getIdentifiers().add(localIdentifier);
-										
+
 										resourceManager.getResourceListeners().add(listener);
 
 									}
