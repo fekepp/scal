@@ -1,13 +1,14 @@
 package net.fekepp.scal.server;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.fekepp.scal.RunManager;
 import net.fekepp.scal.run.DefaultRunManager;
 
 public class ServerController extends net.fekepp.ldp.server.ServerController {
 
-	private final Logger logger = Logger.getLogger(getClass().getName());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	protected RunManager runManager;
 

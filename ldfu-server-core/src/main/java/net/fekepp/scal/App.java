@@ -11,6 +11,12 @@ public class App {
 
 	public static void main(String[] args) {
 
+		// Remove existing handlers attached to j.u.l root logger (optional)
+		// SLF4JBridgeHandler.removeHandlersForRootLogger();
+
+		// Add SLF4JBridgeHandler to j.u.l's root logger
+		// SLF4JBridgeHandler.install();
+
 		loggerStatic.info("SCAL App > Main");
 
 		ServerController controller = new ServerController();

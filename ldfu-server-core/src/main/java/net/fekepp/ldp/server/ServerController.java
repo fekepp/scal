@@ -2,7 +2,8 @@ package net.fekepp.ldp.server;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import net.fekepp.controllers.BaseJettyJerseyController;
 import net.fekepp.ldp.ResourceManager;

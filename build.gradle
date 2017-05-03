@@ -52,7 +52,9 @@ allprojects {
 	/*
 	 * Tasks
 	 */
-	task dependenciesAll(type: DependencyReportTask) {}
+	
+	// Recursive dependencies
+	task dependenciesRecursive(type: DependencyReportTask) {}
 	
 	
 	
@@ -121,6 +123,7 @@ subprojects {
 		compile 'org.slf4j:slf4j-api:1.7.+'
 		compile 'org.slf4j:log4j-over-slf4j:1.7.+'
 		compile 'org.slf4j:jcl-over-slf4j:1.7.+'
+		compile 'org.slf4j:jul-to-slf4j:1.7.+'
 		compile 'ch.qos.logback:logback-classic:1.1.+'
 		
 		

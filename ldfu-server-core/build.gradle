@@ -48,7 +48,10 @@ dependencies {
 	compile 'commons-io:commons-io:2.5'
 	
 	// Linked Data-Fu 0.9-patch without WebAPI
-	compile 'edu.kit.aifb.datafu:linked-data-fu-standalone:0.9.12-pr.0-no-webapi'
+	//compile 'edu.kit.aifb.datafu:linked-data-fu-standalone:0.9.12-pr.0-no-webapi'
+	compile(group: 'edu.kit.aifb.datafu', name: 'linked-data-fu-standalone', version: '0.9.12-pr.0-no-webapi') {
+		exclude(module: 'slf4j-jdk14')
+	}
 	
 	// Jersey
 	compile 'org.glassfish.jersey.containers:jersey-container-jetty-servlet:' + rootProject.jersey_version
@@ -75,6 +78,7 @@ dependencies {
 		exclude(module: 'slf4j-log4j12')
 		exclude(module: 'log4j')
 		exclude(module: 'slf4j-api')
+		exclude(module: 'commons-logging')
 	}
 	
 	
