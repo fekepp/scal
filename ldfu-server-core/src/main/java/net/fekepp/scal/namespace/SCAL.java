@@ -115,6 +115,8 @@ public final class SCAL {
 		resources.add(query);
 		resources.add(resource);
 		resources.add(trigger);
+		resources.add(frequency);
+		resources.add(delay);
 		resources.add(declaration);
 		resources.add(sink);
 		resources.add(state);
