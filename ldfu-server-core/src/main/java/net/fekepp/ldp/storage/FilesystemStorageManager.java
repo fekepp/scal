@@ -307,12 +307,14 @@ public class FilesystemStorageManager implements StorageManager {
 						RdfConverterTripleListener rdfConverterTripleListener = new RdfConverterTripleListener();
 						rdfConverterTripleListener.setPredicate(RDF.TYPE);
 						rdfConverterTripleListener.setObject(LDP.CONTAINER);
+						logger.info("Register listener > predicate={} | object={}", RDF.TYPE, LDP.CONTAINER);
 						rdfConverterTripleListener
 								.setFormatConverterListenerDelegate(new FormatConverterListenerDelegate() {
 
 									@Override
 									public void process() {
 										try {
+											logger.info("Create directory for container");
 											Files.createDirectory(path);
 										} catch (IOException e) {
 											// TODO Auto-generated catch block
