@@ -1,1 +1,4 @@
-include 'ldfu-server-core'
+rootProject.name = "scal"
+include 'scal-control'
+include 'scal-ldp-server'
+include 'scal-server'

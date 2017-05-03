@@ -11,14 +11,14 @@ plugins {
 /*
  * Configuration
  */
-description = 'Linked Data-Fu Web API Core'
+description = 'SCAL LDP Server'
 
-mainClassName = 'net.fekepp.ldfu.server.webapi.CommandLine'
+mainClassName = 'net.fekepp.ldps.App'
 
 jar {
 	manifest {
-		attributes	'Implementation-Title':		'Linked Data-Fu Web API Core',
-					'Implementation-Version':	version
+		attributes	'Implementation-Title':		'SCAL LDP Server',
+				'Implementation-Version':	version
 	}
 }
 
@@ -38,6 +38,7 @@ dependencies {
 	//
 	// Internal
 	//
+	compile project(':scal-control')
 	
 	
 	//
@@ -52,21 +53,6 @@ dependencies {
 	compile(group: 'edu.kit.aifb.datafu', name: 'linked-data-fu-standalone', version: '0.9.12-pr.0-no-webapi') {
 		exclude(module: 'slf4j-jdk14')
 	}
-	
-	// Jersey
-	compile 'org.glassfish.jersey.containers:jersey-container-jetty-servlet:' + rootProject.jersey_version
-	
-	// Jetty (reflect dependencies of Jersey with newer versions)
-	compile 'org.eclipse.jetty:jetty-webapp:' + rootProject.jetty_version
-	compile 'org.eclipse.jetty:jetty-continuation:' + rootProject.jetty_version
-	
-	// Jetty (additional dependencies)
-	//compile 'org.eclipse.jetty:jetty-annotations:' + rootProject.jetty_version
-	//compile 'org.eclipse.jetty:apache-jsp:' + rootProject.jetty_version
-	
-	// Jetty (HTTP tester and Servlet tester)
-	//compile(group: 'org.eclipse.jetty', name: 'jetty-servlet', version:rootProject.jetty_version, classifier: 'tests')
-	//compile(group: 'org.eclipse.jetty', name: 'jetty-http', version:rootProject.jetty_version, classifier: 'tests')
 	
 	// NxParser
 	compile rootProject.nxparser_groupid + ':nxparser-parsers:' + rootProject.nxparser_version

@@ -28,7 +28,7 @@ allprojects {
 	 */
 	
 	// Group and version
-	group = 'net.fekepp.ldfu.server'
+	group = 'net.fekepp.scal'
 	version = '0.0.0'
 	
 	// Jetty version
@@ -186,7 +186,7 @@ subprojects {
 /*
  * Configurations
  */
-description = 'Linked Data-Fu Web API'
+description = 'SCAL'
 
 
 
@@ -202,15 +202,24 @@ description = 'Linked Data-Fu Web API'
 		
 			into('bin') {
 			
-				from { project(':ldfu-server-core').startScripts.outputs.files }
+				from { project(':scal-ldp-server').startScripts.outputs.files }
+				fileMode = 0755
+			
+				from { project(':scal-server').startScripts.outputs.files }
 				fileMode = 0755
 				
 			}
 			
 			into('lib') {
 
-				from project(':ldfu-server-core').jar
-				from project(':ldfu-server-core').configurations.runtime
+				from project(':scal-control').jar
+				from project(':scal-control').configurations.runtime
+
+				from project(':scal-ldp-server').jar
+				from project(':scal-ldp-server').configurations.runtime
+
+				from project(':scal-server').jar
+				from project(':scal-server').configurations.runtime
 				
 			}
 			

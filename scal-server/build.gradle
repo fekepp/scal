@@ -1,0 +1,90 @@
+/*
+ * Plugins
+ */
+plugins {
+	id 'application'
+}
+
+
+
+
+/*
+ * Configuration
+ */
+description = 'SCAL Server'
+
+mainClassName = 'net.fekepp.scal.App'
+
+jar {
+	manifest {
+		attributes	'Implementation-Title':		'SCAL Server',
+				'Implementation-Version':	version
+	}
+}
+
+
+
+
+/*
+ * Dependencies
+ */
+dependencies {
+	
+	
+	/*
+	 * Compile Dependencies
+	 */
+	
+	//
+	// Internal
+	//
+	compile project(':scal-ldp-server')
+	
+	
+	//
+	// External
+	//
+	
+	
+	//
+	// Local
+	//
+	
+	
+	/*
+	 * Test Dependencies
+	 */
+	
+	//
+	// Internal
+	//
+	
+	
+	//
+	// External
+	//
+	
+	
+	//
+	// Local
+	//
+	
+	
+}
+
+
+
+
+/*
+ * Distributions
+ */
+
+
+
+
+/*
+ * Start Scripts
+ */
+
+
+
