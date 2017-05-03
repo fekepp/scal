@@ -18,18 +18,18 @@ import edu.kit.aifb.datafu.io.serialisers.RdfXmlSerialiser;
 import edu.kit.aifb.datafu.io.serialisers.Serialiser;
 import edu.kit.aifb.datafu.io.serialisers.TsvSerialiser;
 import edu.kit.aifb.datafu.io.serialisers.TurtleSerialiser;
-import net.fekepp.ldp.Description;
-import net.fekepp.ldp.ResourceManager;
-import net.fekepp.ldp.exception.ContainerIdentifierExpectedException;
-import net.fekepp.ldp.exception.ConverterException;
-import net.fekepp.ldp.exception.ParentNotFoundException;
-import net.fekepp.ldp.exception.ParseException;
-import net.fekepp.ldp.exception.ParserException;
-import net.fekepp.ldp.exception.ResourceIdentifierExpectedException;
-import net.fekepp.ldp.format.NtriplesFormat;
-import net.fekepp.ldp.format.RdfXmlFormat;
-import net.fekepp.ldp.format.TsvFormat;
-import net.fekepp.ldp.format.TurtleFormat;
+import net.fekepp.ldps.Description;
+import net.fekepp.ldps.ResourceManager;
+import net.fekepp.ldps.exception.ContainerIdentifierExpectedException;
+import net.fekepp.ldps.exception.ConverterException;
+import net.fekepp.ldps.exception.ParentNotFoundException;
+import net.fekepp.ldps.exception.ParseException;
+import net.fekepp.ldps.exception.ParserException;
+import net.fekepp.ldps.exception.ResourceIdentifierExpectedException;
+import net.fekepp.ldps.format.NtriplesFormat;
+import net.fekepp.ldps.format.RdfXmlFormat;
+import net.fekepp.ldps.format.TsvFormat;
+import net.fekepp.ldps.format.TurtleFormat;
 
 public class QuerySinkResourceBridge implements Sink {
 

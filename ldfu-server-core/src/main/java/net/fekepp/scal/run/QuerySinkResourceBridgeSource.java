@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 
-import net.fekepp.ldp.Format;
-import net.fekepp.ldp.exception.ConverterException;
-import net.fekepp.ldp.exception.ParseException;
-import net.fekepp.ldp.exception.ParserException;
-import net.fekepp.ldp.resource.ResourceSource;
+import net.fekepp.ldps.Format;
+import net.fekepp.ldps.exception.ConverterException;
+import net.fekepp.ldps.exception.ParseException;
+import net.fekepp.ldps.exception.ParserException;
+import net.fekepp.ldps.resource.ResourceSource;
 
 public class QuerySinkResourceBridgeSource extends ResourceSource {
 

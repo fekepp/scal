@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import net.fekepp.scal.RunManager;
 import net.fekepp.scal.run.DefaultRunManager;
 
-public class ServerController extends net.fekepp.ldp.server.ServerController {
+public class ServerController extends net.fekepp.ldps.server.ServerController {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
