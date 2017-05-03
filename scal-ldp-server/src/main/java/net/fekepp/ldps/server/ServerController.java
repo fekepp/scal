@@ -1,9 +1,9 @@
 package net.fekepp.ldps.server;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.fekepp.controllers.BaseJettyJerseyController;
 import net.fekepp.ldps.ResourceManager;
@@ -16,7 +16,7 @@ import net.fekepp.ldps.storage.FilesystemStorageManager;
  */
 public class ServerController extends BaseJettyJerseyController {
 
-	private final Logger logger = Logger.getLogger(getClass().getName());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	protected Path storageDirectory;
 
@@ -33,10 +33,10 @@ public class ServerController extends BaseJettyJerseyController {
 
 		logger.info("LDP Server > Startup");
 
-		storageDirectory = Paths.get("../dat");
-		storageDirectoryTemporary = Paths.get("../tmp");
-
+		logger.info("LDP Server > Startup > Storage > {}", storageDirectory);
 		storageManager = new FilesystemStorageManager(storageDirectory);
+
+		logger.info("LDP Server > Startup > Temporary Storage > {}", storageDirectoryTemporary);
 		storageManagerTemporary = new FilesystemStorageManager(storageDirectoryTemporary, true);
 
 		resourceManager = new DefaultResourceManager(storageManager, storageManagerTemporary);
@@ -55,6 +55,22 @@ public class ServerController extends BaseJettyJerseyController {
 	public void shutdown() {
 		logger.info("LDP Server > Shutdown");
 		super.shutdown();
+	}
+
+	public Path getStorageDirectory() {
+		return storageDirectory;
+	}
+
+	public void setStorageDirectory(Path storageDirectory) {
+		this.storageDirectory = storageDirectory;
+	}
+
+	public Path getStorageDirectoryTemporary() {
+		return storageDirectoryTemporary;
+	}
+
+	public void setStorageDirectoryTemporary(Path storageDirectoryTemporary) {
+		this.storageDirectoryTemporary = storageDirectoryTemporary;
 	}
 
 }

@@ -47,6 +47,7 @@ dependencies {
 	
 	// Commons
 	compile "commons-io:commons-io:2.5"
+	compile "commons-cli:commons-cli:1.4"
 	
 	// Linked Data-Fu 0.9-patch without WebAPI
 	//compile "edu.kit.aifb.datafu:linked-data-fu-standalone:0.9.12-pr.0-no-webapi"
