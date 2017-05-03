@@ -53,7 +53,24 @@ public class DefaultResourceManager implements ResourceManager, ResourceListener
 
 	@Override
 	public Source getResource(Description description) throws ResourceNotFoundException,
-			ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, IOException {
+			ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, IOException,
+			ParentNotFoundException, ParseException, ParserException, ConverterException, InterruptedException {
+
+		// TODO Temporary until appropriate listener system is availalbe
+		// FIXME Introduce an appropriate listener system
+		for (final ResourceListener listener : resourceListeners) {
+
+			logger.info("Check interest of listener > {}", listener);
+
+			if (!listener.isListeningOnIdentifier(description.getIdentifier()))
+				continue;
+
+			if (!listener.isListeningOnMethod(Method.GET))
+				continue;
+
+			listener.getListenerDelegate().process(null, null);
+
+		}
 
 		// Get the source
 		Source source = storageManager.getResource(description);

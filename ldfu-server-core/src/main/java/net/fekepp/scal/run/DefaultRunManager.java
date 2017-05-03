@@ -389,11 +389,36 @@ public class DefaultRunManager
 
 								for (Node uri : uris) {
 
-									logger.info("Add resource requested trigger uri > {}", uri.getLabel());
+									logger.info("Add resource requested trigger uri > URI > {}", uri.getLabel());
+
+									String localIdentifier = URI.create(uri.getLabel()).getPath().substring(1);
+
+									logger.info("Add resource requested trigger uri > Identifier > {}",
+											localIdentifier);
 
 									for (Node method : methods) {
 
 										logger.info("Add resource requested trigger method > {}", method.getLabel());
+
+										DefaultResourceListener listener = new DefaultResourceListener(
+												new ResourceListenerDelegate() {
+
+													@Override
+													public Source process(Source storage, Source input)
+															throws ContainerIdentifierExpectedException,
+															ResourceIdentifierExpectedException,
+															ParentNotFoundException, ParseException, ParserException,
+															ConverterException, InterruptedException, IOException {
+														runController.executeStep();
+														return null;
+													}
+
+												});
+
+										listener.getMethods().add(Method.GET);
+										listener.getIdentifiers().add(localIdentifier);
+										
+										resourceManager.getResourceListeners().add(listener);
 
 									}
 

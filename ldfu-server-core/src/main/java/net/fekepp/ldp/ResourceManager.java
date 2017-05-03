@@ -14,7 +14,8 @@ import net.fekepp.ldp.exception.ResourceNotFoundException;
 public interface ResourceManager {
 
 	public Source getResource(Description description) throws ResourceNotFoundException,
-			ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, IOException;
+			ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, IOException,
+			ParentNotFoundException, ParseException, ParserException, ConverterException, InterruptedException;
 
 	public void setResource(Source source)
 			throws ContainerIdentifierExpectedException, ResourceIdentifierExpectedException, ParentNotFoundException,

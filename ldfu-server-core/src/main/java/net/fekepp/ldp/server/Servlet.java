@@ -171,6 +171,21 @@ public class Servlet {
 			// TODO Align with specified LDP behaviour
 			throw new BadRequestException("Could not create the resource");
 
+		} catch (ParentNotFoundException e1) {
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
+		} catch (ParseException e1) {
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
+		} catch (ParserException e1) {
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
+		} catch (ConverterException e1) {
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
+		} catch (InterruptedException e1) {
+			// TODO Align with specified LDP behaviour
+			throw new BadRequestException("Could not create the resource");
 		}
 
 	}
