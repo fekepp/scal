@@ -69,6 +69,8 @@ public final class SCAL {
 
 	public static final Resource EventTrigger = new Resource(NS + "EventTrigger");
 
+	// Trigger > Event Trigger > Resource Requested Trigger
+
 	public static final Resource ResourceRequestedTrigger = new Resource(NS + "ResourceRequestedTrigger");
 
 	public static final Resource ResourceChangedTrigger = new Resource(NS + "ResourceChangedTrigger");
@@ -76,6 +78,10 @@ public final class SCAL {
 	// Cross-concept
 
 	public static final Resource declaration = new Resource(NS + "declaration");
+
+	public static final Resource uri = new Resource(NS + "uri");
+
+	public static final Resource method = new Resource(NS + "method");
 
 	public static final Resource sink = new Resource(NS + "sink");
 
@@ -118,6 +124,8 @@ public final class SCAL {
 		resources.add(frequency);
 		resources.add(delay);
 		resources.add(declaration);
+		resources.add(uri);
+		resources.add(method);
 		resources.add(sink);
 		resources.add(state);
 		return resources;
